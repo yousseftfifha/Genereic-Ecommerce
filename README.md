@@ -1,0 +1,2 @@
+# 3S2I_INTERNSHIP
+Réalisation d‘un site web générique de vente en ligne quelque soit le domaine d’activité. Il est multiplatformes : web, tabelette et mobiles Android et AOS. Modules et fonctionnalité • Gestion des articles : fiche article, stock et mouvements • Gestion des fournisseurs : fiche fournisseur • Gestion clients : fiches client • Facturation : gestion du panier, elaboration facture et payement en ligne • Gestion d’espace clients abonnés • Gestion des utilisateurs avec profiles : administrateur, opérateur
