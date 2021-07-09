@@ -1,15 +1,20 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:shop_app/components/custom_surfix_icon.dart';
 import 'package:shop_app/components/form_error.dart';
 import 'package:shop_app/helper/keyboard.dart';
+import 'package:shop_app/models/User.dart';
 import 'package:shop_app/screens/forgot_password/forgot_password_screen.dart';
 import 'package:shop_app/screens/login_success/login_success_screen.dart';
 
 import '../../../components/default_button.dart';
 import '../../../constants.dart';
 import '../../../size_config.dart';
+import 'package:http/http.dart' as http;
 
 class SignForm extends StatefulWidget {
+  SignForm({Key key}) : super(key: key);
   @override
   _SignFormState createState() => _SignFormState();
 }
@@ -33,6 +38,20 @@ class _SignFormState extends State<SignForm> {
       setState(() {
         errors.remove(error);
       });
+  }
+
+  User user = User("", "");
+
+  String url = "http://127.0.0.1:8081/login";
+
+  Future save() async {
+    var res = await http.post(url,
+        headers: {'Content-Type': 'application/json'},
+        body: json.encode({'email': user.email, 'password': user.password}));
+    print(res.body);
+    if (res.body != null) {
+      Navigator.pushNamed(context, LoginSuccessScreen.routeName);
+    }
   }
 
   @override
@@ -74,10 +93,9 @@ class _SignFormState extends State<SignForm> {
             text: "Continue",
             press: () {
               if (_formKey.currentState.validate()) {
-                _formKey.currentState.save();
+                save();
                 // if all are valid then go to success screen
                 KeyboardUtil.hideKeyboard(context);
-                Navigator.pushNamed(context, LoginSuccessScreen.routeName);
               }
             },
           ),
@@ -102,7 +120,7 @@ class _SignFormState extends State<SignForm> {
         if (value.isEmpty) {
           addError(error: kPassNullError);
           return "";
-        } else if (value.length < 8) {
+        } else if (value.length < 3) {
           addError(error: kShortPassError);
           return "";
         }

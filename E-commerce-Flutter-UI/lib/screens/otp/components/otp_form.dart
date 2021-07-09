@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:shop_app/components/default_button.dart';
 import 'package:shop_app/screens/home/home_screen.dart';
+import 'package:shop_app/screens/login_success/login_success_screen.dart';
+import 'package:shop_app/screens/sign_in/sign_in_screen.dart';
 import 'package:shop_app/size_config.dart';
 
 import '../../../constants.dart';
@@ -111,7 +113,7 @@ class _OtpFormState extends State<OtpForm> {
           DefaultButton(
             text: "Continue",
             press: () {
-    Navigator.pushNamed(context, HomeScreen.routeName);
+              Navigator.pushNamed(context, SignInScreen.routeName);
             },
           )
         ],

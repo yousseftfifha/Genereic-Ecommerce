@@ -12,8 +12,8 @@ class ProfilePic extends StatelessWidget {
       height: 115,
       width: 115,
       child: Stack(
+        clipBehavior: Clip.none,
         fit: StackFit.expand,
-        overflow: Overflow.visible,
         children: [
           CircleAvatar(
             backgroundImage: AssetImage("assets/images/Profile Image.png"),
