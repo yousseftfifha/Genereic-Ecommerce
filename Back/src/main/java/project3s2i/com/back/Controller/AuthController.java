@@ -3,9 +3,11 @@ package project3s2i.com.back.Controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -55,7 +57,7 @@ public class AuthController {
 		
 		CustomerDetailsImpl customerDetails = (CustomerDetailsImpl) authentication.getPrincipal();
 		List<String> roles = customerDetails.getAuthorities().stream()
-				.map(item -> item.getAuthority())
+				.map(GrantedAuthority::getAuthority)
 				.collect(Collectors.toList());
 
 		return ResponseEntity.ok(new JwtResponse (jwt,
@@ -64,7 +66,8 @@ public class AuthController {
 												 customerDetails.getEmail(),
 												 roles));
 	}
-	
+
+	@CrossOrigin(origins = "http://localhost:4200")
 	@PostMapping("/signup")
 	public ResponseEntity<?> registerCustomer(@Valid @RequestBody SignupRequest signUpRequest) {
 		if (customerRepository.existsByUsername(signUpRequest.getUsername())) {
@@ -111,6 +114,23 @@ public class AuthController {
 		customerRepository.save(customer);
 
 		return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+	}
+	@GetMapping("/all")
+	public String allAccess() {
+		return "Public Content.";
+	}
+
+	@GetMapping("/user")
+	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+	public String userAccess() {
+		return "User Content.";
+	}
+
+
+	@GetMapping("/admin")
+	@PreAuthorize("hasRole('ADMIN')")
+	public String adminAccess() {
+		return "Admin Board.";
 	}
 
 }
