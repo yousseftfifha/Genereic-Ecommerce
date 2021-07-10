@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shop_app/components/custom_surfix_icon.dart';
 import 'package:shop_app/components/form_error.dart';
 import 'package:shop_app/helper/keyboard.dart';
@@ -47,6 +48,8 @@ class _SignFormState extends State<SignForm> {
         body: json.encode({'username': username, 'password': password}));
     print(res.body);
     if (res.body != null) {
+      SharedPreferences preferences = await SharedPreferences.getInstance();
+      preferences.setString('username', username);
       Navigator.pushNamed(context, LoginSuccessScreen.routeName);
     }
   }

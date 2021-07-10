@@ -9,6 +9,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import project3s2i.com.back.Config.request.LoginRequest;
@@ -18,9 +19,12 @@ import project3s2i.com.back.Config.response.MessageResponse;
 import project3s2i.com.back.Config.util.JwtUtils;
 import project3s2i.com.back.DAO.CustomerRepository;
 import project3s2i.com.back.DAO.RoleRepository;
+import project3s2i.com.back.DAO.UserRepository;
+import project3s2i.com.back.Exceptions.ResourceNotFoundException;
 import project3s2i.com.back.Model.Customer;
 import project3s2i.com.back.Model.ERole;
 import project3s2i.com.back.Model.Role;
+import project3s2i.com.back.Model.User;
 import project3s2i.com.back.Service.CustomerDetailsImpl;
 
 import javax.validation.Valid;
@@ -36,6 +40,8 @@ public class AuthController {
 	
 	@Autowired
 	CustomerRepository customerRepository;
+	@Autowired
+	UserRepository userRepository;
 	@Autowired
 	private AuthenticationManager authenticationManager;
 	@Autowired
@@ -64,7 +70,8 @@ public class AuthController {
 												 customerDetails.getId(),
 												 customerDetails.getUsername(),
 												 customerDetails.getEmail(),
-												 roles));
+												 roles,
+				customerDetails.getUser ()));
 	}
 
 	@CrossOrigin(origins = "http://localhost:4200")
@@ -85,8 +92,10 @@ public class AuthController {
 		// Create new customer's account
 		Customer customer = new Customer(signUpRequest.getUsername(),
 							 signUpRequest.getEmail(),
-							 encoder.encode(signUpRequest.getPassword()));
-
+							 encoder.encode(signUpRequest.getPassword()),
+							 signUpRequest.getUser ()
+		);
+		System.out.println (customer);
 		Set<String> strRoles = signUpRequest.getRole();
 		Set<Role> roles = new HashSet<>();
 
@@ -111,7 +120,8 @@ public class AuthController {
 			});
 		}
 		customer.setRoles(roles);
-		customerRepository.save(customer);
+		customer.getUserProfile ().setCustomer (customer);
+	customerRepository.save(customer);
 
 		return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
 	}
@@ -132,5 +142,6 @@ public class AuthController {
 	public String adminAccess() {
 		return "Admin Board.";
 	}
+
 
 }

@@ -9,6 +9,8 @@ import javax.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import project3s2i.com.back.Model.User;
 
 @Data @AllArgsConstructor @NoArgsConstructor
 public class SignupRequest {
@@ -22,8 +24,12 @@ public class SignupRequest {
     private String email;
     
     private Set<String> role;
-    
+    @NonNull
+    private User user;
+
     @NotBlank
     @Size(min = 6, max = 40)
     private String password;
+
+
 }

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shop_app/components/default_button.dart';
 import 'package:shop_app/screens/home/home_screen.dart';
 import 'package:shop_app/size_config.dart';
 
 class Body extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -28,6 +30,7 @@ class Body extends StatelessWidget {
           child: DefaultButton(
             text: "Back to home",
             press: () {
+              getEmail();
               Navigator.pushNamed(context, HomeScreen.routeName);
             },
           ),
@@ -35,5 +38,12 @@ class Body extends StatelessWidget {
         Spacer(),
       ],
     );
+  }
+  String email = "";
+
+  Future getEmail()async{
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    email = preferences.getString('username');
+    print(email);
   }
 }

@@ -5,6 +5,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import project3s2i.com.back.Model.Customer;
+import project3s2i.com.back.Model.User;
 
 import java.util.Collection;
 import java.util.List;
@@ -25,13 +26,16 @@ public class CustomerDetailsImpl implements UserDetails {
 
 	private Collection<? extends GrantedAuthority> authorities;
 
+	private User user;
+
 	public CustomerDetailsImpl(Long id, String username, String email, String password,
-							   Collection<? extends GrantedAuthority> authorities) {
+							   Collection<? extends GrantedAuthority> authorities,User user) {
 		this.id = id;
 		this.username = username;
 		this.email = email;
 		this.password = password;
 		this.authorities = authorities;
+		this.user=user;
 	}
 
 	public static CustomerDetailsImpl build(Customer customer) {
@@ -44,12 +48,19 @@ public class CustomerDetailsImpl implements UserDetails {
 				customer.getUsername(),
 				customer.getEmail(),
 				customer.getPassword(),
-				authorities);
+				authorities,
+				customer.getUserProfile ());
 	}
+
+
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		return authorities;
+	}
+
+	public User getUser() {
+		return user;
 	}
 
 	public Long getId() {
