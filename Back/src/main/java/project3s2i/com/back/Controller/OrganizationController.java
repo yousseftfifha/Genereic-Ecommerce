@@ -25,7 +25,6 @@ public class OrganizationController {
     @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping("/Organization")
     public Organization createOrganization(@RequestBody Organization organization){
-
         return organizationRepository.save (organization);
     }
 
@@ -37,7 +36,7 @@ public class OrganizationController {
         return new ArrayList<> (organizationRepository.findAll ());
     }
     @CrossOrigin(origins = "http://localhost:4200")
-    @GetMapping("/Customers/{id}")
+    @GetMapping("/Organization/{id}")
     public ResponseEntity<Organization> getOrganizationById(@PathVariable(value = "id") Long id)
             throws ResourceNotFoundException {
         Organization organization = organizationRepository.findById(id)
@@ -59,7 +58,7 @@ public class OrganizationController {
     }
 
     @CrossOrigin(origins = "http://localhost:4200")
-    @DeleteMapping("/Customers/delete")
+    @DeleteMapping("/Organization/delete")
     public ResponseEntity<String> deleteAllOrganization() {
         System.out.println("Delete All Organization...");
 

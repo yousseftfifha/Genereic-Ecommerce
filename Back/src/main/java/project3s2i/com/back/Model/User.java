@@ -50,6 +50,7 @@ public class User implements Serializable {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id", nullable = false)
+    @ToString.Exclude
     private Customer customer;
 
     public User(Long id, String firstName, String lastName, String phoneNumber, Gender gender, Date dateOfBirth, Customer customer) {
