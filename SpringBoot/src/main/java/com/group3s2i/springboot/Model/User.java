@@ -50,7 +50,7 @@ public class User implements Serializable {
     private Customer customer;
 
     @OneToOne(fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL,
+            cascade = {CascadeType.ALL,CascadeType.REFRESH},
             mappedBy = "user")
     @JsonIgnoreProperties("user")
     private Employees employee;
@@ -168,6 +168,19 @@ public class User implements Serializable {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass () != o.getClass ()) return false;
+        User user = (User) o;
+        return Objects.equals (getId (), user.getId ());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash (getId ());
     }
 
     @Override

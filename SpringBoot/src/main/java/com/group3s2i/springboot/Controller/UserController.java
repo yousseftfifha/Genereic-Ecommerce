@@ -1,10 +1,9 @@
 package com.group3s2i.springboot.Controller;
 
-import com.group3s2i.springboot.DAO.CustomerRepository;
 import com.group3s2i.springboot.DAO.UserRepository;
 import com.group3s2i.springboot.Exceptions.ResourceNotFoundException;
-import com.group3s2i.springboot.Model.Customer;
 import com.group3s2i.springboot.Model.User;
+import com.group3s2i.springboot.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,9 +22,13 @@ import java.util.*;
 public class UserController {
     @Autowired
     UserRepository userRepository;
-
+    private  final UserService userService;
     @Autowired
     PasswordEncoder encoder;
+
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
     @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping("/Users")
@@ -34,16 +37,23 @@ public class UserController {
 
         return new ArrayList<> (userRepository.findAll ());
     }
+//    @CrossOrigin(origins = "http://localhost:4200")
+//    @GetMapping("/Users/connected")
+//    public ResponseEntity<User> getUser()  {
+//        User user=userService.getCurrentUser ();
+//        System.out.println (user);
+//        return ResponseEntity.ok (user);
+//    }
     @CrossOrigin(origins = "http://localhost:4200")
-    @GetMapping("/Users/{id}")
-    public ResponseEntity<User> getUserById(@RequestParam(value = "id") Long UtilisateurId)
-            throws ResourceNotFoundException {
-        User user = userRepository.findById(UtilisateurId)
-                .orElseThrow(() -> new ResourceNotFoundException("user not found for this id :: " + UtilisateurId));
-        return ResponseEntity.ok().body(user);
+    @GetMapping("/Users/id/{id}")
+    public ResponseEntity<User> getUserById(@PathVariable Long id) throws ResourceNotFoundException {
+        User user=userRepository.findById (id).orElseThrow (
+                ()->new ResourceNotFoundException ("Employee not ext with id :"+id)
+        );
+        return ResponseEntity.ok (user);
     }
     @CrossOrigin(origins = "http://localhost:4200")
-    @GetMapping("/Users/{username}")
+    @GetMapping("/Users/username/{username}")
     public ResponseEntity<User> getUserByUsername(@PathVariable String username){
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException ("User Not Found with username: " + username));

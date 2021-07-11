@@ -10,7 +10,7 @@ import java.util.Optional;
 
 @RepositoryRestResource
 @CrossOrigin("*")
-public interface EmployeesRepository extends JpaRepository<Employees, Long>, JpaSpecificationExecutor<Employees> {
+public interface EmployeesRepository extends JpaRepository<Employees, Long> {
 
 
 

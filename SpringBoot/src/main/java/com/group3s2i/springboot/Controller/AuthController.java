@@ -8,9 +8,11 @@ import com.group3s2i.springboot.Config.response.MessageResponse;
 import com.group3s2i.springboot.Config.util.JwtUtils;
 import com.group3s2i.springboot.DAO.RoleRepository;
 import com.group3s2i.springboot.DAO.UserRepository;
+import com.group3s2i.springboot.Exceptions.ResourceNotFoundException;
 import com.group3s2i.springboot.Model.ERole;
 import com.group3s2i.springboot.Model.Role;
 import com.group3s2i.springboot.Model.User;
+import com.group3s2i.springboot.Service.MailService;
 import com.group3s2i.springboot.Service.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -23,10 +25,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 
+import javax.mail.MessagingException;
+import javax.mail.internet.AddressException;
 import javax.validation.Valid;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
@@ -46,8 +52,14 @@ public class AuthController {
 	PasswordEncoder encoder;
 	@Autowired
 	JwtUtils jwtUtils;
-	
-	
+
+	private final MailService mailService;
+
+	public AuthController(MailService mailService) {
+		this.mailService = mailService;
+	}
+
+
 	@PostMapping("/signin")
 	public ResponseEntity<?> authenticateCustomer(@Valid @RequestBody LoginRequest loginRequest) {
 
@@ -70,6 +82,7 @@ public class AuthController {
 			}
 		});
 		if(isRole.get ()==0) {
+
 			return ResponseEntity.ok (new JwtResponse (jwt,
 					userDetails.getId (),
 					userDetails.getUsername (),
@@ -89,7 +102,7 @@ public class AuthController {
 
 	@CrossOrigin(origins = "http://localhost:4200")
 	@PostMapping("/signup")
-	public ResponseEntity<?> registerCustomer(@Valid @RequestBody SignupRequest signUpRequest) {
+	public ResponseEntity<?> registerCustomer(@Valid @RequestBody SignupRequest signUpRequest) throws ResourceNotFoundException {
 		if (userRepository.existsByUsername(signUpRequest.getUsername())) {
 			return ResponseEntity
 					.badRequest()
@@ -124,17 +137,29 @@ public class AuthController {
 					roles.add (adminRole);
 					user.setEmployee (signUpRequest.getEmployee ());
 					user.getEmployee ().setUser (user);
+
 				} else {
 					Role userRole = roleRepository.findByName (ERole.ROLE_USER)
 							.orElseThrow (() -> new RuntimeException ("Error: Role is not found."));
 					roles.add (userRole);
 					user.setCustomer (signUpRequest.getCustomer ());
 					user.getCustomer ().setUser (user);
+
 				}
 			});
 		}
 		user.setRoles(roles);
-	userRepository.save(user);
+
+		String message= "Dear User "+user.getUsername ()+"\n you are receiving because " +
+				"your subscription have been Successful" +
+				"\n Username:"+user.getUsername ()+
+				"\n Have a Great Day."
+				;
+		ExecutorService emailExecutor = Executors.newSingleThreadExecutor();
+		emailExecutor.execute(() -> mailService.sendEmail ("youssef.tfifha@esprit.tn","Welcome To 3s2i E-Shop",message));
+		emailExecutor.shutdown();
+
+		userRepository.save(user);
 
 		return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
 	}
