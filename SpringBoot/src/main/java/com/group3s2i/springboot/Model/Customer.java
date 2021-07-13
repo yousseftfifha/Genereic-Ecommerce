@@ -2,6 +2,7 @@ package com.group3s2i.springboot.Model;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -51,6 +52,12 @@ public class Customer {
 	@ToString.Exclude
 	private User user;
 
+	public Customer(String firstName, String lastName, String phoneNumber, Gender gender) {
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.phoneNumber = phoneNumber;
+		this.gender = gender;
+	}
 
 	public Customer() {
 	}

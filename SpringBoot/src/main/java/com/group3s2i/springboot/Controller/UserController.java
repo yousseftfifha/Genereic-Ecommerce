@@ -4,9 +4,12 @@ import com.group3s2i.springboot.DAO.UserRepository;
 import com.group3s2i.springboot.Exceptions.ResourceNotFoundException;
 import com.group3s2i.springboot.Model.User;
 import com.group3s2i.springboot.Service.UserService;
+import com.sun.security.auth.UserPrincipal;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -37,13 +40,7 @@ public class UserController {
 
         return new ArrayList<> (userRepository.findAll ());
     }
-//    @CrossOrigin(origins = "http://localhost:4200")
-//    @GetMapping("/Users/connected")
-//    public ResponseEntity<User> getUser()  {
-//        User user=userService.getCurrentUser ();
-//        System.out.println (user);
-//        return ResponseEntity.ok (user);
-//    }
+
     @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping("/Users/id/{id}")
     public ResponseEntity<User> getUserById(@PathVariable Long id) throws ResourceNotFoundException {
