@@ -21,14 +21,14 @@ public class OrderDetails {
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Product product;
 
-    @Column(name = "innoNumber")
+    @Column(name = "inno_number")
     private int innoNumber;
 
     @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "orderID", nullable = false)
     private Order orderID;
 
-    @Column(name = "unitPrice")
+    @Column(name = "unit_price")
     private int unitPrice;
 
     public OrderDetails() {
