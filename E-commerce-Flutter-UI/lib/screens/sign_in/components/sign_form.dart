@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shop_app/Dashboard/main.dart';
 import 'package:shop_app/components/custom_surfix_icon.dart';
 import 'package:shop_app/components/form_error.dart';
 import 'package:shop_app/helper/keyboard.dart';
@@ -49,19 +50,24 @@ class _SignFormState extends State<SignForm> {
         headers: {'Content-Type': 'application/json'},
         body: json.encode({'username': username, 'password': password}));
     print(res.body);
+    var jsonData = json.decode(res.body);
+    List<dynamic> role = jsonData["roles"];
     final int statusCode = res.statusCode;
-    print(statusCode);
-
-    if (statusCode ==401  ) {
+    print(role[0].toString());
+     if (statusCode ==401  ) {
       Navigator.pushNamed(context, LoginFailureScreen.routeName);
 
     }
-    else if (statusCode ==200 ) {
+    else if (statusCode ==200 && role[0].toString() == "ROLE_USER") {
       SharedPreferences preferences = await SharedPreferences.getInstance();
       preferences.setString('username', username);
       Navigator.pushNamed(context, LoginSuccessScreen.routeName);
 
     }
+    else if(statusCode ==200 && role[0].toString() == "ROLE_ADMIN"){
+       Navigator.pushNamed(context, MyApp.routeName);
+
+     }
 
   }
 

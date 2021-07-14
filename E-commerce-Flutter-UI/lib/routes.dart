@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:shop_app/Dashboard/main.dart';
 import 'package:shop_app/screens/ProfileView/ProfileView.dart';
 import 'package:shop_app/screens/cart/cart_screen.dart';
 import 'package:shop_app/screens/complete_profile/complete_profile_screen.dart';
@@ -12,6 +13,7 @@ import 'package:shop_app/screens/profile/profile_screen.dart';
 import 'package:shop_app/screens/sign_in/sign_in_screen.dart';
 import 'package:shop_app/screens/splash/splash_screen.dart';
 
+import 'Dashboard/screens/main/main_screen.dart';
 import 'screens/sign_up/sign_up_screen.dart';
 
 // We use name route
@@ -30,4 +32,6 @@ final Map<String, WidgetBuilder> routes = {
   CartScreen.routeName: (context) => CartScreen(),
   ProfileScreen.routeName: (context) => ProfileScreen(),
   ProfileView.routeName: (context) => ProfileView(),
+  MyApp.routeName: (context) => MyApp(),
+
 };
