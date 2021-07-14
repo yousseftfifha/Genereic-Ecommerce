@@ -5,7 +5,7 @@ import 'package:shop_app/enums.dart';
 import 'components/body.dart';
 
 class ProfileScreen extends StatelessWidget {
-  static String routeName = "/profile";
+  static String routeName = "/ProfileScreen";
   @override
   Widget build(BuildContext context) {
     return Scaffold(

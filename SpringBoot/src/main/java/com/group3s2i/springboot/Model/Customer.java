@@ -47,6 +47,10 @@ public class Customer {
 	@Column(name = "dateofbirth")
 	private Date dateOfBirth;
 
+	@Size(max = 255)
+	@Column(name = "url")
+	private String url;
+
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id")
 	@ToString.Exclude
@@ -144,6 +148,14 @@ public class Customer {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
 	}
 
 	@Override

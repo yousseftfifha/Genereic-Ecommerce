@@ -1,6 +1,8 @@
 import 'dart:convert';
+import 'package:date_field/date_field.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shop_app/components/custom_surfix_icon.dart';
 import 'package:shop_app/components/default_button.dart';
@@ -24,22 +26,24 @@ Future<User> registerUser(
     String lastname,
     String Gender,
     int Cellphone,
+    DateTime DateOfBirth,
     BuildContext context) async {
   var Url = "http://127.0.0.1:8081/api/auth/signup";
   var response = await http.post(Url,
       headers: <String, String>{"Content-Type": "application/json"},
-      body: jsonEncode(<String, String>{
+      body: jsonEncode(<dynamic, dynamic>{
         "username": username,
         "email":email,
         "password":password,
-        "customer":jsonEncode(<String, String>{
-            "firstname": firstname,
-            "lastname":lastname,
-            "gender":Gender,
-            "cellphone":Cellphone.toString(),
-
-      })
-      })
+        "customer":{
+          "firstName": firstname,
+          "lastName":lastname,
+          "gender":Gender,
+          "phoneNumber":Cellphone,
+          "dateOfBirth":DateOfBirth.toIso8601String()
+        }
+        }
+      )
 
   );
 
@@ -53,12 +57,14 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
   String lastname;
   int cellphone;
   String gender;
-  String dateofbirth;
+  DateTime dateofbirth;
   TextEditingController firstnameC = TextEditingController();
   TextEditingController lastnameC = TextEditingController();
   TextEditingController cellphoneC = TextEditingController();
   TextEditingController genderC = TextEditingController();
-  TextEditingController dateofbirthC = TextEditingController();
+  TextEditingController _dateController = TextEditingController();
+
+  DateTime selectedDate = DateTime.now();
   void addError({String error}) {
     if (!errors.contains(error))
       setState(() {
@@ -86,9 +92,14 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
           SizedBox(height: getProportionateScreenHeight(30)),
           buildPhoneNumberFormField(),
           SizedBox(height: getProportionateScreenHeight(30)),
-          buildAddressFormField(),
+          buildGenderFormField(),
           FormError(errors: errors),
           SizedBox(height: getProportionateScreenHeight(40)),
+          buildDobFormField(),
+          SizedBox(height: getProportionateScreenHeight(40)),
+          FormError(errors: errors),
+
+
           DefaultButton(
             text: "continue",
             press: () async {
@@ -97,8 +108,18 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
                 username = preferences.getString('username');
                 email = preferences.getString('email');
                 password = preferences.getString('password');
+                // var now = DateTime.now();
+                // print(DateFormat('yyyy-MM-dd').format(selectedDate));
+                //
+                // print(DateFormat().format(now)); // This will return date using the default locale
+                // print(DateFormat('yyyy-MM-dd hh:mm:ss').format(now));
+                // print(DateFormat('yyyy-MM-dd').format(now));
+                // print(DateFormat.yMMMMd().format(now)); // print long date
+                // print(DateFormat.yMd().format(now)); // print short date
+                // print(DateFormat.jms().format(now)); // print time
+
                 User user =
-                    await registerUser(username, email,password, firstnameC.text,lastnameC.text,genderC.text,cellphone,context);
+                    await registerUser(username, email,password, firstnameC.text,lastnameC.text,genderC.text,int.parse(cellphoneC.text),DateTime.parse(DateFormat('yyyy-MM-dd').format(selectedDate)),context);
                 Navigator.pushNamed(context, LoginSuccessScreen.routeName);
               }
             },
@@ -107,8 +128,14 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
       ),
     );
   }
+  getFormatedDate(_date) {
+    var inputFormat = DateFormat('dd/MM/yyyy');
+    var inputDate = inputFormat.parse(_date);
+    var outputFormat = DateFormat('yyyy-MM-dd');
+    return outputFormat.format(inputDate);
+  }
 
-  TextFormField buildAddressFormField() {
+  TextFormField buildGenderFormField() {
     return TextFormField(
       controller: genderC,
       onSaved: (newValue) => gender = newValue,
@@ -139,8 +166,9 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
 
   TextFormField buildPhoneNumberFormField() {
     return TextFormField(
+      controller: cellphoneC,
       keyboardType: TextInputType.phone,
-      onSaved: (newValue) => cellphone = newValue as int,
+      onSaved: (newValue) => cellphone = newValue as int ,
       onChanged: (value) {
         if (value.isNotEmpty) {
           removeError(error: kPhoneNumberNullError);
@@ -205,6 +233,20 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
         floatingLabelBehavior: FloatingLabelBehavior.always,
         suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/User.svg"),
       ),
+    );
+  }
+  DateTimeFormField buildDobFormField() {
+    return DateTimeFormField(
+      onSaved: (val) {
+        dateofbirth = selectedDate;
+      },
+      // controller: _dateController,
+      // keyboardType: TextInputType.datetime,
+      decoration: InputDecoration(
+        labelText: "Date",
+        icon: Icon(Icons.calendar_today),
+      ),
+
     );
   }
 

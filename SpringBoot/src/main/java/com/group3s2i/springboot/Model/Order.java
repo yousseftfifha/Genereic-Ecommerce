@@ -1,32 +1,39 @@
 package com.group3s2i.springboot.Model;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
-@Data
+
+/**
+ * @author tfifha youssef
+ */
+@Getter
+@Setter
+@ToString
 @Entity
 @Table(name = "orders")
-public class Order {
+public class Order implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     @Id
-    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(name = "dueAmount")
+    @Column(name = "dueamount")
     private Double dueamount;
 
-    @Column(name = "innoNumber")
+    @Column(name = "innonumber")
     private int innoNumber;
 
-    @Column(name = "orderDate")
+    @Column(name = "orderdate")
     private Date date;
 
     @Column(name = "status")
@@ -35,8 +42,9 @@ public class Order {
     @Column(name = "orderNum")
     private String orderNum;
 
+
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name="userID", referencedColumnName = "id")
+    @JoinColumn(name="userID")
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private User userID;
 

@@ -96,7 +96,7 @@ public class AuthController {
 					userDetails.getEmail (),
 					roles, userDetails.getEmployee ()));
 		}
-		return ResponseEntity.ok(new MessageResponse("User Connected Insuccessfully!"));
+		return ResponseEntity.ok(new MessageResponse("BAD CREDENTIALS!"));
 
 	}
 

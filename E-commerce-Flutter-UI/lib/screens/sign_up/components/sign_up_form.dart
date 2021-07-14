@@ -183,7 +183,7 @@ class _SignUpFormState extends State<SignUpForm> {
       onChanged: (value) {
         if (value.isNotEmpty) {
           removeError(error: kNamelNullError);
-        } else if (value.length >= 8) {
+        } else if (value.length >= 4) {
           removeError(error: kNamelNullError);
         }
         return null;
@@ -192,7 +192,7 @@ class _SignUpFormState extends State<SignUpForm> {
         if (value.isEmpty) {
           addError(error: kNamelNullError);
           return "";
-        } else if (value.length < 8) {
+        } else if (value.length < 4) {
           addError(error: kNamelNullError);
           return "";
         }

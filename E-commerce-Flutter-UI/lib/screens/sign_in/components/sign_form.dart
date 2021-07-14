@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -6,6 +7,7 @@ import 'package:shop_app/components/custom_surfix_icon.dart';
 import 'package:shop_app/components/form_error.dart';
 import 'package:shop_app/helper/keyboard.dart';
 import 'package:shop_app/screens/forgot_password/forgot_password_screen.dart';
+import 'package:shop_app/screens/login_failure/login_failure_screen.dart';
 import 'package:shop_app/screens/login_success/login_success_screen.dart';
 
 import '../../../components/default_button.dart';
@@ -47,11 +49,20 @@ class _SignFormState extends State<SignForm> {
         headers: {'Content-Type': 'application/json'},
         body: json.encode({'username': username, 'password': password}));
     print(res.body);
-    if (res.body != null) {
+    final int statusCode = res.statusCode;
+    print(statusCode);
+
+    if (statusCode ==401  ) {
+      Navigator.pushNamed(context, LoginFailureScreen.routeName);
+
+    }
+    else if (statusCode ==200 ) {
       SharedPreferences preferences = await SharedPreferences.getInstance();
       preferences.setString('username', username);
       Navigator.pushNamed(context, LoginSuccessScreen.routeName);
+
     }
+
   }
 
   TextEditingController u = TextEditingController();
@@ -98,6 +109,7 @@ class _SignFormState extends State<SignForm> {
                 save(u.text, p.text);
                 // if all are valid then go to success screen
                 KeyboardUtil.hideKeyboard(context);
+
               }
             },
           ),
