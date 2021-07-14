@@ -19,6 +19,10 @@ import '../../../constants.dart';
 import '../../../size_config.dart';
 
 class ProfileScreenForm extends StatefulWidget {
+
+  get url => null;
+
+
   @override
   _CompleteProfileFormState createState() => _CompleteProfileFormState();
 }
@@ -72,7 +76,48 @@ class _CompleteProfileFormState extends State<ProfileScreenForm> {
         errors.remove(error);
       });
   }
+  File _image;
+  final picker = ImagePicker();
 
+  Future getImage() async {
+    final pickedFile = await picker.getImage(source: ImageSource.gallery);
+    setState(() {
+      if (pickedFile != null) {
+        _image = File(pickedFile.path);
+      } else {
+        print('No image selected.');
+      }
+    });
+    var Url = 'http://localhost:8081/uploadFile/customer/'+'${profileModel.customer.id}'.toString() ;
+    var response = await http.put(Url,
+        headers: <String, String>{"Content-Type": "application/json"},
+        body: json.encode({'url': _image}));
+    String responseString = response.body;
+    print(responseString);
+
+  }
+  Future getGalleryImage() async {
+    var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+
+    setState(() {
+      _image = image;
+      Navigator.pop(context);
+    });
+  }
+  Future<String> uploadImage(filename, url) async {
+    var Url = 'http://localhost:8081/uploadFile/customer/'+'${profileModel.customer.id}'.toString() ;
+
+    var request = http.MultipartRequest('PUT', Uri.parse(Url));
+    request.files.add(await http.MultipartFile.fromPath('file', filename));
+    var res = await request.send();
+    return res.reasonPhrase;
+    // var res = await http.put(url,
+    //     headers: {'Content-Type': 'application/json'},
+    //     body: json.encode({'file': username, 'password': password}));
+    // print(res.body);
+    // final int statusCode = res.statusCode;
+    // print(statusCode);
+  }
   @override
   void initState() {
     super.initState();
@@ -213,6 +258,8 @@ class _CompleteProfileFormState extends State<ProfileScreenForm> {
     );
   }
 
+  String state = "";
+
   SizedBox ProfilePic1() {
     return SizedBox(
       height: 115,
@@ -236,7 +283,16 @@ class _CompleteProfileFormState extends State<ProfileScreenForm> {
                   side: BorderSide(color: Colors.white),
                 ),
                 color: Color(0xFFF5F6F9),
-                onPressed: () {},
+                onPressed: ()  async {
+                  var file = await ImagePicker.pickImage(source: ImageSource.gallery);
+                  print(file.path);
+                  var res = await uploadImage(file.path, widget.url);
+                  setState(() {
+                    state = res;
+                    print(res);
+                  });
+                },
+               // child: Icon(Icons.add),
                 child: SvgPicture.asset("assets/icons/Camera Icon.svg"),
               ),
             ),
