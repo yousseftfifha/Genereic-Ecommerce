@@ -62,7 +62,7 @@ public class Product  {
     @Column(name = "stock", nullable = false)
     private Integer stock;
 
-    
+
     @Column(name = "imageID", nullable = false)
     private Integer imageID;
 
