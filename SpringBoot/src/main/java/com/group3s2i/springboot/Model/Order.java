@@ -1,12 +1,9 @@
 package com.group3s2i.springboot.Model;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
+
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -48,6 +45,9 @@ public class Order implements Serializable {
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private User userID;
 
+    @OneToOne(fetch = FetchType.LAZY, cascade =  CascadeType.ALL, mappedBy = "orderID")
+    @JsonIgnoreProperties("orderID")
+    private OrderDetails details;
 
     public Order() {
     }
@@ -116,5 +116,13 @@ public class Order implements Serializable {
 
     public void setUserID(User userID) {
         this.userID = userID;
+    }
+
+    public OrderDetails getDetails() {
+        return details;
+    }
+
+    public void setDetails(OrderDetails details) {
+        this.details = details;
     }
 }

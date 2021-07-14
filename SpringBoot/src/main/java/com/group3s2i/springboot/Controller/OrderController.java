@@ -40,6 +40,7 @@ public class OrderController {
     //create order rest api
     @PostMapping("/order")
     public Order createOrder(@RequestBody Order order){
+        order.getDetails().setOrderID(order);
         return orderRepository.save (order);
     }
 
