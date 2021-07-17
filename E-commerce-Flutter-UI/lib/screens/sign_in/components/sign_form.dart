@@ -3,13 +3,13 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:shop_app/Dashboard/main.dart';
 import 'package:shop_app/components/custom_surfix_icon.dart';
 import 'package:shop_app/components/form_error.dart';
 import 'package:shop_app/helper/keyboard.dart';
 import 'package:shop_app/screens/forgot_password/forgot_password_screen.dart';
 import 'package:shop_app/screens/login_failure/login_failure_screen.dart';
 import 'package:shop_app/screens/login_success/login_success_screen.dart';
+import 'package:shop_app/services/UserService.dart';
 
 import '../../../components/default_button.dart';
 import '../../../constants.dart';
@@ -53,7 +53,6 @@ class _SignFormState extends State<SignForm> {
     var jsonData = json.decode(res.body);
     List<dynamic> role = jsonData["roles"];
     final int statusCode = res.statusCode;
-    print(role[0].toString());
      if (statusCode ==401  ) {
       Navigator.pushNamed(context, LoginFailureScreen.routeName);
 
@@ -65,8 +64,7 @@ class _SignFormState extends State<SignForm> {
 
     }
     else if(statusCode ==200 && role[0].toString() == "ROLE_ADMIN"){
-       Navigator.pushNamed(context, MyApp.routeName);
-
+        print("not your space");
      }
 
   }
@@ -110,9 +108,10 @@ class _SignFormState extends State<SignForm> {
           SizedBox(height: getProportionateScreenHeight(20)),
           DefaultButton(
             text: "Continue",
-            press: () {
+            press: () async {
               if (_formKey.currentState.validate()) {
-                save(u.text, p.text);
+                 save(u.text, p.text);
+
                 // if all are valid then go to success screen
                 KeyboardUtil.hideKeyboard(context);
 

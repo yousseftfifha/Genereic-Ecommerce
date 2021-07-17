@@ -16,7 +16,7 @@ import java.util.Optional;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api")
 
 public class ProductController {
 
@@ -46,7 +46,7 @@ public class ProductController {
 
     //update product rest api
 
-    @PutMapping("/product/{id}/")
+    @PutMapping("/product/{id}")
     public ResponseEntity<Product> updateProduct(@PathVariable("id") long id, @RequestBody Product product) {
         System.out.println("Update Product with ID = " + id + "...");
 

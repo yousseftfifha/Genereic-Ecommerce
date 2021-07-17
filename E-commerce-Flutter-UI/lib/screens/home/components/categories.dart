@@ -1,9 +1,13 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
+import 'package:shop_app/models/Category.dart';
+import 'package:http/http.dart' as http;
 import '../../../size_config.dart';
 
 class Categories extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     List<Map<String, dynamic>> categories = [
@@ -13,14 +17,33 @@ class Categories extends StatelessWidget {
       {"icon": "assets/icons/Gift Icon.svg", "text": "Daily Gift"},
       {"icon": "assets/icons/Discover.svg", "text": "More"},
     ];
+    // FutureBuilder(
+    //     future: fetchData(),
+    //     builder: (context, AsyncSnapshot snapshot) {
+    //       if (!snapshot.hasData) {
+    //         return Center(child: CircularProgressIndicator());
+    //       } else {
+    //         Container(
+    //             child: ListView.builder(
+    //                 itemCount: snapshot.data.length,
+    //                 scrollDirection: Axis.horizontal,
+    //                 itemBuilder: (BuildContext context, int index)  {
+    //                   print('${snapshot.data[index].name}');
+    //                   return Text('${snapshot.data[index].name}');
+    //                 }));
+    //       }
+    //     });
     return Padding(
       padding: EdgeInsets.all(getProportionateScreenWidth(20)),
+
       child: Row(
+
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.start,
+
         children: List.generate(
           categories.length,
-          (index) => CategoryCard(
+              (index) => CategoryCard(
             icon: categories[index]["icon"],
             text: categories[index]["text"],
             press: () {},

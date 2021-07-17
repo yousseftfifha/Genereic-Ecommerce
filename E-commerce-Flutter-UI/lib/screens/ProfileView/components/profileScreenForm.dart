@@ -122,7 +122,6 @@ class _CompleteProfileFormState extends State<ProfileScreenForm> {
   void initState() {
     super.initState();
     fetchData();
-    print(profileModel.email);
   }
 
   @override
@@ -285,12 +284,12 @@ class _CompleteProfileFormState extends State<ProfileScreenForm> {
                 color: Color(0xFFF5F6F9),
                 onPressed: ()  async {
                   var file = await ImagePicker.pickImage(source: ImageSource.gallery);
-                  print(file.path);
+                  if(file.path!=null){
                   var res = await uploadImage(file.path, widget.url);
                   setState(() {
                     state = res;
                     print(res);
-                  });
+                  });}
                 },
                // child: Icon(Icons.add),
                 child: SvgPicture.asset("assets/icons/Camera Icon.svg"),
