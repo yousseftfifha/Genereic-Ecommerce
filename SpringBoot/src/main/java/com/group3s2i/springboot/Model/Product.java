@@ -2,9 +2,12 @@ package com.group3s2i.springboot.Model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @Entity
@@ -13,60 +16,32 @@ public class Product  {
 
 
     @Id
-    @Column(name = "id", nullable = false)
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "tmpCode", nullable = false)
+    @Column(name = "tmpcode")
     private String tmpCode;
 
-    @Column(name = "code", nullable = false)
+    @Column(name = "code")
     private String code;
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "name")
     private String name;
 
-    @Column(name = "description", nullable = false)
+    @Column(name = "description")
     private String description;
 
-    @Column(name = "brand", nullable = false)
+    @Column(name = "brand")
     private String brand;
 
-    @Column(name = "mesureUnit", nullable = false)
-    private String mesureUnit;
-
-    @Column(name = "weight", nullable = false)
-    private Double weight;
-
-    @Column(name = "height", nullable = false)
-    private Double height;
-
-    @Column(name = "sku", nullable = false)
+    @Column(name = "sku")
     private Integer sku;
 
-    @Column(name = "upc", nullable = false)
-    private Integer upc;
-
-    @Column(name = "isbn", nullable = false)
+    @Column(name = "isbn")
     private Integer isbn;
 
-    @Column(name = "isExpirable", nullable = false)
-    private Integer isExpirable;
-
-    @Column(name = "isReparable", nullable = false)
-    private Integer isReparable;
-
-    @Column(name = "rexture", nullable = false)
-    private String rexture;
-
-    @Column(name = "stock", nullable = false)
-    private Integer stock;
-
-
-    @Column(name = "imageID", nullable = false)
-    private Integer imageID;
-
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="categoryID", referencedColumnName = "id")
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Category categoryID;
@@ -74,6 +49,8 @@ public class Product  {
     @OneToOne(fetch = FetchType.LAZY, cascade =  CascadeType.ALL, mappedBy = "productID")
     @JsonIgnoreProperties("productID")
     private Productdetails details;
+
+
 
     public Product() {
     }
@@ -85,17 +62,8 @@ public class Product  {
         this.name = name;
         this.description = description;
         this.brand = brand;
-        this.mesureUnit = mesureUnit;
-        this.weight = weight;
-        this.height = height;
         this.sku = sku;
-        this.upc = upc;
         this.isbn = isbn;
-        this.isExpirable = isExpirable;
-        this.isReparable = isReparable;
-        this.rexture = rexture;
-        this.stock = stock;
-        this.imageID = imageID;
         this.categoryID = categoryID;
         this.details=details;
     }
@@ -150,30 +118,6 @@ public class Product  {
         this.brand = brand;
     }
 
-    public String getMesureUnit() {
-        return mesureUnit;
-    }
-
-    public void setMesureUnit(String mesureUnit) {
-        this.mesureUnit = mesureUnit;
-    }
-
-    public Double getWeight() {
-        return weight;
-    }
-
-    public void setWeight(Double weight) {
-        this.weight = weight;
-    }
-
-    public Double getHeight() {
-        return height;
-    }
-
-    public void setHeight(Double height) {
-        this.height = height;
-    }
-
     public Integer getSku() {
         return sku;
     }
@@ -182,13 +126,6 @@ public class Product  {
         this.sku = sku;
     }
 
-    public Integer getUpc() {
-        return upc;
-    }
-
-    public void setUpc(Integer upc) {
-        this.upc = upc;
-    }
 
     public Integer getIsbn() {
         return isbn;
@@ -196,46 +133,6 @@ public class Product  {
 
     public void setIsbn(Integer isbn) {
         this.isbn = isbn;
-    }
-
-    public Integer getIsExpirable() {
-        return isExpirable;
-    }
-
-    public void setIsExpirable(Integer isExpirable) {
-        this.isExpirable = isExpirable;
-    }
-
-    public Integer getIsReparable() {
-        return isReparable;
-    }
-
-    public void setIsReparable(Integer isReparable) {
-        this.isReparable = isReparable;
-    }
-
-    public String getRexture() {
-        return rexture;
-    }
-
-    public void setRexture(String rexture) {
-        this.rexture = rexture;
-    }
-
-    public Integer getStock() {
-        return stock;
-    }
-
-    public void setStock(Integer stock) {
-        this.stock = stock;
-    }
-
-    public Integer getImageID() {
-        return imageID;
-    }
-
-    public void setImageID(Integer imageID) {
-        this.imageID = imageID;
     }
 
     public Category getCategoryID() {

@@ -56,19 +56,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
 			.authorizeRequests().antMatchers("/api/auth/**").permitAll()
 			.antMatchers("/api/**").permitAll ()
-			.antMatchers("/api/v1/product/**").permitAll()
+			.antMatchers("/api/product/**").permitAll()
+			.antMatchers("/api/product/images/**").permitAll()
 				.antMatchers("/api/category/**").permitAll()
 
-			.antMatchers("api/product/**").permitAll ()
-			.antMatchers("api/Users/**").permitAll ()
+			.antMatchers("/api/product/**").permitAll ()
+			.antMatchers("/api/Users/**").permitAll ()
 			.antMatchers("/uploadFile/customer/**").permitAll ()
+			.antMatchers("/api/uploadFile/product/**").permitAll ()
+			.antMatchers("/uploadFile/category/**").permitAll ()
 			.antMatchers("/downloadFile/**").permitAll ()
-//			.antMatchers("/cities/**").permitAll()
-//			.antMatchers("/cinemas/**").permitAll()
-//			.antMatchers("/rooms/**").permitAll()
-//			.antMatchers("/movieProjections/**").permitAll()
-//			.antMatchers("/movieImage/**").permitAll()
-//			.antMatchers("/payTickets/**").permitAll()
+
 			.anyRequest().authenticated();
 
 		http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);

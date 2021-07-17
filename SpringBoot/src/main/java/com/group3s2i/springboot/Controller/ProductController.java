@@ -9,10 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
@@ -28,7 +25,6 @@ public class ProductController {
     public List<Product> getAllProducts(){
         return productRepository.findAll();
     }
-
     // get product rest api
     @GetMapping("/product/{id}")
     public ResponseEntity<Product> getProductById(@PathVariable long id){
@@ -41,6 +37,7 @@ public class ProductController {
     @PostMapping("/product")
     public Product createProduct(@RequestBody Product product){
          product.getDetails().setProductID(product);
+
         return productRepository.save (product);
     }
 
@@ -57,23 +54,12 @@ public class ProductController {
             product1.setBrand(product.getBrand());
             product1.setCode(product.getCode());
             product1.setDescription(product.getDescription());
-            product1.setHeight(product.getHeight());
-            product1.setImageID(product.getImageID());
-            product1.setIsExpirable(product.getIsExpirable());
-            product1.setIsReparable(product.getIsReparable());
             product1.setIsbn(product.getIsbn());
-            product1.setMesureUnit(product.getMesureUnit());
             product1.setName(product.getName());
-            product1.setRexture(product.getRexture());
             product1.setSku(product.getSku());
-            product1.setStock(product.getStock());
             product1.setTmpCode(product.getTmpCode());
-            product1.setUpc(product.getUpc());
-            product1.setWeight(product.getWeight());
             product1.setCategoryID(product.getCategoryID());
             product1.setDetails(product.getDetails());
-
-
             return new ResponseEntity<>(productRepository.save(product), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
