@@ -1,12 +1,15 @@
 package com.group3s2i.springboot.Model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.ToString;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -50,7 +53,35 @@ public class Product  {
     @JsonIgnoreProperties("productID")
     private Productdetails details;
 
+    @OneToMany(
+            mappedBy = "product",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    @JsonManagedReference
+    private List<ProductImage> productImages = new ArrayList<> ();
 
+    public List<ProductImage> getProductImages() {
+        return productImages;
+    }
+
+    public void setProductImages(List<ProductImage> productImages) {
+        this.productImages = productImages;
+    }
+
+    public Product(Long id, String tmpCode, String code, String name, String description, String brand, Integer sku, Integer isbn, Category categoryID, Productdetails details, List<ProductImage> productImages) {
+        this.id = id;
+        this.tmpCode = tmpCode;
+        this.code = code;
+        this.name = name;
+        this.description = description;
+        this.brand = brand;
+        this.sku = sku;
+        this.isbn = isbn;
+        this.categoryID = categoryID;
+        this.details = details;
+        this.productImages = productImages;
+    }
 
     public Product() {
     }
@@ -146,4 +177,21 @@ public class Product  {
     public Productdetails getDetails() { return details; }
 
     public void setDetails(Productdetails details) { this.details = details; }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id=" + id +
+                ", tmpCode='" + tmpCode + '\'' +
+                ", code='" + code + '\'' +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", brand='" + brand + '\'' +
+                ", sku=" + sku +
+                ", isbn=" + isbn +
+                ", categoryID=" + categoryID +
+                ", details=" + details +
+                ", productImages=" + productImages +
+                '}';
+    }
 }

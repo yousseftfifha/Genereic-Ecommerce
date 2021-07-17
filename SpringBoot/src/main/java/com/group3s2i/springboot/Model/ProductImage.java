@@ -1,5 +1,6 @@
 package com.group3s2i.springboot.Model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
@@ -23,7 +24,8 @@ public class ProductImage {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="product", referencedColumnName = "id")
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @JsonIgnoreProperties("product")
+    @JsonBackReference
     private Product product;
 
     public ProductImage(Long id, String url, Product product) {
@@ -63,5 +65,14 @@ public class ProductImage {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    @Override
+    public String toString() {
+        return "ProductImage{" +
+                "id=" + id +
+                ", url='" + url + '\'' +
+                ", product=" + product +
+                '}';
     }
 }
