@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shop_app/models/Cart.dart';
 import 'package:shop_app/models/Category.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../constants.dart';
 import '../../../size_config.dart';
@@ -27,7 +28,7 @@ class CategoryCard extends StatelessWidget {
                 color: Color(0xFFF5F6F9),
                 borderRadius: BorderRadius.circular(15),
               ),
-              child: Image.asset("assets/icons/Flash Icon.svg"),
+              child: SvgPicture.network('${category.url}'),
             ),
           ),
         ),
@@ -40,14 +41,8 @@ class CategoryCard extends StatelessWidget {
               style: TextStyle(color: Colors.black, fontSize: 16),
               maxLines: 2,
             ),
-            SizedBox(height: 10),
-            Text.rich(
-              TextSpan(
-                text: "${category.description}",
-                style: TextStyle(
-                    fontWeight: FontWeight.w600, color: kPrimaryColor),
-              ),
-            )
+            SizedBox(height: 20),
+
           ],
         )
       ],
