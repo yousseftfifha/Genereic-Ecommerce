@@ -27,7 +27,7 @@ public class ProductDetails {
     @JoinColumn(name="product", referencedColumnName = "id")
     @JsonIgnoreProperties("product")
     @JsonBackReference
-    private Product productid;
+    private Product product;
 
     public ProductDetails() {
     }
@@ -36,7 +36,7 @@ public class ProductDetails {
         this.id = id;
         this.attribute = attribute;
         this.value = value;
-        this.productid = productid;
+        this.product = productid;
     }
 
     public Long getId() {
@@ -63,11 +63,11 @@ public class ProductDetails {
         this.value = value;
     }
 
-    public Product getProductid() {
-        return productid;
+    public Product getProduct() {
+        return product;
     }
 
-    public void setProductid(Product productid) {
-        this.productid = productid;
+    public void setProduct(Product productid) {
+        this.product = productid;
     }
 }

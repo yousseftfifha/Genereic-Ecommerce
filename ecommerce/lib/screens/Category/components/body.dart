@@ -50,6 +50,7 @@ class _BodyState extends State<Body> {
               direction: DismissDirection.endToStart,
               onDismissed: (direction) {
                 setState(() {
+                  Navigator.pushNamed(context, HomeScreen.routeName);
                   snapshot.data.removeAt(index);
                 });
               },
@@ -62,10 +63,7 @@ class _BodyState extends State<Body> {
                 child: Row(
                   children: [
                      Spacer(),
-                    GestureDetector(
-                        onDoubleTap: () {Navigator.pushNamed(context, HomeScreen.routeName);},
-                     child :SvgPicture.asset("assets/icons/arrow_right.svg"),
-                    )
+                     SvgPicture.asset("assets/icons/arrow_right.svg"),
 
 
                   ],

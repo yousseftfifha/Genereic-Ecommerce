@@ -18,7 +18,7 @@ class Category {
         this.url
         });
 
-  factory Category.fromJson(Map<String, dynamic> json) => Category(
+  factory Category.fromJson(Map<dynamic, dynamic> json) => Category(
       id: json["id"],
       name: json["name"],
       description: json["description"],

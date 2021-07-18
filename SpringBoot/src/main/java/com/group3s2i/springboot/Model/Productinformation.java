@@ -1,11 +1,9 @@
 package com.group3s2i.springboot.Model;
 
-import lombok.Data;
-
 import javax.persistence.*;
-import java.io.Serializable;
 
 @Entity
+@Table(name = "productinformation")
 public class Productinformation {
 
 
@@ -22,19 +20,19 @@ public class Productinformation {
     private Integer security;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "productID")
-    private Product productID;
+    @JoinColumn(name = "product")
+    private Product product;
 
     public Productinformation( ) {
     }
 
-    public Productinformation(Long id, Integer max, Integer min, Integer threshold, Integer security, Product productID) {
+    public Productinformation(Long id, Integer max, Integer min, Integer threshold, Integer security, Product product) {
         this.id = id;
         this.max = max;
         this.min = min;
         this.threshold = threshold;
         this.security = security;
-        this.productID = productID;
+        this.product = product;
     }
 
     public Long getId() {
@@ -77,11 +75,11 @@ public class Productinformation {
         this.security = security;
     }
 
-    public Product getProductID() {
-        return productID;
+    public Product getProduct() {
+        return product;
     }
 
-    public void setProductID(Product productID) {
-        this.productID = productID;
+    public void setProduct(Product productID) {
+        this.product = productID;
     }
 }

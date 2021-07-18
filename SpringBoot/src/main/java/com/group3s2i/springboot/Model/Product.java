@@ -41,12 +41,12 @@ public class Product  {
     private Integer isbn;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="categoryID", referencedColumnName = "id")
+    @JoinColumn(name="category", referencedColumnName = "id")
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    private Category categoryID;
+    private Category category;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade =  CascadeType.ALL, mappedBy = "productID")
-    @JsonIgnoreProperties("productID")
+    @OneToOne(fetch = FetchType.LAZY, cascade =  CascadeType.ALL, mappedBy = "product")
+    @JsonIgnoreProperties("product")
     private Productinformation information;
 
     @OneToMany(
@@ -58,23 +58,14 @@ public class Product  {
     private List<ProductImage> productImages = new ArrayList<> ();
 
     @OneToMany(
-            mappedBy = "productid",
+            mappedBy = "product",
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
     @JsonManagedReference
     private List<ProductDetails> details = new ArrayList<> ();
 
-
-    public List<ProductImage> getProductImages() {
-        return productImages;
-    }
-
-    public void setProductImages(List<ProductImage> productImages) {
-        this.productImages = productImages;
-    }
-
-    public Product(Long id, String tmpCode, String code, String name, String description, String brand, Integer sku, Integer isbn, Category categoryID, Productinformation information, List<ProductImage> productImages,List<ProductDetails> details) {
+    public Product(Long id, String tmpCode, String code, String name, String description, String brand, Integer sku, Integer isbn, Category category, Productinformation information, List<ProductImage> productImages, List<ProductDetails> details) {
         this.id = id;
         this.tmpCode = tmpCode;
         this.code = code;
@@ -83,29 +74,14 @@ public class Product  {
         this.brand = brand;
         this.sku = sku;
         this.isbn = isbn;
-        this.categoryID = categoryID;
+        this.category = category;
         this.information = information;
         this.productImages = productImages;
-        this.details=details;
+        this.details = details;
     }
 
     public Product() {
     }
-
-    public Product(Long id, String tmpCode, String code, String name, String description, String brand, String mesureUnit, Double weight, Double height, Integer sku, Integer upc, Integer isbn, Integer isExpirable, Integer isReparable, String rexture, Integer stock, Integer imageID, Category categoryID, Productinformation information) {
-        this.id = id;
-        this.tmpCode = tmpCode;
-        this.code = code;
-        this.name = name;
-        this.description = description;
-        this.brand = brand;
-        this.sku = sku;
-        this.isbn = isbn;
-        this.categoryID = categoryID;
-        this.information = information;
-    }
-
-
 
     public Long getId() {
         return id;
@@ -163,7 +139,6 @@ public class Product  {
         this.sku = sku;
     }
 
-
     public Integer getIsbn() {
         return isbn;
     }
@@ -172,18 +147,29 @@ public class Product  {
         this.isbn = isbn;
     }
 
-    public Category getCategoryID() {
-        return categoryID;
+    public Category getCategory() {
+        return category;
     }
 
-    public void setCategoryID(Category categoryID) {
-        this.categoryID = categoryID;
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
-    public Productinformation getInformation() { return information; }
+    public Productinformation getInformation() {
+        return information;
+    }
 
-    public void setInformation(Productinformation information) { this.information = information; }
+    public void setInformation(Productinformation information) {
+        this.information = information;
+    }
 
+    public List<ProductImage> getProductImages() {
+        return productImages;
+    }
+
+    public void setProductImages(List<ProductImage> productImages) {
+        this.productImages = productImages;
+    }
 
     public List<ProductDetails> getDetails() {
         return details;
@@ -204,9 +190,10 @@ public class Product  {
                 ", brand='" + brand + '\'' +
                 ", sku=" + sku +
                 ", isbn=" + isbn +
-                ", categoryID=" + categoryID +
-                ", details=" + information +
+                ", category=" + category +
+                ", information=" + information +
                 ", productImages=" + productImages +
+                ", details=" + details +
                 '}';
     }
 }

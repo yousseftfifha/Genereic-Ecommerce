@@ -12,7 +12,7 @@ import 'package:shop_app/screens/login_success/login_success_screen.dart';
 class UserService {
   String url = "http://localhost:8081/api/auth";
 
-  Future save(String username, String password, BuildContext context) async {
+  Future login(String username, String password, BuildContext context) async {
     var res = await http.post(url+"/signin",
         headers: {'Content-Type': 'application/json'},
         body: json.encode({'username': username, 'password': password}));

@@ -37,7 +37,7 @@ public class ProductController {
     //create product rest api
     @PostMapping("/product")
     public Product createProduct(@RequestBody Product product){
-         product.getInformation().setProductID(product);
+         product.getInformation().setProduct (product);
 
         return productRepository.save (product);
     }
@@ -51,7 +51,6 @@ public class ProductController {
         Optional<Product> optionalProduct = productRepository.findById(id);
 
         if (optionalProduct.isPresent()) {
-
             return new ResponseEntity<>(productRepository.save(product), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

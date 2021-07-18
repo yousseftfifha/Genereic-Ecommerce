@@ -78,7 +78,7 @@ class _SignFormState extends State<SignForm> {
               if (_formKey.currentState.validate()) {
                 // save(u.text, p.text);
                 UserService us = new UserService();
-                us.save(u.text, p.text, context);
+                us.login(u.text, p.text, context);
                 // if all are valid then go to success screen
                 KeyboardUtil.hideKeyboard(context);
               }
