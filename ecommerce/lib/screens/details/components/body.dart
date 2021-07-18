@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shop_app/components/default_button.dart';
 import 'package:shop_app/models/Product.dart';
 import 'package:shop_app/size_config.dart';
+import 'custom_app_bar.dart';
 import 'product_description.dart';
 import 'top_rounded_container.dart';
 import 'product_images.dart';
@@ -15,6 +16,7 @@ class Body extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView(
       children: [
+        CustomAppBar(),
         ProductImages(product: product),
         TopRoundedContainer(
           color: Colors.white,
