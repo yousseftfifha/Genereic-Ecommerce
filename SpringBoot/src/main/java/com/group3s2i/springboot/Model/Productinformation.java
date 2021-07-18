@@ -5,37 +5,30 @@ import lombok.Data;
 import javax.persistence.*;
 import java.io.Serializable;
 
-@Data
 @Entity
-@Table(name = "productdetails")
-public class Productdetails  {
+public class Productinformation {
 
 
     @Id
-    @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "max", nullable = false)
     private Integer max;
 
-    @Column(name = "min", nullable = false)
     private Integer min;
 
-    @Column(name = "threshold", nullable = false)
     private Integer threshold;
 
-    @Column(name = "security", nullable = false)
     private Integer security;
 
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "productID", nullable = false)
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "productID")
     private Product productID;
 
-    public Productdetails( ) {
+    public Productinformation( ) {
     }
 
-    public Productdetails(Long id, Integer max, Integer min, Integer threshold, Integer security, Product productID) {
+    public Productinformation(Long id, Integer max, Integer min, Integer threshold, Integer security, Product productID) {
         this.id = id;
         this.max = max;
         this.min = min;

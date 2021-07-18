@@ -3,14 +3,10 @@ package com.group3s2i.springboot.Model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
-import lombok.ToString;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Data
 @Entity
@@ -51,7 +47,7 @@ public class Product  {
 
     @OneToOne(fetch = FetchType.LAZY, cascade =  CascadeType.ALL, mappedBy = "productID")
     @JsonIgnoreProperties("productID")
-    private Productdetails details;
+    private Productinformation information;
 
     @OneToMany(
             mappedBy = "product",
@@ -61,6 +57,15 @@ public class Product  {
     @JsonManagedReference
     private List<ProductImage> productImages = new ArrayList<> ();
 
+    @OneToMany(
+            mappedBy = "productid",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    @JsonManagedReference
+    private List<ProductDetails> details = new ArrayList<> ();
+
+
     public List<ProductImage> getProductImages() {
         return productImages;
     }
@@ -69,7 +74,7 @@ public class Product  {
         this.productImages = productImages;
     }
 
-    public Product(Long id, String tmpCode, String code, String name, String description, String brand, Integer sku, Integer isbn, Category categoryID, Productdetails details, List<ProductImage> productImages) {
+    public Product(Long id, String tmpCode, String code, String name, String description, String brand, Integer sku, Integer isbn, Category categoryID, Productinformation information, List<ProductImage> productImages,List<ProductDetails> details) {
         this.id = id;
         this.tmpCode = tmpCode;
         this.code = code;
@@ -79,14 +84,15 @@ public class Product  {
         this.sku = sku;
         this.isbn = isbn;
         this.categoryID = categoryID;
-        this.details = details;
+        this.information = information;
         this.productImages = productImages;
+        this.details=details;
     }
 
     public Product() {
     }
 
-    public Product(Long id, String tmpCode, String code, String name, String description, String brand, String mesureUnit, Double weight, Double height, Integer sku, Integer upc, Integer isbn, Integer isExpirable, Integer isReparable, String rexture, Integer stock, Integer imageID, Category categoryID,Productdetails details) {
+    public Product(Long id, String tmpCode, String code, String name, String description, String brand, String mesureUnit, Double weight, Double height, Integer sku, Integer upc, Integer isbn, Integer isExpirable, Integer isReparable, String rexture, Integer stock, Integer imageID, Category categoryID, Productinformation information) {
         this.id = id;
         this.tmpCode = tmpCode;
         this.code = code;
@@ -96,7 +102,7 @@ public class Product  {
         this.sku = sku;
         this.isbn = isbn;
         this.categoryID = categoryID;
-        this.details=details;
+        this.information = information;
     }
 
 
@@ -174,9 +180,18 @@ public class Product  {
         this.categoryID = categoryID;
     }
 
-    public Productdetails getDetails() { return details; }
+    public Productinformation getInformation() { return information; }
 
-    public void setDetails(Productdetails details) { this.details = details; }
+    public void setInformation(Productinformation information) { this.information = information; }
+
+
+    public List<ProductDetails> getDetails() {
+        return details;
+    }
+
+    public void setDetails(List<ProductDetails> details) {
+        this.details = details;
+    }
 
     @Override
     public String toString() {
@@ -190,7 +205,7 @@ public class Product  {
                 ", sku=" + sku +
                 ", isbn=" + isbn +
                 ", categoryID=" + categoryID +
-                ", details=" + details +
+                ", details=" + information +
                 ", productImages=" + productImages +
                 '}';
     }

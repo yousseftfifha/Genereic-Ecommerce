@@ -25,6 +25,7 @@ public class ProductController {
     public List<Product> getAllProducts(){
         return productRepository.findAll();
     }
+
     // get product rest api
     @GetMapping("/product/{id}")
     public ResponseEntity<Product> getProductById(@PathVariable long id){
@@ -36,7 +37,7 @@ public class ProductController {
     //create product rest api
     @PostMapping("/product")
     public Product createProduct(@RequestBody Product product){
-         product.getDetails().setProductID(product);
+         product.getInformation().setProductID(product);
 
         return productRepository.save (product);
     }
@@ -50,16 +51,7 @@ public class ProductController {
         Optional<Product> optionalProduct = productRepository.findById(id);
 
         if (optionalProduct.isPresent()) {
-            Product product1 = optionalProduct.get();
-            product1.setBrand(product.getBrand());
-            product1.setCode(product.getCode());
-            product1.setDescription(product.getDescription());
-            product1.setIsbn(product.getIsbn());
-            product1.setName(product.getName());
-            product1.setSku(product.getSku());
-            product1.setTmpCode(product.getTmpCode());
-            product1.setCategoryID(product.getCategoryID());
-            product1.setDetails(product.getDetails());
+
             return new ResponseEntity<>(productRepository.save(product), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
