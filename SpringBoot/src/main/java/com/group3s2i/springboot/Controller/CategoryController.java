@@ -3,7 +3,6 @@ package com.group3s2i.springboot.Controller;
 
 import com.group3s2i.springboot.DAO.CategoryRepository;
 import com.group3s2i.springboot.Model.Category;
-import com.group3s2i.springboot.Model.Organization;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -31,7 +30,16 @@ public class CategoryController {
         return categoryRepository.findAll();
     }
 
+    @GetMapping("/category/sub/{idUP}")
+    public Optional<List<Category>> getCategoryByIdUP(@PathVariable Category idUP){
+        return categoryRepository.findByidup (idUP);
 
+    }
+    @GetMapping("/category/main")
+    public Optional<List<Category>> getCategoryByIdUPEqualsNull(){
+        return categoryRepository.findByIdupEqualsNull ();
+
+    }
     // get category rest api
     @GetMapping("/category/{id}")
     public ResponseEntity<Category> getCategoryById(@PathVariable long id){
