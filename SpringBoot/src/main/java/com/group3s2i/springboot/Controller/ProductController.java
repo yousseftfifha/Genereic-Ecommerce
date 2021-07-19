@@ -2,6 +2,7 @@ package com.group3s2i.springboot.Controller;
 
 
 import com.group3s2i.springboot.DAO.ProductRepository;
+import com.group3s2i.springboot.Model.Category;
 import com.group3s2i.springboot.Model.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
@@ -68,6 +69,11 @@ public class ProductController {
         Map<String, Boolean> response = new HashMap<>();
         response.put("deleted", Boolean.TRUE);
         return response;
+    }
+    @GetMapping("/product/category/{id}")
+    public Optional<List<Product>> getCategoryByIdUP(@PathVariable Category id){
+        return productRepository.findByCategory (id);
+
     }
 
 }

@@ -18,7 +18,7 @@ class SpecialOffers extends StatelessWidget {
               EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
           child: SectionTitle(
             title: "Special for you",
-            press: () {Navigator.pushNamed(context, CategoyScreen.routeName);},
+            press: () {},
           ),
         ),
         SizedBox(height: getProportionateScreenWidth(20)),

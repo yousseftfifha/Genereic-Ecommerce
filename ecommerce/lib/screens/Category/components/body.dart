@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:shop_app/models/Cart.dart';
 import 'package:shop_app/models/Category.dart';
+import 'package:shop_app/screens/Product/product_screen.dart';
 import 'package:shop_app/screens/home/home_screen.dart';
 import 'package:shop_app/services/CategoryService.dart';
 
@@ -13,20 +14,15 @@ import 'package:http/http.dart' as http;
 import 'category_card.dart';
 
 class Body extends StatefulWidget {
+  final Category category;
+
+  const Body({Key key, @required this.category}) : super(key: key);
   @override
-  _BodyState createState() => _BodyState();
+  _catScreen createState() => _catScreen();
+
 }
 
-class _BodyState extends State<Body> {
-
-  @override
-  void initState() {
-    super.initState();
-    CategoryService cs=new CategoryService();
-    cs.fetchData();
-
-  }
-
+class _catScreen extends State<Body> {
   @override
   Widget build(BuildContext context) {
     CategoryService cs=new CategoryService();
@@ -36,7 +32,7 @@ class _BodyState extends State<Body> {
       // padding: EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
         body: Container(
         child:FutureBuilder(
-          future: cs.fetchData(),
+          future: cs.fetchSubData(widget.category.id),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
       if (snapshot.data == null) {
       return Container(child: Center(child: Icon(Icons.error)));
@@ -49,10 +45,14 @@ class _BodyState extends State<Body> {
               key: Key(snapshot.data[index].id.toString()),
               direction: DismissDirection.endToStart,
               onDismissed: (direction) {
+                Navigator.pushNamed(context, ProductScreen.routeName,arguments: snapshot.data[index]);
+
                 setState(() {
-                  Navigator.pushNamed(context, HomeScreen.routeName);
-                  snapshot.data.removeAt(index);
+            snapshot.data.removeAt(index);
+
                 });
+
+
               },
               background: Container(
                 padding: EdgeInsets.symmetric(horizontal: 20),
@@ -77,4 +77,6 @@ class _BodyState extends State<Body> {
     )));
 
   }
+
+ 
 }

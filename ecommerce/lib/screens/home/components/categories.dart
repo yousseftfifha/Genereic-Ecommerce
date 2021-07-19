@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 
 import 'package:http/http.dart' as http;
+import 'package:shop_app/screens/Category/category_screen.dart';
 import 'package:shop_app/screens/home/components/section_title.dart';
 import 'package:shop_app/services/CategoryService.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -29,7 +30,7 @@ class Categories extends StatelessWidget {
                     (index) => CategoryCard(
                       icon: '${snapshot.data[index].url}',
                       text: '${snapshot.data[index].name}',
-                      press: () {},
+                      press: () {Navigator.pushNamed(context, CategoyScreen.routeName,arguments:snapshot.data[index] );},
                     ),
                   ),
                 ),
