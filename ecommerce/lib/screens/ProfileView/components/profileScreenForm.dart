@@ -23,6 +23,11 @@ class ProfileScreenForm extends StatefulWidget {
   get url => null;
 
   @override
+  void initState() {
+    UserService us = new UserService();
+    us.fetchData(profileModel,customer);
+  }
+  @override
   _CompleteProfileFormState createState() => _CompleteProfileFormState();
 }
 
@@ -30,6 +35,12 @@ User profileModel = User();
 Customer customer = Customer();
 
 class _CompleteProfileFormState extends State<ProfileScreenForm> {
+  @override
+  void initState() {
+    super.initState();
+    UserService us = new UserService();
+    us.fetchData(profileModel,customer);
+  }
   final _formKey = GlobalKey<FormState>();
   final List<String> errors = [];
 
@@ -52,12 +63,7 @@ class _CompleteProfileFormState extends State<ProfileScreenForm> {
 
   File _image;
   final picker = ImagePicker();
-  @override
-  void initState() {
-    super.initState();
-    UserService us = new UserService();
-    us.fetchData(profileModel,customer);
-  }
+
   Future getImage() async {
     final pickedFile = await picker.getImage(source: ImageSource.gallery);
     setState(() {

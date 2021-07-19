@@ -17,6 +17,7 @@ class ProductDescription extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(product);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -113,8 +114,7 @@ class ProductDescription extends StatelessWidget {
                 ...List.generate(product.productDetails.length,
                         (index) =>
                        Text(
-                        product.productDetails[index].attribute+":"+product.productDetails[index].value+"\n",
-                        maxLines: 3,
+                        '${product.productDetails[index].attribute}'+":"+'${product.productDetails[index].value}'
                       ),
                     ),
               ],

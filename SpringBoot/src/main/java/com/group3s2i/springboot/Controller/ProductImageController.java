@@ -20,6 +20,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * @author tfifha youssef
@@ -50,24 +51,43 @@ public class ProductImageController {
     }
     @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(value = "/uploadFile/product/{id}", method = RequestMethod.POST ,consumes = "multipart/form-data")
-    public UploadFileResponse uploadFileToCategory(@RequestPart ("file") MultipartFile file1,@PathVariable("id") Long id) {
+    public List<UploadFileResponse> uploadFileToCategory(@RequestParam("files") MultipartFile[] files,@PathVariable("id") Long id) {
         System.out.println("Update User with ID = " + id + "...");
-        String fileName = fileStorageService.storeFile(file1);
+//        String fileName = fileStorageService.storeFile(file1);
+//
+//        String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
+//                .path("/downloadFile/")
+//                .path(fileName)
+//                .toUriString();
+//        ProductImage productImage=new ProductImage ();
+//        productRepository.findById(id).map(product -> {
+//            productImage.setProduct (product);
+//            productImage.setUrl (fileDownloadUri);
+//            return productImageRepository.save(productImage);
+//        }).orElseThrow(() -> new ResourceNotFoundException ("UserID " + id + " not found"));
+//
+//
+//        return new UploadFileResponse(fileName, fileDownloadUri,
+//                file1.getContentType(), file1.getSize());
 
-        String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path("/downloadFile/")
-                .path(fileName)
-                .toUriString();
-        ProductImage productImage=new ProductImage ();
-        productRepository.findById(id).map(product -> {
-            productImage.setProduct (product);
-            productImage.setUrl (fileDownloadUri);
-            return productImageRepository.save(productImage);
-        }).orElseThrow(() -> new ResourceNotFoundException ("UserID " + id + " not found"));
+        return Stream.of (files)
+                .map(file -> { String fileName = fileStorageService.storeFile(file);
+
+                    String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
+                            .path("/downloadFile/")
+                            .path(fileName)
+                            .toUriString();
+                    ProductImage productImage=new ProductImage ();
+                    productRepository.findById(id).map(product -> {
+                        productImage.setProduct (product);
+                        productImage.setUrl (fileDownloadUri);
+                        return productImageRepository.save(productImage);
+                    }).orElseThrow(() -> new ResourceNotFoundException ("UserID " + id + " not found"));
 
 
-        return new UploadFileResponse(fileName, fileDownloadUri,
-                file1.getContentType(), file1.getSize());
+                    return new UploadFileResponse(fileName, fileDownloadUri,
+                            file.getContentType(), file.getSize());})
+                .collect(Collectors.toList());
     }
 
 

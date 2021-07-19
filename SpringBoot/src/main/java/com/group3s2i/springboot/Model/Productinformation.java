@@ -26,6 +26,14 @@ public class Productinformation {
     public Productinformation( ) {
     }
 
+    public Productinformation(Long id, Integer max, Integer min, Integer threshold, Integer security) {
+        this.id = id;
+        this.max = max;
+        this.min = min;
+        this.threshold = threshold;
+        this.security = security;
+    }
+
     public Productinformation(Long id, Integer max, Integer min, Integer threshold, Integer security, Product product) {
         this.id = id;
         this.max = max;

@@ -37,7 +37,8 @@ class Body extends StatelessWidget {
                     itemCount: snapshot.data.length,
                     itemBuilder: (context, index) => Padding(
                       padding: EdgeInsets.symmetric(vertical: 10),
-                        child: ProductCard(product: snapshot.data[index]),
+                         child: ProductCard(product: snapshot.data[index]),
+
                     ),
                   );
                 }

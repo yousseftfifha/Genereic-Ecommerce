@@ -20,6 +20,7 @@ class ProductScreen extends StatelessWidget {
     return Scaffold(
       appBar: buildAppBar(context),
       body: Body(category: category),
+
     );
   }
 

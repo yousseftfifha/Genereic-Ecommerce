@@ -39,7 +39,6 @@ public class ProductController {
     @PostMapping("/product")
     public Product createProduct(@RequestBody Product product){
          product.getInformation().setProduct (product);
-
         return productRepository.save (product);
     }
 
