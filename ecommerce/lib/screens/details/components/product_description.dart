@@ -57,25 +57,71 @@ class ProductDescription extends StatelessWidget {
             horizontal: getProportionateScreenWidth(20),
             vertical: 10,
           ),
-          child: GestureDetector(
-            onTap: () {},
-            child: Row(
-              children: [
-                Text(
-                  "See More Detail",
-                  style: TextStyle(
-                      fontWeight: FontWeight.w600, color: kPrimaryColor),
-                ),
-                SizedBox(width: 5),
-                Icon(
-                  Icons.arrow_forward_ios,
-                  size: 12,
-                  color: kPrimaryColor,
-                ),
-              ],
-            ),
+          child: Text(
+          "Brand:"+product.brand,
+            maxLines: 3,
           ),
-        )
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(
+            horizontal: getProportionateScreenWidth(20),
+            vertical: 10,
+          ),
+          child: Text(
+            "Category:"+product.category.name,
+            maxLines: 3,
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(
+            horizontal: getProportionateScreenWidth(20),
+            vertical: 10,
+          ),
+          child: Text(
+            "Category Description:"+product.category.description,
+            maxLines: 3,
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(
+            horizontal: getProportionateScreenWidth(20),
+            vertical: 10,
+          ),
+          child: Text(
+            "SKU:"+product.sku.toString(),
+            maxLines: 3,
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(
+            horizontal: getProportionateScreenWidth(20),
+            vertical: 10,
+          ),
+          child: Text(
+            "ISBN:"+product.isbn.toString(),
+            maxLines: 3,
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(
+            horizontal: getProportionateScreenWidth(70),
+            vertical: 10,
+          ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                ...List.generate(product.productDetails.length,
+                        (index) =>
+                       Text(
+                        product.productDetails[index].attribute+":"+product.productDetails[index].value+"\n",
+                        maxLines: 3,
+                      ),
+                    ),
+              ],
+            )
+        ),
+
+
       ],
     );
   }

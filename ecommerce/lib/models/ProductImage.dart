@@ -5,7 +5,7 @@ import 'package:json_annotation/json_annotation.dart';
 ProductImage ProductModelJson(String str) =>
     ProductImage.fromJson(json.decode(str));
 
-String UserModelToJson(ProductImage data) => json.encode(data.toJson());
+String ProductImageModelToJson(ProductImage data) => json.encode(data.toJson());
 @JsonSerializable()
 class ProductImage{
   int id;
