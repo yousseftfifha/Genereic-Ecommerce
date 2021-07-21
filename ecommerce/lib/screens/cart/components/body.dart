@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:shop_app/models/Cart.dart';
 import 'package:shop_app/services/CartService.dart';
 
-import '../../../size_config.dart';
+import '../cart_screen.dart';
 import 'cart_card.dart';
 
 class Body extends StatefulWidget {
@@ -14,11 +13,10 @@ class Body extends StatefulWidget {
 class _BodyState extends State<Body> {
   @override
   Widget build(BuildContext context) {
-    CartService cs=new CartService();
+    CartService cs = new CartService();
     return Scaffold(
-
         body: Container(
-            child:FutureBuilder(
+            child: FutureBuilder(
                 future: cs.fetchData(),
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
                   if (snapshot.data == null) {
@@ -32,7 +30,7 @@ class _BodyState extends State<Body> {
                         key: Key(snapshot.data[index].id.toString()),
                         direction: DismissDirection.endToStart,
                         onDismissed: (direction) {
-                          // Navigator.pushNamed(context,ProductScreen.routeName,arguments: snapshot.data[index]);
+                          cs.RemoveFromCart(snapshot.data[index], context);
                           setState(() {
                             snapshot.data.removeAt(index);
                           });
@@ -54,8 +52,6 @@ class _BodyState extends State<Body> {
                       ),
                     ),
                   );
-                }
-            )));
-
+                })));
   }
 }

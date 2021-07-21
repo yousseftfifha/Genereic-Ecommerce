@@ -31,7 +31,7 @@ class UserService {
     }
   }
 
-  Future<User> registerUser(
+  Future registerUser(
       String username,
       String email,
       String password,
@@ -64,6 +64,7 @@ class UserService {
     String email = "";
     SharedPreferences preferences = await SharedPreferences.getInstance();
     email = preferences.getString('username');
+
     print(email);
     var data = await http
         .get('http://localhost:8081/api/Users/username/' + email.toString());

@@ -22,8 +22,7 @@ class CartService {
     return carts;
   }
 
-  Future<Cart> AddToCart(
-      Product product, int Quantity, BuildContext context) async {
+  Future AddToCart(Product product, int Quantity, BuildContext context) async {
     var response = await http.post(url,
         headers: <String, String>{"Content-Type": "application/json"},
         body: jsonEncode(
@@ -31,5 +30,15 @@ class CartService {
 
     String responseString = response.body;
     print(responseString);
+  }
+
+  Future RemoveFromCart(Cart cart, BuildContext context) async {
+    var Url = url + '/' + (cart.id).toString();
+    var response = await http.delete(
+      Url,
+      headers: <String, String>{"Content-Type": "application/json"},
+    );
+
+    print(response.body);
   }
 }
