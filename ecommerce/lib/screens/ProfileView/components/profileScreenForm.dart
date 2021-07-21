@@ -12,7 +12,6 @@ import 'package:shop_app/components/form_error.dart';
 import 'package:shop_app/models/Customer.dart';
 import 'package:shop_app/models/User.dart';
 import 'package:shop_app/screens/login_success/login_success_screen.dart';
-import 'package:shop_app/screens/otp/otp_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shop_app/services/UserService.dart';
 
@@ -20,7 +19,6 @@ import '../../../constants.dart';
 import '../../../size_config.dart';
 
 class ProfileScreenForm extends StatefulWidget {
-  get url => null;
 
   @override
   void initState() {
@@ -91,7 +89,7 @@ class _CompleteProfileFormState extends State<ProfileScreenForm> {
     });
   }
 
-  Future<String> uploadImage(filename, url) async {
+  Future<String> uploadImage(filename) async {
     var Url = 'http://localhost:8081/uploadFile/customer/' +
         '${profileModel.customer.id}'.toString();
 
@@ -269,7 +267,7 @@ class _CompleteProfileFormState extends State<ProfileScreenForm> {
                   var file =
                       await ImagePicker.pickImage(source: ImageSource.gallery);
                   if (file.path != null) {
-                    var res = await uploadImage(file.path, widget.url);
+                    var res = await uploadImage(file.path);
                     setState(() {
                       state = res;
                       print(res);

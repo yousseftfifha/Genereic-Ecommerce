@@ -17,7 +17,9 @@ class ProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return Row(
+
       children: [
         SizedBox(
           width: 88,
@@ -29,7 +31,7 @@ class ProductCard extends StatelessWidget {
                 color: Color(0xFFF5F6F9),
                 borderRadius: BorderRadius.circular(15),
               ),
-              child: SvgPicture.network('${product.productImage[0].url}'),
+              child: Image.network('${product.productImage[0].url}'),
             ),
           ),
         ),
@@ -47,6 +49,7 @@ class ProductCard extends StatelessWidget {
           ],
         )
       ],
+
     );
   }
 }

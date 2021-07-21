@@ -46,7 +46,7 @@ class ProductService {
     for (var jsonData in jsonDatas) {
       Iterable list = jsonData['productImages'];
       List<ProductImage> productImage=list.map((i) => ProductImage.fromJson(i)).toList();
-      Iterable list1 = jsonData['productImages'];
+      Iterable list1 = jsonData['details'];
       List<ProductDetails> productDetails=list1.map((i) => ProductDetails.fromJson(i)).toList();
       category=Category.fromJson(jsonData["category"]);
       productInformations=ProductInformation.fromJson(jsonData["information"]);

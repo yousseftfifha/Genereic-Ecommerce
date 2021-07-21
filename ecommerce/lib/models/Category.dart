@@ -33,13 +33,6 @@ class Category {
   };
 
 
-  int get ID => id;
-
-  String get namee =>name;
-
-  String get desc =>description;
-
-  String get u =>url;
   @override
   String toString() {
     return 'Category{id: $id, name: $name, description: $description, url: $url}';
