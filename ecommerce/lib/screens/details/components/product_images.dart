@@ -28,7 +28,7 @@ class _ProductImagesState extends State<ProductImages> {
             aspectRatio: 1,
             child: Hero(
               tag: widget.product.id.toString(),
-              child: Image.network('${widget.product.productImage[selectedImage].url}'),
+              child: Image.network('${widget.product.productImages[selectedImage].url}'),
             ),
           ),
         ),
@@ -38,7 +38,7 @@ class _ProductImagesState extends State<ProductImages> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                ...List.generate(widget.product.productImage.length,
+                ...List.generate(widget.product.productImages.length,
                         (index) => buildSmallProductPreview(index)),
               ],
             )
@@ -67,7 +67,7 @@ class _ProductImagesState extends State<ProductImages> {
           border: Border.all(
               color: kPrimaryColor.withOpacity(selectedImage == index ? 1 : 0)),
         ),
-        child: Image.network('${widget.product.productImage[index].url}'),
+        child: Image.network('${widget.product.productImages[index].url}'),
       ),
     );
   }

@@ -1,44 +1,40 @@
+// To parse this JSON data, do
+//
+//     final cart = cartFromJson(jsonString);
 
 import 'dart:convert';
 
-import 'package:shop_app/models/User.dart';
-
-import 'Customer.dart';
 import 'Product.dart';
+import 'User.dart';
 
-Cart CartModelJson(String str) => Cart.fromJson(json.decode(str));
+Cart cartFromJson(String str) => Cart.fromJson(json.decode(str));
 
-String CartModelToJson(Cart data) => json.encode(data.toJson());
+String cartToJson(Cart data) => json.encode(data.toJson());
 
 class Cart {
+  Cart({
+    this.id,
+    this.product,
+    this.user,
+    this.quantity,
+  });
+
   int id;
   Product product;
-  int quantity;
   User user;
-  Cart(
-      {this.id,
-        this.product,
-        this.quantity,
-        this.user
-      });
+  int quantity;
 
-  factory Cart.fromJson(Map<dynamic, dynamic> json) => Cart(
-      id: json["id"],
-      quantity: json["quantity"],
-  );
+  factory Cart.fromJson(Map<String, dynamic> json) => Cart(
+        id: json["id"],
+        product: Product.fromJson(json["product"]),
+        user: User.fromJson(json["user"]),
+        quantity: json["quantity"],
+      );
 
   Map<String, dynamic> toJson() => {
-    'id': id,
-    "product": product,
-    "quantity": quantity,
-    "user":user
-  };
-
-  @override
-  String toString() {
-    return 'Cart{id: $id, product: $product, quantity: $quantity, user: $user}';
-  }
+        "id": id,
+        "product": product.toJson(),
+        "user": user.toJson(),
+        "quantity": quantity,
+      };
 }
-
-// Demo data for our cart
-

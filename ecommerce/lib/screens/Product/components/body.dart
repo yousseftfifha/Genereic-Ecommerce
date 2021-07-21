@@ -2,16 +2,13 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:shop_app/models/Cart.dart';
 import 'package:shop_app/models/Category.dart';
 import 'package:shop_app/models/Product.dart';
 import 'package:shop_app/screens/Product/components/product_card.dart';
 import 'package:shop_app/screens/details/details_screen.dart';
 import 'package:shop_app/services/ProductService.dart';
 
-import '../../../size_config.dart';
 import 'package:http/http.dart' as http;
-
 
 class Body extends StatefulWidget {
   final Category category;
@@ -21,17 +18,17 @@ class Body extends StatefulWidget {
   @override
   _prodScreen createState() => _prodScreen();
 }
-class _prodScreen extends State<Body> {
 
+class _prodScreen extends State<Body> {
   @override
   Widget build(BuildContext context) {
-    ProductService ps=new ProductService();
+    ProductService ps = new ProductService();
 
     return Scaffold(
 
-      // padding: EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
+        // padding: EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
         body: Container(
-            child:FutureBuilder(
+            child: FutureBuilder(
                 future: ps.fetchDataByCategory(widget.category.id),
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
                   if (snapshot.data == null) {
@@ -40,7 +37,6 @@ class _prodScreen extends State<Body> {
                   return ListView.builder(
                     itemCount: snapshot.data.length,
                     itemBuilder: (context, index) => Padding(
-
                       padding: EdgeInsets.symmetric(vertical: 10),
                       child: Dismissible(
                         key: Key(snapshot.data[index].id.toString()),
@@ -49,12 +45,13 @@ class _prodScreen extends State<Body> {
                           Navigator.pushNamed(
                             context,
                             DetailsScreen.routeName,
-                            arguments: ProductDetailsArguments(product: snapshot.data[index]),
+                            arguments: ProductDetailsArguments(
+                                product: snapshot.data[index]),
                           );
                           setState(() {
                             snapshot.data.removeAt(index);
-
-                          });                        },
+                          });
+                        },
                         background: Container(
                           padding: EdgeInsets.symmetric(horizontal: 20),
                           decoration: BoxDecoration(
@@ -65,19 +62,13 @@ class _prodScreen extends State<Body> {
                             children: [
                               Spacer(),
                               SvgPicture.asset("assets/icons/arrow_right.svg"),
-
                             ],
                           ),
                         ),
                         child: ProductCard(product: snapshot.data[index]),
                       ),
-
                     ),
                   );
-                }
-            )));
-
+                })));
   }
-
-
 }

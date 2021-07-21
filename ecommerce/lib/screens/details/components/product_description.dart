@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shop_app/models/Product.dart';
 
 import '../../../constants.dart';
@@ -34,7 +33,6 @@ class ProductDescription extends StatelessWidget {
             padding: EdgeInsets.all(getProportionateScreenWidth(15)),
             width: getProportionateScreenWidth(64),
             decoration: BoxDecoration(
-
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(20),
                 bottomLeft: Radius.circular(20),
@@ -48,7 +46,7 @@ class ProductDescription extends StatelessWidget {
             right: getProportionateScreenWidth(64),
           ),
           child: Text(
-            "${product.mouvement.unit_price} \TND",
+            "${product.mouvement.unitPrice} \TND",
             style: TextStyle(
               fontSize: getProportionateScreenWidth(18),
               fontWeight: FontWeight.w600,
@@ -72,7 +70,7 @@ class ProductDescription extends StatelessWidget {
             vertical: 10,
           ),
           child: Text(
-          "Brand:"+product.brand,
+            "Brand:" + product.brand,
             maxLines: 3,
           ),
         ),
@@ -82,7 +80,7 @@ class ProductDescription extends StatelessWidget {
             vertical: 10,
           ),
           child: Text(
-            "Category:"+product.category.name,
+            "Category:" + product.category.name,
             maxLines: 3,
           ),
         ),
@@ -92,7 +90,7 @@ class ProductDescription extends StatelessWidget {
             vertical: 10,
           ),
           child: Text(
-            "Category Description:"+product.category.description,
+            "Category Description:" + product.category.description,
             maxLines: 3,
           ),
         ),
@@ -102,7 +100,7 @@ class ProductDescription extends StatelessWidget {
             vertical: 10,
           ),
           child: Text(
-            "SKU:"+product.sku.toString(),
+            "SKU:" + product.sku.toString(),
             maxLines: 3,
           ),
         ),
@@ -112,29 +110,26 @@ class ProductDescription extends StatelessWidget {
             vertical: 10,
           ),
           child: Text(
-            "ISBN:"+product.isbn.toString(),
+            "ISBN:" + product.isbn.toString(),
             maxLines: 3,
           ),
         ),
         Padding(
-          padding: EdgeInsets.symmetric(
-            horizontal: getProportionateScreenWidth(70),
-            vertical: 10,
-          ),
+            padding: EdgeInsets.symmetric(
+              horizontal: getProportionateScreenWidth(70),
+              vertical: 10,
+            ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                ...List.generate(product.productDetails.length,
-                        (index) =>
-                       Text(
-                        '${product.productDetails[index].attribute}'+":"+'${product.productDetails[index].value}'
-                      ),
-                    ),
+                ...List.generate(
+                  product.details.length,
+                  (index) => Text('${product.details[index].attribute}' +
+                      ":" +
+                      '${product.details[index].value}'),
+                ),
               ],
-            )
-        ),
-
-
+            )),
       ],
     );
   }

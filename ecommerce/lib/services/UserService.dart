@@ -13,7 +13,7 @@ class UserService {
   String url = "http://localhost:8081/api/auth";
 
   Future login(String username, String password, BuildContext context) async {
-    var res = await http.post(url+"/signin",
+    var res = await http.post(url + "/signin",
         headers: {'Content-Type': 'application/json'},
         body: json.encode({'username': username, 'password': password}));
     print(res.body);
@@ -41,7 +41,7 @@ class UserService {
       int Cellphone,
       DateTime DateOfBirth,
       BuildContext context) async {
-    var response = await http.post(url+"/signup",
+    var response = await http.post(url + "/signup",
         headers: <String, String>{"Content-Type": "application/json"},
         body: jsonEncode(<dynamic, dynamic>{
           "username": username,
@@ -59,28 +59,17 @@ class UserService {
     String responseString = response.body;
     print(responseString);
   }
-  Future<User> fetchData(User profileModel,Customer customer) async {
+
+  Future<User> fetchData() async {
     String email = "";
     SharedPreferences preferences = await SharedPreferences.getInstance();
     email = preferences.getString('username');
     print(email);
-
-    var data = await http.get('http://localhost:8081/api/Users/username/'+email.toString());
+    var data = await http
+        .get('http://localhost:8081/api/Users/username/' + email.toString());
     var jsonData = json.decode(data.body);
-    profileModel.id = jsonData["id"];
-    profileModel.username = jsonData["username"];
-    profileModel.email = jsonData["email"];
-    customer.id = jsonData["customer"]["id"];
-    customer.firstname = jsonData["customer"]["firstName"];
-    customer.lastname = jsonData["customer"]["lastName"];
-    customer.cellphone = int.parse(jsonData["customer"]["phoneNumber"]);
-    customer.gender = jsonData["customer"]["gender"];
-    customer.url = jsonData["customer"]["url"];
-    customer.dateOfBirth = DateTime.parse(DateFormat('yyyy-MM-dd')
-        .format(DateTime.parse(jsonData["customer"]["dateOfBirth"])));
+    User user = User.fromJson(jsonData);
 
-    profileModel.customer = customer;
-
-    return profileModel;
+    return user;
   }
 }

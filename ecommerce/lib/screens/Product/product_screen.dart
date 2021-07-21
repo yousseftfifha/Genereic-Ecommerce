@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:shop_app/models/Cart.dart';
 import 'package:shop_app/models/Category.dart';
 import 'package:shop_app/models/Product.dart';
 
@@ -15,12 +14,10 @@ class ProductScreen extends StatelessWidget {
   final Category category;
   @override
   Widget build(BuildContext context) {
-    final Category  category =
-        ModalRoute.of(context).settings.arguments;
+    final Category category = ModalRoute.of(context).settings.arguments;
     return Scaffold(
       appBar: buildAppBar(context),
       body: Body(category: category),
-
     );
   }
 
@@ -32,7 +29,6 @@ class ProductScreen extends StatelessWidget {
             " Products",
             style: TextStyle(color: Colors.black),
           ),
-
         ],
       ),
     );

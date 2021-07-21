@@ -1,38 +1,63 @@
+// To parse this JSON data, do
+//
+//     final user = userFromJson(jsonString);
+
 import 'dart:convert';
-import 'package:json_annotation/json_annotation.dart';
-import 'package:shop_app/models/Customer.dart';
 
-User UserModelJson(String str) => User.fromJson(json.decode(str));
+import 'Customer.dart';
 
-String UserModelToJson(User data) => json.encode(data.toJson());
+User userFromJson(String str) => User.fromJson(json.decode(str));
 
-@JsonSerializable()
+String userToJson(User data) => json.encode(data.toJson());
+
 class User {
+  User({
+    this.id,
+    this.username,
+    this.password,
+    this.email,
+    this.customer,
+  });
+
   int id;
-  String email;
   String username;
   String password;
-  Customer customer = Customer();
-  User({this.id, this.email, this.username, this.password, this.customer});
-  factory User.fromJson(Map<dynamic, dynamic> json) => User(
-      id: json["id"],
-      email: json["email"],
-      username: json["username"],
-      password: json["password"]);
+  String email;
+  Customer customer;
+
+  factory User.fromJson(Map<String, dynamic> json) => User(
+        id: json["id"],
+        username: json["username"],
+        password: json["password"],
+        email: json["email"],
+        customer: Customer.fromJson(json["customer"]),
+      );
 
   Map<String, dynamic> toJson() => {
-        'id': id,
+        "id": id,
         "username": username,
-        "email": email,
         "password": password,
+        "email": email,
+        "customer": customer.toJson(),
       };
-  String get mail => email;
+}
 
-  String get pwd => password;
+class Role {
+  Role({
+    this.id,
+    this.name,
+  });
 
-  String get usr => username;
+  int id;
+  String name;
 
-  int get ID => id;
+  factory Role.fromJson(Map<String, dynamic> json) => Role(
+        id: json["id"],
+        name: json["name"],
+      );
 
-  Customer get cs => customer;
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "name": name,
+      };
 }

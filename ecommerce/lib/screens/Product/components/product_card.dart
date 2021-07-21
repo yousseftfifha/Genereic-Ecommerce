@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:shop_app/models/Cart.dart';
-import 'package:shop_app/models/Category.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shop_app/models/Product.dart';
 
 import '../../../constants.dart';
@@ -31,7 +28,7 @@ class ProductCard extends StatelessWidget {
                 color: Color(0xFFF5F6F9),
                 borderRadius: BorderRadius.circular(15),
               ),
-              child: Image.network('${product.productImage[0].url}'),
+              child: Image.network('${product.productImages[0].url}'),
             ),
           ),
         ),
@@ -48,7 +45,7 @@ class ProductCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "${product.mouvement.unit_price} \TND",
+                  "${product.mouvement.unitPrice} \TND",
                   style: TextStyle(
                     fontSize: getProportionateScreenWidth(18),
                     fontWeight: FontWeight.w600,

@@ -1,41 +1,35 @@
-import 'dart:convert';
-
-Mouvement MouvementModelJson(String str) => Mouvement.fromJson(json.decode(str));
-
-String MouvementModelToJson(Mouvement data) => json.encode(data.toJson());
-
 class Mouvement {
+  Mouvement({
+    this.id,
+    this.ins,
+    this.outs,
+    this.transfered,
+    this.unitPrice,
+    this.quantity,
+  });
+
   int id;
-  int quantity;
   int ins;
   int outs;
   int transfered;
-  double unit_price;
+  double unitPrice;
+  int quantity;
 
-  Mouvement(
-      {this.id,
-        this.quantity,
-        this.ins,
-        this.outs,
-        this.transfered,
-        this.unit_price});
+  factory Mouvement.fromJson(Map<String, dynamic> json) => Mouvement(
+        id: json["id"],
+        ins: json["ins"],
+        outs: json["outs"],
+        transfered: json["transfered"],
+        unitPrice: json["unit_price"].toDouble(),
+        quantity: json["quantity"],
+      );
 
-  factory Mouvement.fromJson(Map<dynamic, dynamic> json) => Mouvement(
-      id: json["id"],
-      quantity: json["quantity"],
-      ins: json["ins"],
-      outs: json["outs"],
-      transfered: json["transfered"],
-      unit_price: json["unit_price"]);
-
-  Map<dynamic, dynamic> toJson() => {
-    'id': id,
-    "quantity": quantity,
-    "ins": ins,
-    "outs": outs,
-    "transfered": transfered,
-    "unit_price":unit_price
-  };
-
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "ins": ins,
+        "outs": outs,
+        "transfered": transfered,
+        "unit_price": unitPrice,
+        "quantity": quantity,
+      };
 }
-

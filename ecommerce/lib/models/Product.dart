@@ -1,73 +1,82 @@
+// To parse this JSON data, do
+//
+//     final product = productFromJson(jsonString);
 
 import 'dart:convert';
 
-import 'package:json_annotation/json_annotation.dart';
-import 'package:shop_app/models/Category.dart';
-import 'package:shop_app/models/Mouvment.dart';
-import 'package:shop_app/models/ProductDetails.dart';
-import 'package:shop_app/models/ProductInformation.dart';
-import 'package:shop_app/models/ProductImage.dart';
-import 'package:shop_app/screens/details/components/product_images.dart';
-Product ProductModelJson(String str) =>
-    Product.fromJson(json.decode(str));
+import 'Category.dart';
+import 'Details.dart';
+import 'Informations.dart';
+import 'Mouvment.dart';
+import 'ProductImage.dart';
 
-String UserModelToJson(Product data) => json.encode(data.toJson());
-@JsonSerializable()
-class Product{
-  int id;
-  String code;
-  String tmpCode;
-  int sku;
-  int isbn;
-  String name;
-  String brand;
-  String description;
-  Category category=new Category();
-  ProductInformation productInformation=new ProductInformation();
-  List<ProductImage> productImage=new  List<ProductImage>();
-  List<ProductDetails> productDetails=new List<ProductDetails>();
-  Mouvement mouvement=new Mouvement();
+Product productFromJson(String str) => Product.fromJson(json.decode(str));
+
+String productToJson(Product data) => json.encode(data.toJson());
+
+class Product {
   Product({
     this.id,
-    this.code,
     this.tmpCode,
+    this.code,
+    this.name,
+    this.description,
+    this.brand,
     this.sku,
     this.isbn,
-    this.name,
-    this.brand,
-    this.description,
     this.category,
-    this.productInformation,
-    this.productImage,
-    this.productDetails,
-    this.mouvement
+    this.information,
+    this.mouvement,
+    this.productImages,
+    this.details,
   });
-  factory Product.fromJson(Map<dynamic, dynamic> json) =>
 
-      Product(
-          id: json["id"],
-          code: json["code"],
+  int id;
+  String tmpCode;
+  String code;
+  String name;
+  String description;
+  String brand;
+  int sku;
+  int isbn;
+  Category category;
+  Information information;
+  Mouvement mouvement;
+  List<ProductImage> productImages;
+  List<Detail> details;
+
+  factory Product.fromJson(Map<dynamic, dynamic> json) => Product(
+        id: json["id"],
         tmpCode: json["tmpCode"],
-          sku: json["sku"],
-          isbn: json["isbn"],
-          name: json["name"],
-          brand: json["brand"],
-          description: json["description"]
+        code: json["code"],
+        name: json["name"],
+        description: json["description"],
+        brand: json["brand"],
+        sku: json["sku"],
+        isbn: json["isbn"],
+        category: Category.fromJson(json["category"]),
+        information: Information.fromJson(json["information"]),
+        mouvement: Mouvement.fromJson(json["mouvement"]),
+        productImages: List<ProductImage>.from(
+            json["productImages"].map((x) => ProductImage.fromJson(x))),
+        details:
+            List<Detail>.from(json["details"].map((x) => Detail.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
-    'id': id,
-    "code": code,
-    "tmpCode":tmpCode,
-    "sku":sku,
-    "isbn":isbn,
-    "name":name,
-    "brand":brand,
-    "description":description
-  };
-
-  @override
-  String toString() {
-    return 'Product{id: $id, code: $code, tmpCode: $tmpCode, sku: $sku, isbn: $isbn, name: $name, brand: $brand, description: $description, category: $category, productInformation: $productInformation, productImage: $productImage, productDetails: $productDetails, mouvement: $mouvement}';
-  }
+        "id": id,
+        "tmpCode": tmpCode,
+        "code": code,
+        "name": name,
+        "description": description,
+        "brand": brand,
+        "sku": sku,
+        "isbn": isbn,
+        "category": category.toJson(),
+        "information": information.toJson(),
+        "mouvement": mouvement.toJson(),
+        "productImages":
+            List<dynamic>.from(productImages.map((x) => x.toJson())),
+        "details": List<dynamic>.from(details.map((x) => x.toJson())),
+      };
 }

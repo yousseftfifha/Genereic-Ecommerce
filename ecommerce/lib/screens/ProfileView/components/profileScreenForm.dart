@@ -1,44 +1,24 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:date_field/date_field.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:intl/intl.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shop_app/components/custom_surfix_icon.dart';
-import 'package:shop_app/components/default_button.dart';
-import 'package:shop_app/components/form_error.dart';
-import 'package:shop_app/models/Customer.dart';
 import 'package:shop_app/models/User.dart';
-import 'package:shop_app/screens/login_success/login_success_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:shop_app/services/UserService.dart';
 
-import '../../../constants.dart';
 import '../../../size_config.dart';
 
 class ProfileScreenForm extends StatefulWidget {
+  final User profileModel;
 
-  @override
-  void initState() {
-    UserService us = new UserService();
-    us.fetchData(profileModel,customer);
-  }
+  const ProfileScreenForm({Key key, @required this.profileModel})
+      : super(key: key);
   @override
   _CompleteProfileFormState createState() => _CompleteProfileFormState();
 }
 
-User profileModel = User();
-Customer customer = Customer();
-
 class _CompleteProfileFormState extends State<ProfileScreenForm> {
-  @override
-  void initState() {
-    super.initState();
-    UserService us = new UserService();
-    us.fetchData(profileModel,customer);
-  }
   final _formKey = GlobalKey<FormState>();
   final List<String> errors = [];
 
@@ -72,7 +52,7 @@ class _CompleteProfileFormState extends State<ProfileScreenForm> {
       }
     });
     var Url = 'http://localhost:8081/uploadFile/customer/' +
-        '${profileModel.customer.id}'.toString();
+        '${widget.profileModel.customer.id}'.toString();
     var response = await http.put(Url,
         headers: <String, String>{"Content-Type": "application/json"},
         body: json.encode({'url': _image}));
@@ -91,21 +71,13 @@ class _CompleteProfileFormState extends State<ProfileScreenForm> {
 
   Future<String> uploadImage(filename) async {
     var Url = 'http://localhost:8081/uploadFile/customer/' +
-        '${profileModel.customer.id}'.toString();
+        '${widget.profileModel.customer.id}'.toString();
 
     var request = http.MultipartRequest('PUT', Uri.parse(Url));
     request.files.add(await http.MultipartFile.fromPath('file', filename));
     var res = await request.send();
     return res.reasonPhrase;
-    // var res = await http.put(url,
-    //     headers: {'Content-Type': 'application/json'},
-    //     body: json.encode({'file': username, 'password': password}));
-    // print(res.body);
-    // final int statusCode = res.statusCode;
-    // print(statusCode);
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -113,6 +85,7 @@ class _CompleteProfileFormState extends State<ProfileScreenForm> {
       key: _formKey,
       child: Column(
         children: [
+          SizedBox(height: 20),
           ProfilePic1(),
           SizedBox(height: 20),
           Username(),
@@ -137,7 +110,8 @@ class _CompleteProfileFormState extends State<ProfileScreenForm> {
   TextField Username() {
     return TextField(
       enabled: false,
-      controller: TextEditingController()..text = '${profileModel.username}',
+      controller: TextEditingController()
+        ..text = '${widget.profileModel.username}',
       decoration: InputDecoration(
         labelText: "Username:",
         // If  you are using latest version of flutter then lable text and hint text shown like this
@@ -151,7 +125,8 @@ class _CompleteProfileFormState extends State<ProfileScreenForm> {
   TextField Email() {
     return TextField(
       enabled: false,
-      controller: TextEditingController()..text = '${profileModel.email}',
+      controller: TextEditingController()
+        ..text = '${widget.profileModel.email}',
       decoration: InputDecoration(
         labelText: "Email:",
         // If  you are using latest version of flutter then lable text and hint text shown like this
@@ -167,7 +142,7 @@ class _CompleteProfileFormState extends State<ProfileScreenForm> {
     return TextField(
       enabled: false,
       controller: TextEditingController()
-        ..text = '${profileModel.customer.firstname}',
+        ..text = '${widget.profileModel.customer.firstName}',
       decoration: InputDecoration(
         labelText: "Firstname:",
         // If  you are using latest version of flutter then lable text and hint text shown like this
@@ -182,7 +157,7 @@ class _CompleteProfileFormState extends State<ProfileScreenForm> {
     return TextField(
       enabled: false,
       controller: TextEditingController()
-        ..text = '${profileModel.customer.lastname}',
+        ..text = '${widget.profileModel.customer.lastName}',
       decoration: InputDecoration(
         labelText: "Lastname:",
         // If  you are using latest version of flutter then lable text and hint text shown like this
@@ -197,7 +172,7 @@ class _CompleteProfileFormState extends State<ProfileScreenForm> {
     return TextField(
       enabled: false,
       controller: TextEditingController()
-        ..text = '${profileModel.customer.cellphone}',
+        ..text = '${widget.profileModel.customer.phoneNumber}',
       decoration: InputDecoration(
         labelText: "Cellphone:",
         // If  you are using latest version of flutter then lable text and hint text shown like this
@@ -212,7 +187,7 @@ class _CompleteProfileFormState extends State<ProfileScreenForm> {
     return TextField(
       enabled: false,
       controller: TextEditingController()
-        ..text = '${profileModel.customer.gender}',
+        ..text = '${widget.profileModel.customer.gender}',
       decoration: InputDecoration(
         labelText: "Gender:",
         // If  you are using latest version of flutter then lable text and hint text shown like this
@@ -227,7 +202,7 @@ class _CompleteProfileFormState extends State<ProfileScreenForm> {
     return TextField(
       enabled: false,
       controller: TextEditingController()
-        ..text = '${profileModel.customer.dateOfBirth}',
+        ..text = '${widget.profileModel.customer.dateOfBirth}',
       decoration: InputDecoration(
         labelText: "Date of birth:",
         // If  you are using latest version of flutter then lable text and hint text shown like this
@@ -249,7 +224,7 @@ class _CompleteProfileFormState extends State<ProfileScreenForm> {
         fit: StackFit.expand,
         children: [
           CircleAvatar(
-            child: Image.network('${profileModel.customer.url}'),
+            child: Image.network('${widget.profileModel.customer.url}'),
           ),
           Positioned(
             right: -16,

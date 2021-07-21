@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:shop_app/models/Cart.dart';
-import 'package:shop_app/models/Category.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:shop_app/models/Category.dart';
+import 'package:shop_app/models/Product.dart';
 
-import '../../../constants.dart';
 import '../../../size_config.dart';
 
 class CategoryCard extends StatelessWidget {
@@ -42,7 +41,6 @@ class CategoryCard extends StatelessWidget {
               maxLines: 2,
             ),
             SizedBox(height: 20),
-
           ],
         )
       ],

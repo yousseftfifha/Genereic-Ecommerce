@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shop_app/models/Product.dart';
 import 'package:shop_app/screens/details/details_screen.dart';
 
@@ -41,8 +40,8 @@ class ProductCard extends StatelessWidget {
                     borderRadius: BorderRadius.circular(15),
                   ),
                   child: Hero(
-                   tag: product.id,
-                   child: Image.network('${product.productImage[0].url}'),
+                    tag: product.id,
+                    child: Image.network('${product.productImages[0].url}'),
                   ),
                 ),
               ),
@@ -56,7 +55,7 @@ class ProductCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "${product.mouvement.unit_price} \TND",
+                    "${product.mouvement.unitPrice} \TND",
                     style: TextStyle(
                       fontSize: getProportionateScreenWidth(18),
                       fontWeight: FontWeight.w600,
@@ -70,7 +69,6 @@ class ProductCard extends StatelessWidget {
                       padding: EdgeInsets.all(getProportionateScreenWidth(8)),
                       height: getProportionateScreenWidth(28),
                       width: getProportionateScreenWidth(28),
-
                     ),
                   ),
                 ],

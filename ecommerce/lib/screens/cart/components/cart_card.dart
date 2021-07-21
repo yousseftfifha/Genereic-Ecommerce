@@ -26,7 +26,7 @@ class CartCard extends StatelessWidget {
                 color: Color(0xFFF5F6F9),
                 borderRadius: BorderRadius.circular(15),
               ),
-             child: Image.network(cart.product.productImage[0].url),
+              child: Image.network(cart.product.productImages[0].url),
             ),
           ),
         ),
@@ -42,7 +42,7 @@ class CartCard extends StatelessWidget {
             SizedBox(height: 10),
             Text.rich(
               TextSpan(
-               text: "${cart.product.mouvement.unit_price} \TND",
+                text: "${cart.product.mouvement.unitPrice} \TND",
                 style: TextStyle(
                     fontWeight: FontWeight.w600, color: kPrimaryColor),
                 children: [

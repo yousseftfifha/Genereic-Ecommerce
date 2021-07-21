@@ -1,43 +1,40 @@
-import 'dart:convert';
-
-Customer UserModelJson(String str) => Customer.fromJson(json.decode(str));
-
-String CustomerModelToJson(Customer data) => json.encode(data.toJson());
-
 class Customer {
+  Customer({
+    this.id,
+    this.firstName,
+    this.lastName,
+    this.phoneNumber,
+    this.gender,
+    this.dateOfBirth,
+    this.url,
+  });
+
   int id;
-  String firstname;
-  String lastname;
+  String firstName;
+  String lastName;
+  String phoneNumber;
   String gender;
-  int cellphone;
   DateTime dateOfBirth;
   String url;
 
-  Customer(
-      {this.id,
-      this.firstname,
-      this.lastname,
-      this.gender,
-      this.cellphone,
-      this.dateOfBirth,
-      this.url});
+  factory Customer.fromJson(Map<String, dynamic> json) => Customer(
+        id: json["id"],
+        firstName: json["firstName"],
+        lastName: json["lastName"],
+        phoneNumber: json["phoneNumber"],
+        gender: json["gender"],
+        dateOfBirth: DateTime.parse(json["dateOfBirth"]),
+        url: json["url"],
+      );
 
-  factory Customer.fromJson(Map<dynamic, dynamic> json) => Customer(
-      id: json["id"],
-      firstname: json["firstName"],
-      lastname: json["lastName"],
-      gender: json["gender"],
-      cellphone: int.parse(json["phoneNumber"]),
-      dateOfBirth: DateTime.parse(json["dateOfBirth"]),
-      url: json["url"]);
-
-  Map<dynamic, dynamic> toJson() => {
-        'id': id,
-        "firstName": firstname,
-        "lastName": lastname,
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "firstName": firstName,
+        "lastName": lastName,
+        "phoneNumber": phoneNumber,
         "gender": gender,
-        "phoneNumber": cellphone,
-        "dateOfBirth": dateOfBirth,
-        "url": url
+        "dateOfBirth":
+            "${dateOfBirth.year.toString().padLeft(4, '0')}-${dateOfBirth.month.toString().padLeft(2, '0')}-${dateOfBirth.day.toString().padLeft(2, '0')}",
+        "url": url,
       };
 }
