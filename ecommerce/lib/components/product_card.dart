@@ -55,14 +55,14 @@ class ProductCard extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  // Text(
-                  //   "\$${product.price}",
-                  //   style: TextStyle(
-                  //     fontSize: getProportionateScreenWidth(18),
-                  //     fontWeight: FontWeight.w600,
-                  //     color: kPrimaryColor,
-                  //   ),
-                  // ),
+                  Text(
+                    "${product.mouvement.unit_price} \TND",
+                    style: TextStyle(
+                      fontSize: getProportionateScreenWidth(18),
+                      fontWeight: FontWeight.w600,
+                      color: kPrimaryColor,
+                    ),
+                  ),
                   InkWell(
                     borderRadius: BorderRadius.circular(50),
                     onTap: () {},

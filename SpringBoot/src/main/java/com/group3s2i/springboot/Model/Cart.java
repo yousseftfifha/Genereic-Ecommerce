@@ -23,7 +23,7 @@ public class Cart {
     private Product product;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "customer_id")
     @ToString.Exclude
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private User user;

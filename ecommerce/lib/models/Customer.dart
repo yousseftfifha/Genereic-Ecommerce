@@ -5,7 +5,7 @@ Customer UserModelJson(String str) => Customer.fromJson(json.decode(str));
 String CustomerModelToJson(Customer data) => json.encode(data.toJson());
 
 class Customer {
-   int id;
+  int id;
   String firstname;
   String lastname;
   String gender;
@@ -27,10 +27,9 @@ class Customer {
       firstname: json["firstName"],
       lastname: json["lastName"],
       gender: json["gender"],
-      cellphone: json["phoneNumber"],
-      dateOfBirth: json["dateOfBirth"],
-    url: json["url"]
-  );
+      cellphone: int.parse(json["phoneNumber"]),
+      dateOfBirth: DateTime.parse(json["dateOfBirth"]),
+      url: json["url"]);
 
   Map<dynamic, dynamic> toJson() => {
         'id': id,
@@ -39,20 +38,6 @@ class Customer {
         "gender": gender,
         "phoneNumber": cellphone,
         "dateOfBirth": dateOfBirth,
-        "url":url
+        "url": url
       };
-  String get fn => firstname;
-
-  String get ln => lastname;
-
-  String get genre => gender;
-
-  int get cell => cellphone;
-
-  int get ID => id;
-
-  DateTime get dob => dateOfBirth;
-
-  String get u =>url;
 }
-

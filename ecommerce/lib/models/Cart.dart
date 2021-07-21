@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:shop_app/models/User.dart';
 
+import 'Customer.dart';
 import 'Product.dart';
 
 Cart CartModelJson(String str) => Cart.fromJson(json.decode(str));
@@ -23,9 +24,7 @@ class Cart {
 
   factory Cart.fromJson(Map<dynamic, dynamic> json) => Cart(
       id: json["id"],
-      product: json["product"],
       quantity: json["quantity"],
-      user: json["user"]
   );
 
   Map<String, dynamic> toJson() => {

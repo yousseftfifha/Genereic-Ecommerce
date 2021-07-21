@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:shop_app/models/Category.dart';
+import 'package:shop_app/models/Mouvment.dart';
 import 'package:shop_app/models/ProductDetails.dart';
 import 'package:shop_app/models/ProductInformation.dart';
 import 'package:shop_app/models/ProductImage.dart';
@@ -25,6 +26,7 @@ class Product{
   ProductInformation productInformation=new ProductInformation();
   List<ProductImage> productImage=new  List<ProductImage>();
   List<ProductDetails> productDetails=new List<ProductDetails>();
+  Mouvement mouvement=new Mouvement();
   Product({
     this.id,
     this.code,
@@ -37,7 +39,8 @@ class Product{
     this.category,
     this.productInformation,
     this.productImage,
-    this.productDetails
+    this.productDetails,
+    this.mouvement
   });
   factory Product.fromJson(Map<dynamic, dynamic> json) =>
 
@@ -65,6 +68,6 @@ class Product{
 
   @override
   String toString() {
-    return 'Product{id: $id, code: $code, tmpCode: $tmpCode, sku: $sku, isbn: $isbn, name: $name, brand: $brand, description: $description, category: $category, productInformation: $productInformation, productImage: $productImage, productDetails: $productDetails}';
+    return 'Product{id: $id, code: $code, tmpCode: $tmpCode, sku: $sku, isbn: $isbn, name: $name, brand: $brand, description: $description, category: $category, productInformation: $productInformation, productImage: $productImage, productDetails: $productDetails, mouvement: $mouvement}';
   }
 }

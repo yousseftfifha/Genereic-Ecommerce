@@ -44,10 +44,26 @@ class ProductCard extends StatelessWidget {
               style: TextStyle(color: Colors.black, fontSize: 16),
               maxLines: 2,
             ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "${product.mouvement.unit_price} \TND",
+                  style: TextStyle(
+                    fontSize: getProportionateScreenWidth(18),
+                    fontWeight: FontWeight.w600,
+                    color: kPrimaryColor,
+                  ),
+                ),
+                SizedBox(height: 20),
+
+              ],
+            ),
             SizedBox(height: 20),
 
           ],
-        )
+        ),
+
       ],
 
     );

@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:shop_app/models/Category.dart';
+import 'package:shop_app/models/Mouvment.dart';
 import 'package:shop_app/models/Product.dart';
 import 'package:shop_app/models/ProductDetails.dart';
 import 'package:shop_app/models/ProductInformation.dart';
@@ -18,13 +19,15 @@ class ProductService {
     Product product = new Product();
     Category category=new Category();
     ProductInformation productInformations=new ProductInformation();
-     for (var jsonData in jsonDatas) {
+    Mouvement mouvement=new Mouvement();
+    for (var jsonData in jsonDatas) {
        Iterable list = jsonData['productImages'];
        List<ProductImage> productImage=list.map((i) => ProductImage.fromJson(i)).toList();
        Iterable list1 = jsonData['details'];
        List<ProductDetails> productDetails=list1.map((i) => ProductDetails.fromJson(i)).toList();
        category=Category.fromJson(jsonData["category"]);
        productInformations=ProductInformation.fromJson(jsonData["information"]);
+       mouvement=Mouvement.fromJson(jsonData["mouvement"]);
        product=Product.fromJson(jsonData);
 
 
@@ -32,7 +35,8 @@ class ProductService {
        product.productInformation=productInformations;
        product.productImage=productImage;
        product.productDetails=productDetails;
-      products.add(product);
+       product.mouvement=mouvement;
+       products.add(product);
     }
    return products;
   }
@@ -43,6 +47,7 @@ class ProductService {
     Product product = new Product();
     Category category=new Category();
     ProductInformation productInformations=new ProductInformation();
+    Mouvement mouvement=new Mouvement();
     for (var jsonData in jsonDatas) {
       Iterable list = jsonData['productImages'];
       List<ProductImage> productImage=list.map((i) => ProductImage.fromJson(i)).toList();
@@ -50,12 +55,14 @@ class ProductService {
       List<ProductDetails> productDetails=list1.map((i) => ProductDetails.fromJson(i)).toList();
       category=Category.fromJson(jsonData["category"]);
       productInformations=ProductInformation.fromJson(jsonData["information"]);
+      mouvement=Mouvement.fromJson(jsonData["mouvement"]);
       product=Product.fromJson(jsonData);
 
       product.category=category;
       product.productInformation=productInformations;
       product.productImage=productImage;
       product.productDetails=productDetails;
+      product.mouvement=mouvement;
       products.add(product);
     }
     return products;

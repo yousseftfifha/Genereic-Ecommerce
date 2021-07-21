@@ -29,7 +29,6 @@ class _catScreen extends State<Body> {
 
     return Scaffold(
 
-      // padding: EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
         body: Container(
         child:FutureBuilder(
           future: cs.fetchSubData(widget.category.id),

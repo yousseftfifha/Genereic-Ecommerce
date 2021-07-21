@@ -17,7 +17,6 @@ class ProductDescription extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(product);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -40,6 +39,20 @@ class ProductDescription extends StatelessWidget {
                 topLeft: Radius.circular(20),
                 bottomLeft: Radius.circular(20),
               ),
+            ),
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.only(
+            left: getProportionateScreenWidth(20),
+            right: getProportionateScreenWidth(64),
+          ),
+          child: Text(
+            "${product.mouvement.unit_price} \TND",
+            style: TextStyle(
+              fontSize: getProportionateScreenWidth(18),
+              fontWeight: FontWeight.w600,
+              color: kPrimaryColor,
             ),
           ),
         ),

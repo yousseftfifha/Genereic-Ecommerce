@@ -26,7 +26,7 @@ class CartCard extends StatelessWidget {
                 color: Color(0xFFF5F6F9),
                 borderRadius: BorderRadius.circular(15),
               ),
-             // child: Image.asset(cart.product.images[0]),
+             child: Image.network(cart.product.productImage[0].url),
             ),
           ),
         ),
@@ -34,15 +34,15 @@ class CartCard extends StatelessWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Text(
-            //   cart.product.title,
-            //   style: TextStyle(color: Colors.black, fontSize: 16),
-            //   maxLines: 2,
-            // ),
+            Text(
+              '${cart.product.name}',
+              style: TextStyle(color: Colors.black, fontSize: 16),
+              maxLines: 2,
+            ),
             SizedBox(height: 10),
             Text.rich(
               TextSpan(
-               // text: "\$${cart.product.price}",
+               text: "${cart.product.mouvement.unit_price} \TND",
                 style: TextStyle(
                     fontWeight: FontWeight.w600, color: kPrimaryColor),
                 children: [

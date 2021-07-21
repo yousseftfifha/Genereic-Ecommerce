@@ -49,6 +49,10 @@ public class Product  {
     @JsonIgnoreProperties("product")
     private Productinformation information;
 
+    @OneToOne(fetch = FetchType.LAZY, cascade =  CascadeType.ALL, mappedBy = "product")
+    @JsonIgnoreProperties("product")
+    private Mouvement mouvement;
+
     @OneToMany(
             mappedBy = "product",
             cascade = CascadeType.ALL,
