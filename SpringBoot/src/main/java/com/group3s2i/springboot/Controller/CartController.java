@@ -52,7 +52,6 @@ public class CartController {
             Cart cart1 = optionalCart.get();
            cart1.setProduct(cart.getProduct());
            cart1.setQuantity(cart.getQuantity());
-           cart1.setUser(cart.getUser());
 
             return new ResponseEntity<>(cartRepository.save(cart), HttpStatus.OK);
         } else {

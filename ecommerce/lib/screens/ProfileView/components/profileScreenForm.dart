@@ -1,11 +1,9 @@
-import 'dart:convert';
-import 'dart:io';
-import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shop_app/components/custom_surfix_icon.dart';
 import 'package:shop_app/models/User.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:shop_app/services/UserService.dart';
 
 import '../../../size_config.dart';
 
@@ -20,64 +18,10 @@ class ProfileScreenForm extends StatefulWidget {
 
 class _CompleteProfileFormState extends State<ProfileScreenForm> {
   final _formKey = GlobalKey<FormState>();
-  final List<String> errors = [];
 
   DateTime selectedDate = DateTime.now();
-  TextEditingController username = TextEditingController();
 
-  void addError({String error}) {
-    if (!errors.contains(error))
-      setState(() {
-        errors.add(error);
-      });
-  }
-
-  void removeError({String error}) {
-    if (errors.contains(error))
-      setState(() {
-        errors.remove(error);
-      });
-  }
-
-  File _image;
   final picker = ImagePicker();
-
-  Future getImage() async {
-    final pickedFile = await picker.getImage(source: ImageSource.gallery);
-    setState(() {
-      if (pickedFile != null) {
-        _image = File(pickedFile.path);
-      } else {
-        print('No image selected.');
-      }
-    });
-    var Url = 'http://localhost:8081/uploadFile/customer/' +
-        '${widget.profileModel.customer.id}'.toString();
-    var response = await http.put(Url,
-        headers: <String, String>{"Content-Type": "application/json"},
-        body: json.encode({'url': _image}));
-    String responseString = response.body;
-    print(responseString);
-  }
-
-  Future getGalleryImage() async {
-    var image = await ImagePicker.pickImage(source: ImageSource.gallery);
-
-    setState(() {
-      _image = image;
-      Navigator.pop(context);
-    });
-  }
-
-  Future<String> uploadImage(filename) async {
-    var Url = 'http://localhost:8081/uploadFile/customer/' +
-        '${widget.profileModel.customer.id}'.toString();
-
-    var request = http.MultipartRequest('PUT', Uri.parse(Url));
-    request.files.add(await http.MultipartFile.fromPath('file', filename));
-    var res = await request.send();
-    return res.reasonPhrase;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -213,8 +157,6 @@ class _CompleteProfileFormState extends State<ProfileScreenForm> {
     );
   }
 
-  String state = "";
-
   SizedBox ProfilePic1() {
     return SizedBox(
       height: 115,
@@ -242,10 +184,11 @@ class _CompleteProfileFormState extends State<ProfileScreenForm> {
                   var file =
                       await ImagePicker.pickImage(source: ImageSource.gallery);
                   if (file.path != null) {
-                    var res = await uploadImage(file.path);
+                    UserService us = UserService();
+                    var res = await us.uploadImage(
+                        file.path, widget.profileModel.customer.id);
                     setState(() {
-                      state = res;
-                      print(res);
+                      us.fetchData();
                     });
                   }
                 },

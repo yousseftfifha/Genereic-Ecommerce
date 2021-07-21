@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shop_app/components/default_button.dart';
 import 'package:shop_app/models/Product.dart';
+import 'package:shop_app/services/CartService.dart';
 import 'package:shop_app/size_config.dart';
 import 'custom_app_bar.dart';
 import 'product_description.dart';
@@ -24,8 +25,7 @@ class Body extends StatelessWidget {
             children: [
               ProductDescription(
                 product: product,
-                pressOnSeeMore: () {
-                },
+                pressOnSeeMore: () {},
               ),
               TopRoundedContainer(
                 color: Color(0xFFF6F7F9),
@@ -42,7 +42,11 @@ class Body extends StatelessWidget {
                         ),
                         child: DefaultButton(
                           text: "Add To Cart",
-                          press: () {},
+                          press: () {
+                            CartService cs = new CartService();
+
+                            cs.AddToCart(product, 1, context);
+                          },
                         ),
                       ),
                     ),

@@ -72,4 +72,12 @@ class UserService {
 
     return user;
   }
+
+  Future<String> uploadImage(filename, id) async {
+    var Url = 'http://localhost:8081/uploadFile/customer/' + id.toString();
+    var request = http.MultipartRequest('PUT', Uri.parse(Url));
+    request.files.add(await http.MultipartFile.fromPath('file', filename));
+    var res = await request.send();
+    return res.reasonPhrase;
+  }
 }

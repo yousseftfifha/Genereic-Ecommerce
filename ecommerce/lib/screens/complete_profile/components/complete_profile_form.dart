@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:date_field/date_field.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
@@ -31,7 +30,6 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
   TextEditingController lastnameC = TextEditingController();
   TextEditingController cellphoneC = TextEditingController();
   TextEditingController genderC = TextEditingController();
-  TextEditingController _dateController = TextEditingController();
 
   DateTime selectedDate = DateTime.now();
   void addError({String error}) {
@@ -46,7 +44,6 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
       setState(() {
         errors.remove(error);
       });
-
   }
 
   @override
@@ -67,13 +64,12 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
           buildDobFormField(),
           SizedBox(height: getProportionateScreenHeight(40)),
           FormError(errors: errors),
-
-
           DefaultButton(
             text: "continue",
             press: () async {
               if (_formKey.currentState.validate()) {
-                SharedPreferences preferences = await SharedPreferences.getInstance();
+                SharedPreferences preferences =
+                    await SharedPreferences.getInstance();
                 username = preferences.getString('username');
                 email = preferences.getString('email');
                 password = preferences.getString('password');
@@ -87,7 +83,17 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
                 // print(DateFormat.yMd().format(now)); // print short date
                 // print(DateFormat.jms().format(now)); // print time
                 UserService us = new UserService();
-                us.registerUser(username, email,password, firstnameC.text,lastnameC.text,genderC.text,int.parse(cellphoneC.text),DateTime.parse(DateFormat('yyyy-MM-dd').format(selectedDate)),context);
+                us.registerUser(
+                    username,
+                    email,
+                    password,
+                    firstnameC.text,
+                    lastnameC.text,
+                    genderC.text,
+                    int.parse(cellphoneC.text),
+                    DateTime.parse(
+                        DateFormat('yyyy-MM-dd').format(selectedDate)),
+                    context);
                 Navigator.pushNamed(context, LoginSuccessScreen.routeName);
               }
             },
@@ -96,6 +102,7 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
       ),
     );
   }
+
   getFormatedDate(_date) {
     var inputFormat = DateFormat('dd/MM/yyyy');
     var inputDate = inputFormat.parse(_date);
@@ -136,7 +143,7 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
     return TextFormField(
       controller: cellphoneC,
       keyboardType: TextInputType.phone,
-      onSaved: (newValue) => cellphone = newValue as int ,
+      onSaved: (newValue) => cellphone = newValue as int,
       onChanged: (value) {
         if (value.isNotEmpty) {
           removeError(error: kPhoneNumberNullError);
@@ -203,6 +210,7 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
       ),
     );
   }
+
   DateTimeFormField buildDobFormField() {
     return DateTimeFormField(
       onSaved: (val) {
@@ -214,7 +222,6 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
         labelText: "Date",
         icon: Icon(Icons.calendar_today),
       ),
-
     );
   }
 
@@ -222,15 +229,10 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
   String password = "";
   String username = "";
 
-  Future getInfo()async{
+  Future getInfo() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     username = preferences.getString('username');
     email = preferences.getString('email');
     password = preferences.getString('password');
-    print(email);
-    print(username);
-    print(password);
   }
-
 }
-

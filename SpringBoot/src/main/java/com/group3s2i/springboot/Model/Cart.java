@@ -22,11 +22,6 @@ public class Cart {
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Product product;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "customer_id")
-    @ToString.Exclude
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    private User user;
 
     @Column (name = "quantity")
     private Long quantity;
@@ -34,10 +29,9 @@ public class Cart {
     public Cart() {
     }
 
-    public Cart(Long id, Product product, User user, Long quantity) {
+    public Cart(Long id, Product product, Long quantity) {
         this.id = id;
         this.product = product;
-        this.user = user;
         this.quantity = quantity;
     }
 
@@ -57,13 +51,6 @@ public class Cart {
         this.product = product;
     }
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
 
     public Long getQuantity() {
         return quantity;

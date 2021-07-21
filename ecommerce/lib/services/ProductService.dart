@@ -1,11 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:shop_app/models/Category.dart';
-import 'package:shop_app/models/Mouvment.dart';
 import 'package:shop_app/models/Product.dart';
-
-import 'package:shop_app/models/ProductImage.dart';
 
 class ProductService {
   String url = "http://localhost:8081/api/product";
