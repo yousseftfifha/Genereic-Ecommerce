@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shop_app/components/default_button.dart';
 import 'package:shop_app/models/Product.dart';
+import 'package:shop_app/screens/cart/cart_screen.dart';
 import 'package:shop_app/services/CartService.dart';
 import 'package:shop_app/size_config.dart';
 import 'custom_app_bar.dart';
@@ -51,8 +52,11 @@ class Body extends StatelessWidget {
                               content:
                                   Text('An Item has been added to your Cart'),
                               action: SnackBarAction(
-                                label: 'Action',
-                                onPressed: () {},
+                                label: 'View Cart',
+                                onPressed: () {
+                                  Navigator.pushNamed(
+                                      context, CartScreen.routeName);
+                                },
                               ),
                             );
                             Scaffold.of(context).showSnackBar(snackBar);

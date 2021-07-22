@@ -10,6 +10,6 @@ import java.util.List;
 
 @Repository
 public interface OrderRepository  extends JpaRepository<Order, Long> {
-    @Query("select o from Order o where o.user = ?1")
-    List<Order> findAllByUser(User user);
+    @Query("select o from Order o where o.user = ?1 order by o.createdDate DESC")
+    List<Order> findAllByUserOrderByCreatedDateDesc(User user);
 }

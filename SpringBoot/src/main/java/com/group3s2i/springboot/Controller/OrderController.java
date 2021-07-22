@@ -14,6 +14,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
@@ -33,7 +34,7 @@ public class OrderController {
         double totalCost = 0;
         for (Cart cart:cartList) {
             OrderItem orderItem=new OrderItem ();
-            orderItem.setCreatedDate (LocalDate.now());
+            orderItem.setCreatedDate (LocalDateTime.now());
             orderItem.setQuantity (cart.getQuantity ());
             orderItem.setProduct (cart.getProduct ());
             orderItems.add (orderItem);
@@ -42,6 +43,7 @@ public class OrderController {
         order.setTotalPrice (totalCost);
         order.setStatus ("PENDING");
         order.setOrderItems (orderItems);
+        order.setCreatedDate (LocalDateTime.now ());
         order.setUser (user);
         orderRepository.save (order);
         for (OrderItem orderItem1:orderItems){
@@ -53,9 +55,14 @@ public class OrderController {
         return   ResponseEntity.ok(order);
     }
     // get all cart
-    @GetMapping("/order")
-    public List<Order> getAllOrders(){
-        return orderRepository.findAll();
+    @GetMapping("/order/{user}")
+    public List<Order> getAllOrders(@PathVariable User user){
+        return orderRepository.findAllByUserOrderByCreatedDateDesc (user);
+    }
+    @GetMapping("/order/item/{id}")
+    public List<OrderItem> getAllOrderItems(@PathVariable long id){
+        Optional<Order> order=orderRepository.findById (id);
+        return orderItemsRepository.findAllByOrderOrderByCreatedDateDesc (order);
     }
 
 

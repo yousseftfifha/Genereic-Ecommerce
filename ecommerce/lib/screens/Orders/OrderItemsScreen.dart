@@ -2,21 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:shop_app/components/coustom_bottom_nav_bar.dart';
 import 'package:shop_app/constants.dart';
 import 'package:shop_app/models/Order.dart';
-import 'package:shop_app/screens/Orders/OrderItemsScreen.dart';
+import 'package:shop_app/models/OrderItem.dart';
 import 'package:shop_app/services/OrderService.dart';
 
 import '../../enums.dart';
+import '../../size_config.dart';
 
-class OrderScreen extends StatefulWidget {
-  static String routeName = "/OrderScreen";
-  final int id;
-
-  const OrderScreen({Key key, @required this.id}) : super(key: key);
+class OrderItemScreen extends StatefulWidget {
+  static String routeName = "/OrderItemScreen";
   @override
-  _OrderScreenState createState() => _OrderScreenState();
+  _OrderItemScreenState createState() => _OrderItemScreenState();
 }
 
-class _OrderScreenState extends State<OrderScreen> {
+class _OrderItemScreenState extends State<OrderItemScreen> {
   final controller = ScrollController();
   double offset = 0;
   Future _func;
@@ -24,7 +22,8 @@ class _OrderScreenState extends State<OrderScreen> {
   OrderService os = new OrderService();
   @override
   void initState() {
-    _func = os.fetchData();
+    /*  final OrderItemArguments agrs = ModalRoute.of(context).settings.arguments;
+    _func = os.fetchData1(agrs.order.id);*/
     controller.addListener(onScroll);
     super.initState();
   }
@@ -43,15 +42,17 @@ class _OrderScreenState extends State<OrderScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final OrderItemArguments agrs = ModalRoute.of(context).settings.arguments;
+    _func = os.fetchData1(agrs.id);
     return Scaffold(
       appBar: AppBar(
-        title: Text('Orders'),
+        title: Text('Orders Items'),
       ),
       body: FutureBuilder(
         future: _func,
         builder: (ctx, snapshot) {
           if (snapshot.hasData) {
-            List<Order> data = snapshot.data;
+            List<OrderItem> data = snapshot.data;
             // print(data);
             return SingleChildScrollView(
               scrollDirection: Axis.vertical,
@@ -70,85 +71,67 @@ class _OrderScreenState extends State<OrderScreen> {
                           columns: [
                             DataColumn(
                               label: Text(
-                                'Order ID',
+                                'Order Item ID',
                               ),
-                              numeric: false,
+                              numeric: true,
                             ),
                             DataColumn(
                               label: Text(
-                                'Total Price',
+                                'Product Image',
+                              ),
+                              numeric: false,
+                              tooltip: "Product Image",
+                            ),
+                            DataColumn(
+                              label: Text(
+                                'Quantity',
                                 style: TextStyle(
                                   color: Colors.orange.shade900,
                                   fontSize: 16.0,
                                 ),
                               ),
                               numeric: true,
-                              tooltip: "Total Price",
+                              tooltip: "Quantity",
                             ),
                             DataColumn(
                               label: Text(
-                                'Username',
+                                'Product Name',
                               ),
                               numeric: false,
-                              tooltip: "Username",
+                              tooltip: "Product Name",
                             ),
                             DataColumn(
                               label: Text(
-                                'FirstName',
+                                'Product Price',
                                 style: TextStyle(
                                   color: Colors.orange.shade900,
                                   fontSize: 16.0,
                                 ),
                               ),
                               numeric: false,
-                              tooltip: "FirstName",
+                              tooltip: "Product Price",
                             ),
                             DataColumn(
                               label: Text(
-                                'LastName',
-                              ),
-                              numeric: false,
-                              tooltip: "LastName",
-                            ),
-                            DataColumn(
-                              label: Text(
-                                'Email',
+                                'Category',
                                 style: TextStyle(
                                   color: Colors.orange.shade900,
                                   fontSize: 16.0,
                                 ),
                               ),
                               numeric: false,
-                              tooltip: "Email",
+                              tooltip: "Category",
                             ),
-                            DataColumn(
-                              label: Text(
-                                'Cellphone',
-                              ),
-                              numeric: true,
-                              tooltip: "Cellphone",
-                            ),
-                            DataColumn(
-                              label: Text(
-                                'ACTION',
-                                style: TextStyle(
-                                  color: Colors.orange.shade900,
-                                  fontSize: 16.0,
-                                ),
-                              ),
-                              numeric: false,
-                              tooltip: "ACTION",
-                            )
                           ],
                           rows: data
                               .map(
-                                (order) => DataRow(
+                                (orderItem) => DataRow(
                                   cells: [
                                     DataCell(
                                       Container(
                                         width: 100,
                                         child: Text(
-                                          order.id.toString(),
+                                          orderItem.id.toString(),
                                           softWrap: true,
                                           overflow: TextOverflow.ellipsis,
                                           style: TextStyle(
@@ -157,11 +140,33 @@ class _OrderScreenState extends State<OrderScreen> {
                                       ),
                                     ),
                                     DataCell(
+                                      Center(
+                                        child: SizedBox(
+                                          width: 88,
+                                          child: AspectRatio(
+                                            aspectRatio: 0.88,
+                                            child: Container(
+                                              padding: EdgeInsets.all(
+                                                  getProportionateScreenWidth(
+                                                      10)),
+                                              decoration: BoxDecoration(
+                                                color: Color(0xFFF5F6F9),
+                                                borderRadius:
+                                                    BorderRadius.circular(15),
+                                              ),
+                                              child: Image.network(
+                                                  '${orderItem.product.productImages[0].url}'),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    DataCell(
                                       Container(
                                         width: 60.0,
                                         child: Center(
                                           child: Text(
-                                            order.totalPrice.toString(),
+                                            orderItem.quantity.toString(),
                                             style: TextStyle(
                                                 fontWeight: FontWeight.bold),
                                           ),
@@ -171,7 +176,7 @@ class _OrderScreenState extends State<OrderScreen> {
                                     DataCell(
                                       Center(
                                         child: Text(
-                                          order.user.username.toString(),
+                                          orderItem.product.name,
                                           style: TextStyle(
                                               fontWeight: FontWeight.bold),
                                         ),
@@ -180,7 +185,7 @@ class _OrderScreenState extends State<OrderScreen> {
                                     DataCell(
                                       Center(
                                         child: Text(
-                                          order.user.customer.firstName
+                                          orderItem.product.mouvement.unitPrice
                                               .toString(),
                                           style: TextStyle(
                                               fontWeight: FontWeight.bold),
@@ -190,49 +195,9 @@ class _OrderScreenState extends State<OrderScreen> {
                                     DataCell(
                                       Center(
                                         child: Text(
-                                          order.user.customer.lastName
-                                              .toString(),
+                                          orderItem.product.category.name,
                                           style: TextStyle(
                                               fontWeight: FontWeight.bold),
-                                        ),
-                                      ),
-                                    ),
-                                    DataCell(
-                                      Center(
-                                        child: Text(
-                                          order.user.email.toString(),
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                      ),
-                                    ),
-                                    DataCell(
-                                      Center(
-                                        child: Text(
-                                          order.user.customer.phoneNumber
-                                              .toString(),
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                      ),
-                                    ),
-                                    DataCell(
-                                      Center(
-                                        child: FlatButton(
-                                          onPressed: () {
-                                            print(order.id);
-                                            Navigator.pushNamed(
-                                              context,
-                                              OrderItemScreen.routeName,
-                                              arguments: OrderItemArguments(
-                                                  id: order.id),
-                                            );
-                                          },
-                                          child: Text(
-                                            "Show Details",
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold),
-                                          ),
                                         ),
                                       ),
                                     ),
@@ -295,4 +260,10 @@ class _OrderScreenState extends State<OrderScreen> {
           CustomBottomNavBar(selectedMenu: MenuState.favourite),
     );
   }
+}
+
+class OrderItemArguments {
+  final int id;
+
+  OrderItemArguments({@required this.id});
 }

@@ -3,6 +3,7 @@ import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shop_app/components/default_button.dart';
+import 'package:shop_app/screens/CheckoutSuccess/CheckoutSuccessScreen.dart';
 import 'package:shop_app/screens/Orders/OrderScreen.dart';
 import 'package:shop_app/services/CartService.dart';
 import 'package:shop_app/services/OrderService.dart';
@@ -81,7 +82,8 @@ class Check extends State<CheckoutCard> {
                     press: () {
                       OrderService os = new OrderService();
                       os.Checkout(context);
-                      Navigator.pushNamed(context, OrderScreen.routeName);
+                      Navigator.pushNamed(
+                          context, CheckoutSuccessScreen.routeName);
                     },
                   ),
                 ),

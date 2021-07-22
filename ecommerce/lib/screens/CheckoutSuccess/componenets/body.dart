@@ -16,7 +16,7 @@ class Body extends StatelessWidget {
         ),
         SizedBox(height: SizeConfig.screenHeight * 0.08),
         Text(
-          "Login Success",
+          "Checkout Successed",
           style: TextStyle(
             fontSize: getProportionateScreenWidth(30),
             fontWeight: FontWeight.bold,
@@ -29,7 +29,6 @@ class Body extends StatelessWidget {
           child: DefaultButton(
             text: "Back to home",
             press: () {
-              getEmail();
               Navigator.pushNamed(context, HomeScreen.routeName);
             },
           ),
@@ -37,13 +36,5 @@ class Body extends StatelessWidget {
         Spacer(),
       ],
     );
-  }
-
-  String email = "";
-
-  Future getEmail() async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    email = preferences.getString('username');
-    print(email);
   }
 }
