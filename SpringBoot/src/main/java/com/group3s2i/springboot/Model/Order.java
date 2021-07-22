@@ -1,7 +1,10 @@
 package com.group3s2i.springboot.Model;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.group3s2i.springboot.DTO.order.PlaceOrderDto;
 
 import javax.persistence.*;
@@ -17,24 +20,23 @@ public class Order {
     private Long id;
 
 
-    @Column(name = "created_date")
-    private Date createdDate;
-
     @Column(name = "total_price")
     private Double totalPrice;
 
     @Column(name = "status")
     private String status;
 
-    @Column(name = "session_id")
-    private String sessionId;
-
-    @OneToMany(mappedBy = "order", fetch = FetchType.LAZY)
+    @OneToMany(
+            mappedBy = "order",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    @JsonManagedReference
     private List<OrderItem> orderItems;
 
-    @ManyToOne()
-    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @JsonBackReference
     private User user;
 
     public Order() {
@@ -49,24 +51,15 @@ public class Order {
         this.id = id;
     }
 
-    public Date getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
-    }
 
     public Double getTotalPrice() {
         return totalPrice;
     }
 
-    public Order(Long id, Date createdDate, Double totalPrice, String status, String sessionId, List<OrderItem> orderItems, User user) {
+    public Order(Long id,Double totalPrice, String status,  List<OrderItem> orderItems, User user) {
         this.id = id;
-        this.createdDate = createdDate;
         this.totalPrice = totalPrice;
         this.status = status;
-        this.sessionId = sessionId;
         this.orderItems = orderItems;
         this.user = user;
     }
@@ -95,13 +88,6 @@ public class Order {
         return user;
     }
 
-    public String getSessionId() {
-        return sessionId;
-    }
-
-    public void setSessionId(String sessionId) {
-        this.sessionId = sessionId;
-    }
 
     public void setUser(User user) {
         this.user = user;

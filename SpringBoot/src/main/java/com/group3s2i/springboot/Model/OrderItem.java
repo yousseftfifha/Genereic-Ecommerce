@@ -1,7 +1,11 @@
 package com.group3s2i.springboot.Model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -9,26 +13,27 @@ import java.util.Date;
 public class OrderItem {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
 
     @Column(name = "quantity")
     private @NotNull int quantity;
 
-    @Column(name = "price")
-    private @NotNull double price;
 
 
     @Column(name = "created_date")
-    private Date createdDate;
+    private LocalDate createdDate;
 
-    @ManyToOne
-    @JoinColumn(name = "order_id", referencedColumnName = "id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="order_id", referencedColumnName = "id")
+    @JsonIgnoreProperties("order")
+    @JsonBackReference
     private Order order;
 
     @OneToOne
     @JoinColumn(name = "product_id", referencedColumnName = "id")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Product product;
 
     public Long getId() {
@@ -47,19 +52,12 @@ public class OrderItem {
         this.quantity = quantity;
     }
 
-    public double getPrice() {
-        return price;
-    }
 
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
-    public Date getCreatedDate() {
+    public LocalDate getCreatedDate() {
         return createdDate;
     }
 
-    public void setCreatedDate(Date createdDate) {
+    public void setCreatedDate(LocalDate createdDate) {
         this.createdDate = createdDate;
     }
 

@@ -3,7 +3,6 @@ package com.group3s2i.springboot.Model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
-import lombok.ToString;
 
 import javax.persistence.*;
 
@@ -24,12 +23,12 @@ public class Cart {
 
 
     @Column (name = "quantity")
-    private Long quantity;
+    private int quantity;
 
     public Cart() {
     }
 
-    public Cart(Long id, Product product, Long quantity) {
+    public Cart(Long id, Product product, int quantity) {
         this.id = id;
         this.product = product;
         this.quantity = quantity;
@@ -52,11 +51,11 @@ public class Cart {
     }
 
 
-    public Long getQuantity() {
+    public int getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(Long quantity) {
+    public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
 }

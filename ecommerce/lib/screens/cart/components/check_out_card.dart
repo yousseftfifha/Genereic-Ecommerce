@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shop_app/components/default_button.dart';
 import 'package:shop_app/services/CartService.dart';
+import 'package:shop_app/services/OrderService.dart';
+import 'package:shop_app/services/UserService.dart';
 
 import '../../../constants.dart';
 import '../../../size_config.dart';
@@ -59,7 +61,8 @@ class Check extends State<CheckoutCard> {
                             text: "Total:\n",
                             children: [
                               TextSpan(
-                                text: snapshot.data["totalCost"].toString() +
+                                text: snapshot.data["totalCost"]
+                                        .toStringAsFixed(3) +
                                     "\TND",
                                 style: TextStyle(
                                     fontSize: 16, color: Colors.black),
@@ -74,7 +77,10 @@ class Check extends State<CheckoutCard> {
                   width: getProportionateScreenWidth(190),
                   child: DefaultButton(
                     text: "Check Out",
-                    press: () {},
+                    press: () {
+                      OrderService os = new OrderService();
+                      os.Checkout(context);
+                    },
                   ),
                 ),
               ],
