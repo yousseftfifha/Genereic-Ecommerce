@@ -1,8 +1,10 @@
 import 'dart:convert';
+import 'dart:ffi';
 
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:shop_app/models/Cart.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:shop_app/models/Product.dart';
 import 'package:shop_app/models/User.dart';
@@ -40,5 +42,17 @@ class CartService {
     );
 
     print(response.body);
+  }
+
+  Future getCartInfo(BuildContext context) async {
+    var Url = url + '/info';
+    var data = await http.get(Url);
+    var jsonData = json.decode(data.body);
+    double itemCount = jsonData["itemCount"];
+    double totalCost = jsonData["totalCost"];
+    Map<String, double> map = new Map();
+    map["itemCount"] = itemCount;
+    map["totalCost"] = totalCost;
+    return map;
   }
 }

@@ -1,85 +1,62 @@
 package com.group3s2i.springboot.Controller;
 
+import com.group3s2i.springboot.Service.OrderService;
+import com.stripe.Stripe;
+import com.stripe.exception.StripeException;
+import com.stripe.model.checkout.Session;
+import com.stripe.param.checkout.SessionCreateParams;
 
-import com.group3s2i.springboot.DAO.OrderRepository;
-import com.group3s2i.springboot.Model.Order;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
-@CrossOrigin(origins = "http://localhost:4200")
 @RestController
-@RequestMapping("/api")
-
+@RequestMapping("/order")
 public class OrderController {
-
     @Autowired
-    OrderRepository orderRepository;
+    private OrderService orderService;
 
-    // get all orders
-    @GetMapping("/order")
-    public List<Order> getAllOrders(){
-        return orderRepository.findAll();
-    }
-
-    // get order rest api
-    @GetMapping("/order/{id}")
-    public ResponseEntity<Order> getOrderById(@PathVariable long id){
-        Order order = orderRepository.findById(id)
-                .orElseThrow(()-> new ResourceNotFoundException("order does not exist with id :"+ id));
-        return   ResponseEntity.ok(order);
-    }
-
-    //create order rest api
-    @PostMapping("/order")
-    public Order createOrder(@RequestBody Order order){
-        order.getDetails().setOrderID(order);
-        return orderRepository.save (order);
-    }
-
-    //update order rest api
-
-    @PutMapping("/order/{id}/")
-    public ResponseEntity<Order> updateOrder(@PathVariable("id") long id, @RequestBody Order order) {
-        System.out.println("Update Order with ID = " + id + "...");
-
-        Optional<Order> optionalOrder = orderRepository.findById(id);
-
-        if (optionalOrder.isPresent()) {
-            Order order1 = optionalOrder.get();
-
-            order1.setDueamount(order.getDueamount());
-            order1.setInnoNumber(order.getInnoNumber());
-            order1.setDate(order.getDate());
-            order1.setStatus(order.getStatus());
-            order1.setOrderNum(order.getOrderNum());
-            order1.setUserID(order.getUserID());
-
-
-            return new ResponseEntity<>(orderRepository.save(order), HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
-    //delete order rest api
-
-    @DeleteMapping("/order/{id}")
-    public Map<String, Boolean> deleteOrder(@PathVariable(value = "id") Long id)
-            throws com.group3s2i.springboot.Exceptions.ResourceNotFoundException {
-        Order order = orderRepository.findById(id)
-                .orElseThrow(() -> new com.group3s2i.springboot.Exceptions.ResourceNotFoundException("Order not found  id :: " + id));
-
-        orderRepository.delete(order);
-        Map<String, Boolean> response = new HashMap<>();
-        response.put("deleted", Boolean.TRUE);
-        return response;
-    }
+//
+//
+//    @PostMapping("/add")
+//    public ResponseEntity<ApiResponse> placeOrder(@RequestParam("token") String token, @RequestParam("sessionId") String sessionId)
+//            throws ProductNotExistException, AuthenticationFailException {
+//        authenticationService.authenticate(token);
+//        User user = authenticationService.getUser(token);
+//        orderService.placeOrder(user, sessionId);
+//        return new ResponseEntity<ApiResponse>(new ApiResponse(true, "Order has been placed"), HttpStatus.CREATED);
+//    }
+//
+//    @GetMapping("/")
+//    public ResponseEntity<List<Order>> getAllOrders(@RequestParam("token") String token) throws AuthenticationFailException {
+//        authenticationService.authenticate(token);
+//        User user = authenticationService.getUser(token);
+//        List<Order> orderDtoList = orderService.listOrders(user);
+//        return new ResponseEntity<List<Order>>(orderDtoList,HttpStatus.OK);
+//    }
+//
+//    @PostMapping("/create-checkout-session")
+//    public ResponseEntity<StripeResponse> checkoutList(@RequestBody List<CheckoutItemDto> checkoutItemDtoList) throws StripeException {
+//        Session session = orderService.createSession(checkoutItemDtoList);
+//        StripeResponse stripeResponse = new StripeResponse(session.getId());
+//        return new ResponseEntity<StripeResponse>(stripeResponse,HttpStatus.OK);
+//    }
+//
+//    @GetMapping("/{id}")
+//    public ResponseEntity<Object> getAllOrders(@PathVariable("id") Integer id, @RequestParam("token") String token) throws AuthenticationFailException {
+//        authenticationService.authenticate(token);
+//        User user = authenticationService.getUser(token);
+//        try {
+//            Order order = orderService.getOrder(id);
+//            return new ResponseEntity<>(order,HttpStatus.OK);
+//        }
+//        catch (OrderNotFoundException e) {
+//            return new ResponseEntity<>(e.getMessage(),HttpStatus.NOT_FOUND);
+//        }
+//
+//    }
 
 }

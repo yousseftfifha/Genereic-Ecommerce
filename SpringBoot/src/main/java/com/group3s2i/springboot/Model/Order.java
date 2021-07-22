@@ -1,66 +1,45 @@
 package com.group3s2i.springboot.Model;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
 
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.group3s2i.springboot.DTO.order.PlaceOrderDto;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
-
-/**
- * @author tfifha youssef
- */
-@Getter
-@Setter
-@ToString
 @Entity
-@Table(name = "orders")
-public class Order implements Serializable {
-    private static final long serialVersionUID = 1L;
+@Table(name="orders")
+public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "dueamount")
-    private Double dueamount;
 
-    @Column(name = "innonumber")
-    private int innoNumber;
 
-    @Column(name = "orderdate")
-    private Date date;
+    @Column(name = "created_date")
+    private Date createdDate;
+
+    @Column(name = "total_price")
+    private Double totalPrice;
 
     @Column(name = "status")
     private String status;
 
-    @Column(name = "orderNum")
-    private String orderNum;
+    @Column(name = "session_id")
+    private String sessionId;
 
+    @OneToMany(mappedBy = "order", fetch = FetchType.LAZY)
+    private List<OrderItem> orderItems;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name="userID")
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    private User userID;
-
-    @OneToOne(fetch = FetchType.LAZY, cascade =  CascadeType.ALL, mappedBy = "orderID")
-    @JsonIgnoreProperties("orderID")
-    private OrderDetails details;
+    @ManyToOne()
+    @JsonIgnore
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private User user;
 
     public Order() {
     }
 
-    public Order(Long id, Double dueamount, int innoNumber, Date date, String status, String orderNum, User userID) {
-        this.id = id;
-        this.dueamount = dueamount;
-        this.innoNumber = innoNumber;
-        this.date = date;
-        this.status = status;
-        this.orderNum = orderNum;
-        this.userID = userID;
-    }
 
     public Long getId() {
         return id;
@@ -70,28 +49,30 @@ public class Order implements Serializable {
         this.id = id;
     }
 
-    public Double getDueamount() {
-        return dueamount;
+    public Date getCreatedDate() {
+        return createdDate;
     }
 
-    public void setDueamount(Double dueamount) {
-        this.dueamount = dueamount;
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
     }
 
-    public int getInnoNumber() {
-        return innoNumber;
+    public Double getTotalPrice() {
+        return totalPrice;
     }
 
-    public void setInnoNumber(int innoNumber) {
-        this.innoNumber = innoNumber;
+    public Order(Long id, Date createdDate, Double totalPrice, String status, String sessionId, List<OrderItem> orderItems, User user) {
+        this.id = id;
+        this.createdDate = createdDate;
+        this.totalPrice = totalPrice;
+        this.status = status;
+        this.sessionId = sessionId;
+        this.orderItems = orderItems;
+        this.user = user;
     }
 
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
+    public void setTotalPrice(Double totalPrice) {
+        this.totalPrice = totalPrice;
     }
 
     public String getStatus() {
@@ -102,27 +83,27 @@ public class Order implements Serializable {
         this.status = status;
     }
 
-    public String getOrderNum() {
-        return orderNum;
+    public List<OrderItem> getOrderItems() {
+        return orderItems;
     }
 
-    public void setOrderNum(String orderNum) {
-        this.orderNum = orderNum;
+    public void setOrderItems(List<OrderItem> orderItems) {
+        this.orderItems = orderItems;
     }
 
-    public User getUserID() {
-        return userID;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserID(User userID) {
-        this.userID = userID;
+    public String getSessionId() {
+        return sessionId;
     }
 
-    public OrderDetails getDetails() {
-        return details;
+    public void setSessionId(String sessionId) {
+        this.sessionId = sessionId;
     }
 
-    public void setDetails(OrderDetails details) {
-        this.details = details;
+    public void setUser(User user) {
+        this.user = user;
     }
 }

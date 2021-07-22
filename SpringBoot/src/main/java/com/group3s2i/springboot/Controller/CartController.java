@@ -3,16 +3,14 @@ package com.group3s2i.springboot.Controller;
 
 import com.group3s2i.springboot.DAO.CartRepository;
 import com.group3s2i.springboot.Model.Cart;
+import com.group3s2i.springboot.Model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
@@ -68,6 +66,19 @@ public class CartController {
         cartRepository.delete(cart);
         Map<String, Boolean> response = new HashMap<>();
         response.put("deleted", Boolean.TRUE);
+        return response;
+    }
+    @GetMapping("/cart/info")
+    public Map<String, Double>  listCartItems() {
+        List<Cart> cartList = cartRepository.findAll ();
+        double totalCost = 0;
+        double itemCount=cartRepository.count ();
+        for (Cart cart :cartList){
+            totalCost += (cart.getProduct().getMouvement ().getUnit_price ()* cart.getQuantity());
+        }
+        Map<String, Double> response = new HashMap<>();
+        response.put("totalCost", totalCost);
+        response.put("itemCount", itemCount);
         return response;
     }
 
