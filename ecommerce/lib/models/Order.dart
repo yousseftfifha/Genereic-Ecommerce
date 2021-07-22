@@ -23,7 +23,6 @@ class Order {
         status: json["status"],
         orderItems: List<OrderItem>.from(
             json["orderItems"].map((x) => OrderItem.fromJson(x))),
-        user: User.fromJson(json["user"]),
       );
 
   Map<String, dynamic> toJson() => {

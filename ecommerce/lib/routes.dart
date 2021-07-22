@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:shop_app/screens/Category/category_screen.dart';
+import 'package:shop_app/screens/Orders/OrderScreen.dart';
 import 'package:shop_app/screens/Product/product_screen.dart';
 import 'package:shop_app/screens/ProfileEdit/ProfileEdit.dart';
 import 'package:shop_app/screens/ProfileView/ProfileView.dart';
@@ -32,4 +33,5 @@ final Map<String, WidgetBuilder> routes = {
   ProfileScreen.routeName: (context) => ProfileScreen(),
   ProfileView.routeName: (context) => ProfileView(),
   ProfileEdit.routeName: (context) => ProfileEdit(),
+  OrderScreen.routeName: (context) => OrderScreen(),
 };
