@@ -60,11 +60,11 @@ public class UserController {
     }
 
     @CrossOrigin(origins = "http://localhost:4200")
-    @DeleteMapping("/Users/{id}")
-    public Map<String, Boolean> deleteUser(@PathVariable(value = "id") Long UtilisateurId)
+    @DeleteMapping("/Users/{username}")
+    public Map<String, Boolean> deleteUser(@PathVariable(value = "username") String username)
             throws ResourceNotFoundException {
-        User user = userRepository.findById(UtilisateurId)
-                .orElseThrow(() -> new ResourceNotFoundException("user not found  id :: " + UtilisateurId));
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new ResourceNotFoundException("user not found  username :: " + username));
 
         userRepository.delete(user);
         Map<String, Boolean> response = new HashMap<> ();
@@ -85,17 +85,20 @@ public class UserController {
 
 
     @CrossOrigin(origins = "http://localhost:4200")
-    @PutMapping("/Users/{id}")
-    public ResponseEntity<User> updateCustomer(@PathVariable("id") long id, @RequestBody User user) {
-        System.out.println("Update User with ID = " + id + "...");
+    @PutMapping("/Users/{username}")
+    public ResponseEntity<User> updateCustomer(@PathVariable(value = "username") String username, @RequestBody User user) {
+        System.out.println("Update User with ID = " + username + "...");
 
-        Optional<User> userOptional = userRepository.findById(id);
+        Optional<User> userOptional = userRepository.findByUsername (username);
 
         if (userOptional.isPresent()) {
             User utilisateur = userOptional.get();
             utilisateur.setUsername (user.getUsername ());
-            utilisateur.setPassword (encoder.encode(user.getPassword()));
             utilisateur.setEmail (user.getEmail ());
+            utilisateur.getCustomer ().setFirstName (user.getCustomer ().getFirstName ());
+            utilisateur.getCustomer ().setLastName (user.getCustomer ().getLastName ());
+            utilisateur.getCustomer ().setPhoneNumber (user.getCustomer ().getPhoneNumber ());
+            utilisateur.getCustomer ().setUrl (user.getCustomer ().getUrl ());
             return new ResponseEntity<>(userRepository.save(user), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

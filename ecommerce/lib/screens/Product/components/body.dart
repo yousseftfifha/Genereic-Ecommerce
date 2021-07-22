@@ -27,48 +27,57 @@ class _prodScreen extends State<Body> {
     return Scaffold(
 
         // padding: EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
-        body: Container(
+        body: RefreshIndicator(
+            onRefresh: () {
+              return Future.delayed(
+                Duration(seconds: 1),
+                () {
+                  setState(() {});
+                },
+              );
+            },
             child: FutureBuilder(
                 future: ps.fetchDataByCategory(widget.category.id),
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
                   if (snapshot.data == null) {
-                    return Container(child: Center(child: Icon(Icons.error)));
-                  }
-                  return ListView.builder(
-                    itemCount: snapshot.data.length,
-                    itemBuilder: (context, index) => Padding(
-                      padding: EdgeInsets.symmetric(vertical: 10),
-                      child: Dismissible(
-                        key: Key(snapshot.data[index].id.toString()),
-                        direction: DismissDirection.endToStart,
-                        onDismissed: (direction) {
-                          Navigator.pushNamed(
-                            context,
-                            DetailsScreen.routeName,
-                            arguments: ProductDetailsArguments(
-                                product: snapshot.data[index]),
-                          );
-                          setState(() {
-                            snapshot.data.removeAt(index);
-                          });
-                        },
-                        background: Container(
-                          padding: EdgeInsets.symmetric(horizontal: 20),
-                          decoration: BoxDecoration(
-                            color: Color(0x836FCD86),
-                            borderRadius: BorderRadius.circular(15),
+                    return Center(child: CircularProgressIndicator());
+                  } else
+                    return ListView.builder(
+                      itemCount: snapshot.data.length,
+                      itemBuilder: (context, index) => Padding(
+                        padding: EdgeInsets.symmetric(vertical: 10),
+                        child: Dismissible(
+                          key: Key(snapshot.data[index].id.toString()),
+                          direction: DismissDirection.endToStart,
+                          onDismissed: (direction) {
+                            Navigator.pushNamed(
+                              context,
+                              DetailsScreen.routeName,
+                              arguments: ProductDetailsArguments(
+                                  product: snapshot.data[index]),
+                            );
+                            setState(() {
+                              snapshot.data.removeAt(index);
+                            });
+                          },
+                          background: Container(
+                            padding: EdgeInsets.symmetric(horizontal: 20),
+                            decoration: BoxDecoration(
+                              color: Color(0x836FCD86),
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                            child: Row(
+                              children: [
+                                Spacer(),
+                                SvgPicture.asset(
+                                    "assets/icons/arrow_right.svg"),
+                              ],
+                            ),
                           ),
-                          child: Row(
-                            children: [
-                              Spacer(),
-                              SvgPicture.asset("assets/icons/arrow_right.svg"),
-                            ],
-                          ),
+                          child: ProductCard(product: snapshot.data[index]),
                         ),
-                        child: ProductCard(product: snapshot.data[index]),
                       ),
-                    ),
-                  );
+                    );
                 })));
   }
 }

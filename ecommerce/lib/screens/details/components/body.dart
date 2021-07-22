@@ -46,6 +46,16 @@ class Body extends StatelessWidget {
                             CartService cs = new CartService();
 
                             cs.AddToCart(product, 1, context);
+                            final snackBar = SnackBar(
+                              behavior: SnackBarBehavior.floating,
+                              content:
+                                  Text('An Item has been added to your Cart'),
+                              action: SnackBarAction(
+                                label: 'Action',
+                                onPressed: () {},
+                              ),
+                            );
+                            Scaffold.of(context).showSnackBar(snackBar);
                           },
                         ),
                       ),

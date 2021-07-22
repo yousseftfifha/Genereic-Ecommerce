@@ -81,4 +81,31 @@ class UserService {
     var res = await request.send();
     return res.reasonPhrase;
   }
+
+  Future DeleteAccount(String username, BuildContext context) async {
+    var Url = 'http://localhost:8081/api/Users' + '/' + username;
+    var response = await http.delete(
+      Url,
+      headers: <String, String>{"Content-Type": "application/json"},
+    );
+
+    print(response.body);
+  }
+
+  Future updateUser(User user, BuildContext context) async {
+    var Url = 'http://localhost:8081/api/Users' + '/' + user.username;
+    var response = await http.put(Url,
+        headers: <String, String>{"Content-Type": "application/json"},
+        body: jsonEncode(<dynamic, dynamic>{
+          "username": user.username,
+          "email": user.email,
+          "customer": {
+            "firstName": user.customer.firstName,
+            "lastName": user.customer.lastName,
+            "phoneNumber": user.customer.phoneNumber,
+          }
+        }));
+    String responseString = response.body;
+    print(responseString);
+  }
 }

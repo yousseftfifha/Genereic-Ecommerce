@@ -1,9 +1,10 @@
-
 import 'package:flutter/material.dart';
+import 'package:shop_app/screens/ProfileEdit/ProfileEdit.dart';
 import 'package:shop_app/screens/ProfileView/ProfileView.dart';
 import 'package:shop_app/screens/profile/profile_screen.dart';
 import 'package:shop_app/screens/sign_in/sign_in_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shop_app/services/UserService.dart';
 
 import 'profile_menu.dart';
 
@@ -18,16 +19,14 @@ class Body extends StatelessWidget {
           ProfileMenu(
             text: "My Account",
             icon: "assets/icons/User Icon.svg",
-            press: () => {
-              Navigator.pushNamed(context, ProfileView.routeName)
-
-          },
+            press: () => {Navigator.pushNamed(context, ProfileView.routeName)},
           ),
-
           ProfileMenu(
-            text: "Settings",
+            text: "Edit Profile",
             icon: "assets/icons/Settings.svg",
-            press: () {},
+            press: () {
+              Navigator.pushNamed(context, ProfileEdit.routeName);
+            },
           ),
           ProfileMenu(
             text: "Help Center",
@@ -35,16 +34,29 @@ class Body extends StatelessWidget {
             press: () {},
           ),
           ProfileMenu(
+            text: "Delete Account",
+            icon: "assets/icons/Log out.svg",
+            press: () async {
+              SharedPreferences preferences =
+                  await SharedPreferences.getInstance();
+              UserService us = UserService();
+              us.DeleteAccount(preferences.getString("username"), context);
+              preferences.clear();
+              Navigator.pushNamed(context, SignInScreen.routeName);
+            },
+          ),
+          ProfileMenu(
             text: "Log Out",
             icon: "assets/icons/Log out.svg",
             press: () async {
-              SharedPreferences preferences = await SharedPreferences.getInstance();
+              SharedPreferences preferences =
+                  await SharedPreferences.getInstance();
               preferences.clear();
-              Navigator.pushNamed(context, SignInScreen.routeName);},
+              Navigator.pushNamed(context, SignInScreen.routeName);
+            },
           ),
         ],
       ),
     );
   }
 }
-

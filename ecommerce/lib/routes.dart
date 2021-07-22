@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:shop_app/screens/Category/category_screen.dart';
 import 'package:shop_app/screens/Product/product_screen.dart';
+import 'package:shop_app/screens/ProfileEdit/ProfileEdit.dart';
 import 'package:shop_app/screens/ProfileView/ProfileView.dart';
 import 'package:shop_app/screens/cart/cart_screen.dart';
 import 'package:shop_app/screens/complete_profile/complete_profile_screen.dart';
@@ -14,7 +15,6 @@ import 'package:shop_app/screens/sign_in/sign_in_screen.dart';
 import 'package:shop_app/screens/splash/splash_screen.dart';
 
 import 'screens/sign_up/sign_up_screen.dart';
-
 
 final Map<String, WidgetBuilder> routes = {
   SplashScreen.routeName: (context) => SplashScreen(),
@@ -31,5 +31,5 @@ final Map<String, WidgetBuilder> routes = {
   ProductScreen.routeName: (context) => ProductScreen(),
   ProfileScreen.routeName: (context) => ProfileScreen(),
   ProfileView.routeName: (context) => ProfileView(),
-
+  ProfileEdit.routeName: (context) => ProfileEdit(),
 };

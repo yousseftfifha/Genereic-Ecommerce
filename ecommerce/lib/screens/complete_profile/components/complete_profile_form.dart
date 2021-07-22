@@ -20,7 +20,6 @@ class CompleteProfileForm extends StatefulWidget {
 
 class _CompleteProfileFormState extends State<CompleteProfileForm> {
   final _formKey = GlobalKey<FormState>();
-  final List<String> errors = [];
   String firstname;
   String lastname;
   int cellphone;
@@ -32,6 +31,8 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
   TextEditingController genderC = TextEditingController();
 
   DateTime selectedDate = DateTime.now();
+  final List<String> errors = [];
+
   void addError({String error}) {
     if (!errors.contains(error))
       setState(() {
@@ -89,7 +90,7 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
                     password,
                     firstnameC.text,
                     lastnameC.text,
-                    genderC.text,
+                    dropdownValue,
                     int.parse(cellphoneC.text),
                     DateTime.parse(
                         DateFormat('yyyy-MM-dd').format(selectedDate)),
@@ -110,32 +111,35 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
     return outputFormat.format(inputDate);
   }
 
-  TextFormField buildGenderFormField() {
-    return TextFormField(
-      controller: genderC,
-      onSaved: (newValue) => gender = newValue,
-      onChanged: (value) {
-        if (value.isNotEmpty) {
-          removeError(error: kAddressNullError);
-        }
-        return null;
+  // Default Drop Down Item.
+  String dropdownValue = 'MALE';
+
+  // To show Selected Item in Text.
+  String holder = '';
+
+  List<String> actorsName = ['MALE', 'FEMALE'];
+
+  void getDropDownItem() {
+    setState(() {
+      holder = dropdownValue;
+    });
+  }
+
+  DropdownButton<String> buildGenderFormField() {
+    return DropdownButton<String>(
+      value: dropdownValue,
+      icon: Icon(Icons.arrow_drop_down),
+      onChanged: (String data) {
+        setState(() {
+          dropdownValue = data;
+        });
       },
-      validator: (value) {
-        if (value.isEmpty) {
-          addError(error: kAddressNullError);
-          return "";
-        }
-        return null;
-      },
-      decoration: InputDecoration(
-        labelText: "Gender",
-        hintText: "Enter your Gender",
-        // If  you are using latest version of flutter then lable text and hint text shown like this
-        // if you r using flutter less then 1.20.* then maybe this is not working properly
-        floatingLabelBehavior: FloatingLabelBehavior.always,
-        suffixIcon:
-            CustomSurffixIcon(svgIcon: "assets/icons/Location point.svg"),
-      ),
+      items: actorsName.map<DropdownMenuItem<String>>((String value) {
+        return DropdownMenuItem<String>(
+          value: value,
+          child: Text(value),
+        );
+      }).toList(),
     );
   }
 
