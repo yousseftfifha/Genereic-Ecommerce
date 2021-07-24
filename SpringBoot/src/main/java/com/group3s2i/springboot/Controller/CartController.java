@@ -2,7 +2,11 @@ package com.group3s2i.springboot.Controller;
 
 
 import com.group3s2i.springboot.DAO.CartRepository;
+import com.group3s2i.springboot.DAO.ProductRepository;
+import com.group3s2i.springboot.DAO.SuppliesRepository;
 import com.group3s2i.springboot.Model.Cart;
+import com.group3s2i.springboot.Model.Product;
+import com.group3s2i.springboot.Model.Supplies;
 import com.group3s2i.springboot.Model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
@@ -19,6 +23,12 @@ public class CartController {
 
     @Autowired
     CartRepository cartRepository;
+    @Autowired
+    private SuppliesRepository suppliesRepository;
+
+    @Autowired
+    private ProductRepository productRepository;
+
 
     // get all cart
     @GetMapping("/cart")
@@ -73,9 +83,11 @@ public class CartController {
         List<Cart> cartList = cartRepository.findAll ();
         double totalCost = 0;
         double itemCount=cartRepository.count ();
-//        for (Cart cart :cartList){
-//            totalCost += (cart.getProduct().getMouvements ().getUnit_price ()* cart.getQuantity());
-//        }
+        for (Cart cart :cartList){
+            Optional<Product> product=productRepository.findById (cart.getProduct ().getId ());
+            Supplies supplies=suppliesRepository.findByProduct (product);
+            totalCost += (supplies.getUnitprice ()+supplies.getProductPrice ().getVc ()+supplies.getProductPrice ().getFv ())* cart.getQuantity();
+        }
         Map<String, Double> response = new HashMap<>();
         response.put("totalCost", totalCost);
         response.put("itemCount", itemCount);

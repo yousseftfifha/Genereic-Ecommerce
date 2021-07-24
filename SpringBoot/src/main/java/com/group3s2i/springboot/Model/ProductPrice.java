@@ -31,4 +31,39 @@ public class ProductPrice {
 
     @Column(name = "fc", nullable = false)
     private Double fv;
+
+    public ProductPrice() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Supplies getSupplies() {
+        return supplies;
+    }
+
+    public void setSupplies(Supplies supplies) {
+        this.supplies = supplies;
+    }
+
+    public Double getVc() {
+        return vc;
+    }
+
+    public void setVc(Double vc) {
+        this.vc = vc;
+    }
+
+    public Double getFv() {
+        return fv;
+    }
+
+    public void setFv(Double fv) {
+        this.fv = fv;
+    }
 }

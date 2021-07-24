@@ -1,8 +1,6 @@
 package com.group3s2i.springboot.Controller;
 
-import com.group3s2i.springboot.DAO.CartRepository;
-import com.group3s2i.springboot.DAO.OrderItemsRepository;
-import com.group3s2i.springboot.DAO.OrderRepository;
+import com.group3s2i.springboot.DAO.*;
 import com.group3s2i.springboot.Model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -26,11 +24,18 @@ public class OrderController {
     private OrderItemsRepository orderItemsRepository;
     @Autowired
     private CartRepository cartRepository;
+    @Autowired
+    private SuppliesRepository suppliesRepository;
+
+    @Autowired
+    private ProductRepository productRepository;
+
     @PostMapping("/order")
     public ResponseEntity<Order> createCart(@RequestBody User user){
         Order order =new Order ();
         List<Cart> cartList=cartRepository.findAll ();
         List<OrderItem> orderItems=new ArrayList<> ();
+
         double totalCost = 0;
         for (Cart cart:cartList) {
             OrderItem orderItem=new OrderItem ();
@@ -38,7 +43,9 @@ public class OrderController {
             orderItem.setQuantity (cart.getQuantity ());
             orderItem.setProduct (cart.getProduct ());
             orderItems.add (orderItem);
-          //  totalCost += (cart.getProduct().getMouvement ().getUnit_price ()* cart.getQuantity());
+            Optional<Product> product=productRepository.findById (cart.getProduct ().getId ());
+            Supplies supplies=suppliesRepository.findByProduct (product);
+            totalCost += (supplies.getUnitprice ()+supplies.getProductPrice ().getVc ()+supplies.getProductPrice ().getFv ())* cart.getQuantity();
         }
         order.setTotalPrice (totalCost);
         order.setStatus ("PENDING");
