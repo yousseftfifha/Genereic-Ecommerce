@@ -185,8 +185,9 @@ class _OrderItemScreenState extends State<OrderItemScreen> {
                                     DataCell(
                                       Center(
                                         child: Text(
-                                          orderItem.product.mouvement.unitPrice
-                                              .toString(),
+                                          // orderItem.product.mouvement.unitPrice
+                                          //   .toString()
+                                          120.toString(),
                                           style: TextStyle(
                                               fontWeight: FontWeight.bold),
                                         ),

@@ -14,9 +14,7 @@ class ProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Row(
-
       children: [
         SizedBox(
           width: 88,
@@ -45,7 +43,8 @@ class ProductCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "${product.mouvement.unitPrice} \TND",
+                  "/£ 120",
+                  //"${product.mouvement.unitPrice} \TND",
                   style: TextStyle(
                     fontSize: getProportionateScreenWidth(18),
                     fontWeight: FontWeight.w600,
@@ -53,16 +52,12 @@ class ProductCard extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 20),
-
               ],
             ),
             SizedBox(height: 20),
-
           ],
         ),
-
       ],
-
     );
   }
 }

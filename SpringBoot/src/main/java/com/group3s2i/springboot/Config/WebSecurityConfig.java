@@ -57,6 +57,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.authorizeRequests().antMatchers("/api/auth/**").permitAll()
 			.antMatchers("/api/**").permitAll ()
 			.antMatchers("/api/product/**").permitAll()
+			.antMatchers("/api/supplier/**").permitAll()
+			.antMatchers("/api/organization/**").permitAll()
 			.antMatchers("/api/cart/**").permitAll()
 			.antMatchers("/api/cart/info/**").permitAll()
 			.antMatchers("/api/product/images/**").permitAll()
@@ -65,6 +67,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/api/category/main/**").permitAll()
 				.antMatchers("/api/category/sub/**").permitAll()
 				.antMatchers("/api/invoice/**/**").permitAll()
+				.antMatchers("/api/Supplies/**/**").permitAll()
 
 			.antMatchers("/api/product/**").permitAll ()
 			.antMatchers("/api/order/**/**").permitAll ()

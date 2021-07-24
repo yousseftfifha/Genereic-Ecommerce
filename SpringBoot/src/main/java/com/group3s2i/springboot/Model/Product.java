@@ -1,8 +1,10 @@
 package com.group3s2i.springboot.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -49,9 +51,19 @@ public class Product  {
     @JsonIgnoreProperties("product")
     private Productinformation information;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade =  CascadeType.ALL, mappedBy = "product")
-    @JsonIgnoreProperties("product")
-    private Mouvement mouvement;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "supplies")
+    @JsonIgnore
+    private Supplies supplies;
+
+
+    @OneToMany(
+            mappedBy = "product",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    @JsonManagedReference
+    private List<Mouvement> mouvements = new ArrayList<> ();
 
     @OneToMany(
             mappedBy = "product",
@@ -69,6 +81,8 @@ public class Product  {
     @JsonManagedReference
     private List<ProductDetails> details = new ArrayList<> ();
 
+
+
     public Product(Long id, String tmpCode, String code, String name, String description, String brand, Integer sku, Integer isbn, Category category, Productinformation information, List<ProductImage> productImages, List<ProductDetails> details) {
         this.id = id;
         this.tmpCode = tmpCode;
@@ -85,6 +99,22 @@ public class Product  {
     }
 
     public Product() {
+    }
+
+    public Supplies getSupplies() {
+        return supplies;
+    }
+
+    public void setSupplies(Supplies supplies) {
+        this.supplies = supplies;
+    }
+
+    public List<Mouvement> getMouvements() {
+        return mouvements;
+    }
+
+    public void setMouvements(List<Mouvement> mouvements) {
+        this.mouvements = mouvements;
     }
 
     public Long getId() {

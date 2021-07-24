@@ -46,7 +46,8 @@ class ProductDescription extends StatelessWidget {
             right: getProportionateScreenWidth(64),
           ),
           child: Text(
-            "${product.mouvement.unitPrice} \TND",
+            "/£ 120",
+            // "${product.mouvement.unitPrice} \TND",
             style: TextStyle(
               fontSize: getProportionateScreenWidth(18),
               fontWeight: FontWeight.w600,

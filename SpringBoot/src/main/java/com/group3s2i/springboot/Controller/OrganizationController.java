@@ -20,20 +20,20 @@ public class OrganizationController {
     OrganizationRepository organizationRepository;
 
     @CrossOrigin(origins = "http://localhost:4200")
-    @PostMapping("/Organization")
+    @PostMapping("/organization")
     public Organization createOrganization(@RequestBody Organization organization){
         return organizationRepository.save (organization);
     }
 
     @CrossOrigin(origins = "http://localhost:4200")
-    @GetMapping("/Organization")
+    @GetMapping("/organization")
     public List<Organization> getAllOrganization() {
         System.out.println("Get all Organization...");
 
         return new ArrayList<> (organizationRepository.findAll ());
     }
     @CrossOrigin(origins = "http://localhost:4200")
-    @GetMapping("/Organization/{id}")
+    @GetMapping("/organization/{id}")
     public ResponseEntity<Organization> getOrganizationById(@PathVariable(value = "id") Long id)
             throws ResourceNotFoundException {
         Organization organization = organizationRepository.findById(id)
@@ -42,7 +42,7 @@ public class OrganizationController {
     }
 
     @CrossOrigin(origins = "http://localhost:4200")
-    @DeleteMapping("/Organization/{id}")
+    @DeleteMapping("/organization/{id}")
     public Map<String, Boolean> deleteOrganization(@PathVariable(value = "id") Long id)
             throws ResourceNotFoundException {
         Organization organization = organizationRepository.findById(id)
@@ -55,7 +55,7 @@ public class OrganizationController {
     }
 
     @CrossOrigin(origins = "http://localhost:4200")
-    @DeleteMapping("/Organization/delete")
+    @DeleteMapping("/organization/delete")
     public ResponseEntity<String> deleteAllOrganization() {
         System.out.println("Delete All Organization...");
 
@@ -67,7 +67,7 @@ public class OrganizationController {
 
 
     @CrossOrigin(origins = "http://localhost:4200")
-    @PutMapping("/Organization/{id}")
+    @PutMapping("/organization/{id}")
     public ResponseEntity<Organization> updateOrganization(@PathVariable("id") long id, @RequestBody Organization organization) {
         System.out.println("Update Organization with ID = " + id + "...");
 

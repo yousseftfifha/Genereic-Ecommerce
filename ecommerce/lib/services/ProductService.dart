@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:http/http.dart' as http;
 import 'package:shop_app/models/Product.dart';
@@ -9,12 +10,16 @@ class ProductService {
   Future fetchData() async {
     var data = await http.get(url);
     var jsonDatas = json.decode(data.body);
+    print(jsonDatas);
     List<Product> products = [];
 
     for (var jsonData in jsonDatas) {
+      print(jsonData);
       Product product = Product.fromJson(jsonData);
+      print(product);
       products.add(product);
     }
+    print("done");
     return products;
   }
 

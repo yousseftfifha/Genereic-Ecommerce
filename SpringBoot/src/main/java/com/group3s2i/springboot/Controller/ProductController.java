@@ -24,7 +24,7 @@ public class ProductController {
     // get all products
     @GetMapping("/product")
     public List<Product> getAllProducts(){
-        return productRepository.findAll();
+        return productRepository.findAll ();
     }
 
     // get product rest api

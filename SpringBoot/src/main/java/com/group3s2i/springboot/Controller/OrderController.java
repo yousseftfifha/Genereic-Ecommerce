@@ -38,7 +38,7 @@ public class OrderController {
             orderItem.setQuantity (cart.getQuantity ());
             orderItem.setProduct (cart.getProduct ());
             orderItems.add (orderItem);
-            totalCost += (cart.getProduct().getMouvement ().getUnit_price ()* cart.getQuantity());
+          //  totalCost += (cart.getProduct().getMouvement ().getUnit_price ()* cart.getQuantity());
         }
         order.setTotalPrice (totalCost);
         order.setStatus ("PENDING");

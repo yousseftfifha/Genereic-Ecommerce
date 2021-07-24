@@ -55,7 +55,8 @@ class ProductCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "${product.mouvement.unitPrice} \TND",
+                    "/£ 120",
+                    // "${product.mouvement.unitPrice} \TND",
                     style: TextStyle(
                       fontSize: getProportionateScreenWidth(18),
                       fontWeight: FontWeight.w600,

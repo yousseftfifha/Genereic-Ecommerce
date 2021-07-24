@@ -26,7 +26,7 @@ class Product {
     this.isbn,
     this.category,
     this.information,
-    this.mouvement,
+    this.mouvements,
     this.productImages,
     this.details,
   });
@@ -41,11 +41,11 @@ class Product {
   int isbn;
   Category category;
   Information information;
-  Mouvement mouvement;
+  List<Mouvement> mouvements;
   List<ProductImage> productImages;
   List<Detail> details;
 
-  factory Product.fromJson(Map<dynamic, dynamic> json) => Product(
+  factory Product.fromJson(Map<String, dynamic> json) => Product(
         id: json["id"],
         tmpCode: json["tmpCode"],
         code: json["code"],
@@ -56,7 +56,8 @@ class Product {
         isbn: json["isbn"],
         category: Category.fromJson(json["category"]),
         information: Information.fromJson(json["information"]),
-        mouvement: Mouvement.fromJson(json["mouvement"]),
+        mouvements: List<Mouvement>.from(
+            json["mouvements"].map((x) => Mouvement.fromJson(x))),
         productImages: List<ProductImage>.from(
             json["productImages"].map((x) => ProductImage.fromJson(x))),
         details:
@@ -74,7 +75,7 @@ class Product {
         "isbn": isbn,
         "category": category.toJson(),
         "information": information.toJson(),
-        "mouvement": mouvement.toJson(),
+        "mouvements": List<dynamic>.from(mouvements.map((x) => x.toJson())),
         "productImages":
             List<dynamic>.from(productImages.map((x) => x.toJson())),
         "details": List<dynamic>.from(details.map((x) => x.toJson())),

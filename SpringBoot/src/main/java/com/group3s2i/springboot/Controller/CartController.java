@@ -73,9 +73,9 @@ public class CartController {
         List<Cart> cartList = cartRepository.findAll ();
         double totalCost = 0;
         double itemCount=cartRepository.count ();
-        for (Cart cart :cartList){
-            totalCost += (cart.getProduct().getMouvement ().getUnit_price ()* cart.getQuantity());
-        }
+//        for (Cart cart :cartList){
+//            totalCost += (cart.getProduct().getMouvements ().getUnit_price ()* cart.getQuantity());
+//        }
         Map<String, Double> response = new HashMap<>();
         response.put("totalCost", totalCost);
         response.put("itemCount", itemCount);
