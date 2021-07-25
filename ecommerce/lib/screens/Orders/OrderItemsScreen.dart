@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:shop_app/components/coustom_bottom_nav_bar.dart';
-import 'package:shop_app/constants.dart';
-import 'package:shop_app/models/Order.dart';
+
 import 'package:shop_app/models/OrderItem.dart';
 import 'package:shop_app/services/OrderService.dart';
+import 'package:shop_app/services/PdfApi.dart';
+import 'package:shop_app/services/PdfInvoiceApi.dart';
 
 import '../../enums.dart';
 import '../../size_config.dart';
@@ -53,7 +54,6 @@ class _OrderItemScreenState extends State<OrderItemScreen> {
         builder: (ctx, snapshot) {
           if (snapshot.hasData) {
             List<OrderItem> data = snapshot.data;
-            // print(data);
             return SingleChildScrollView(
               scrollDirection: Axis.vertical,
               child: Column(
@@ -185,9 +185,7 @@ class _OrderItemScreenState extends State<OrderItemScreen> {
                                     DataCell(
                                       Center(
                                         child: Text(
-                                          // orderItem.product.mouvement.unitPrice
-                                          //   .toString()
-                                          120.toString(),
+                                          orderItem.product.price.toString(),
                                           style: TextStyle(
                                               fontWeight: FontWeight.bold),
                                         ),

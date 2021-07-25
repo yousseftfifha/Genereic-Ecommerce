@@ -30,12 +30,12 @@ public class Mouvement {
     private int type;
 
     @Column (name = "quantity")
-    private Long quantity;
+    private int quantity;
 
     public Mouvement() {
     }
 
-    public Mouvement(Long id, Product product, int type,  Long quantity) {
+    public Mouvement(Long id, Product product, int type,  int quantity) {
         this.id = id;
         this.product = product;
         this.type = type;
@@ -66,11 +66,11 @@ public class Mouvement {
         this.type = type;
     }
 
-    public Long getQuantity() {
+    public int getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(Long quantity) {
+    public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
 

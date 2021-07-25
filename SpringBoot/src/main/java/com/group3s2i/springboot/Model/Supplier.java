@@ -1,9 +1,8 @@
 package com.group3s2i.springboot.Model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
+import org.hibernate.Hibernate;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -62,9 +61,22 @@ public class Supplier implements Serializable {
             orphanRemoval = true
     )
     @JsonManagedReference
+    @ToString.Exclude
     private List<Supplies> supplies = new ArrayList<> ();
     public Supplier() {
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass (this) != Hibernate.getClass (o)) return false;
+        Supplier supplier = (Supplier) o;
 
+        return Objects.equals (id, supplier.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return 554628605;
+    }
 }

@@ -19,10 +19,6 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
-    @Column(name = "total_price")
-    private Double totalPrice;
-
     @Column(name = "status")
     private String status;
 
@@ -54,21 +50,16 @@ public class Order {
     }
 
 
-    public Double getTotalPrice() {
-        return totalPrice;
-    }
 
-    public Order(Long id,Double totalPrice, String status,  List<OrderItem> orderItems, User user) {
+    public Order(Long id, String status,  List<OrderItem> orderItems, User user) {
         this.id = id;
-        this.totalPrice = totalPrice;
         this.status = status;
         this.orderItems = orderItems;
         this.user = user;
     }
 
-    public Order(Long id, Double totalPrice, String status, LocalDateTime createdDate, List<OrderItem> orderItems, User user) {
+    public Order(Long id, String status, LocalDateTime createdDate, List<OrderItem> orderItems, User user) {
         this.id = id;
-        this.totalPrice = totalPrice;
         this.status = status;
         this.createdDate = createdDate;
         this.orderItems = orderItems;
@@ -83,9 +74,6 @@ public class Order {
         this.createdDate = createdDate;
     }
 
-    public void setTotalPrice(Double totalPrice) {
-        this.totalPrice = totalPrice;
-    }
 
     public String getStatus() {
         return status;

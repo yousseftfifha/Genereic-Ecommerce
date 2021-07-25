@@ -1,12 +1,10 @@
 import 'package:date_field/date_field.dart';
-import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shop_app/components/custom_surfix_icon.dart';
 import 'package:shop_app/components/default_button.dart';
 import 'package:shop_app/components/form_error.dart';
-import 'package:shop_app/models/User.dart';
 import 'package:shop_app/screens/login_success/login_success_screen.dart';
 import 'package:shop_app/services/UserService.dart';
 
@@ -74,15 +72,6 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
                 username = preferences.getString('username');
                 email = preferences.getString('email');
                 password = preferences.getString('password');
-                // var now = DateTime.now();
-                // print(DateFormat('yyyy-MM-dd').format(selectedDate));
-                //
-                // print(DateFormat().format(now)); // This will return date using the default locale
-                // print(DateFormat('yyyy-MM-dd hh:mm:ss').format(now));
-                // print(DateFormat('yyyy-MM-dd').format(now));
-                // print(DateFormat.yMMMMd().format(now)); // print long date
-                // print(DateFormat.yMd().format(now)); // print short date
-                // print(DateFormat.jms().format(now)); // print time
                 UserService us = new UserService();
                 us.registerUser(
                     username,

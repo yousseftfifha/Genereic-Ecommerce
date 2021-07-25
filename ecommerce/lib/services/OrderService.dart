@@ -21,9 +21,15 @@ class OrderService {
     var data = await http.get(url + "/" + user.id.toString());
     var jsonDatas = json.decode(data.body);
     List<Order> orders = [];
-
     for (var jsonData in jsonDatas) {
       Order order = Order.fromJson(jsonData);
+      for (OrderItem orderItem in order.orderItems) {
+        var Url = "http://localhost:8081/api/supplies/" +
+            orderItem.product.id.toString();
+        var data1 = await http.get(Url);
+        var jsonData1 = json.decode(data1.body);
+        orderItem.product.price = jsonData1;
+      }
       order.user = user;
       orders.add(order);
     }
@@ -33,11 +39,14 @@ class OrderService {
   Future fetchData1(int id) async {
     var data = await http.get(url + "/item/" + id.toString());
     var jsonDatas = json.decode(data.body);
-    print(jsonDatas);
     List<OrderItem> orderItems = [];
-    print(id);
     for (var jsonData in jsonDatas) {
       OrderItem orderItem = OrderItem.fromJson(jsonData);
+      var Url = "http://localhost:8081/api/supplies/" +
+          orderItem.product.id.toString();
+      var data1 = await http.get(Url);
+      var jsonData1 = json.decode(data1.body);
+      orderItem.product.price = jsonData1;
       orderItems.add(orderItem);
     }
     return orderItems;
@@ -56,6 +65,5 @@ class OrderService {
         body: jsonEncode(user));
 
     String responseString = response.body;
-    print(responseString);
   }
 }

@@ -27,4 +27,9 @@ class OrderItem {
             "${createdDate.year.toString().padLeft(4, '0')}-${createdDate.month.toString().padLeft(2, '0')}-${createdDate.day.toString().padLeft(2, '0')}",
         "product": product.toJson(),
       };
+
+  @override
+  String toString() {
+    return 'OrderItem{id: $id, quantity: $quantity, createdDate: $createdDate, product: $product}';
+  }
 }

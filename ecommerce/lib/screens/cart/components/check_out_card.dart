@@ -1,15 +1,8 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shop_app/components/default_button.dart';
 import 'package:shop_app/screens/CheckoutSuccess/CheckoutSuccessScreen.dart';
-import 'package:shop_app/screens/Orders/OrderScreen.dart';
 import 'package:shop_app/services/CartService.dart';
 import 'package:shop_app/services/OrderService.dart';
-import 'package:shop_app/services/UserService.dart';
-
-import '../../../constants.dart';
 import '../../../size_config.dart';
 
 class CheckoutCard extends StatefulWidget {
@@ -55,7 +48,7 @@ class Check extends State<CheckoutCard> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 FutureBuilder(
-                    future: cs.getCartInfo(context),
+                    future: cs.getTotal(context),
                     builder: (BuildContext context, AsyncSnapshot snapshot) {
                       if (snapshot.hasData) {
                         return Text.rich(

@@ -1,12 +1,9 @@
 package com.group3s2i.springboot.Controller;
 
-import com.group3s2i.springboot.DAO.ProductPriceRepository;
-import com.group3s2i.springboot.DAO.ProductRepository;
-import com.group3s2i.springboot.DAO.SuppliesRepository;
-import com.group3s2i.springboot.Model.Product;
-import com.group3s2i.springboot.Model.Supplier;
-import com.group3s2i.springboot.Model.Supplies;
+import com.group3s2i.springboot.DAO.*;
+import com.group3s2i.springboot.Model.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -25,30 +22,52 @@ public class SuppliesController {
     @Autowired
     ProductRepository productRepository;
 
+    @Autowired
+    MouvementRepository mouvementRepository;
+    @Autowired
+    ProductinformationRepository productinformationRepository;
+
+
     @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping("/supplies")
-    public Supplies createSupplies(@RequestBody Supplies supplies){
+    public ResponseEntity<Supplies> createSupplies(@RequestBody Supplies supplies) {
         supplies.getProduct ().setSupplies (supplies);
+        supplies.getProductPrice ().setSupplies (supplies);
+        suppliesRepository.save (supplies);
+        List<Mouvement> mouvementList = new ArrayList<> ();
+        Mouvement mouvement = new Mouvement ();
+        mouvement.setProduct (supplies.getProduct ());
+        mouvement.setQuantity (supplies.getQuantity ());
+        mouvement.setType (0);
+        mouvementList.add (mouvement);
+        mouvementRepository.saveAll (mouvementList);
+        Productinformation productinformation = new Productinformation ();
+        productinformation.setProduct (supplies.getProduct ());
+        productinformation.setMax (20);
+        productinformation.setMin (5);
+        productinformation.setSecurity (6);
+        productinformation.setThreshold (6);
+        productinformationRepository.save (productinformation);
+        supplies.getProduct ().setMouvements (mouvementList);
+        return ResponseEntity.ok (supplies);
 
-        return suppliesRepository.save (supplies);
     }
 
     @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping("/supplies")
     public List<Supplies> getAllSupplies() {
-        System.out.println("Get all Suppliers...");
+        System.out.println ("Get all Suppliers...");
 
         return new ArrayList<> (suppliesRepository.findAll ());
     }
+
     @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping("/supplies/{id}")
     public Double price(@PathVariable("id") long id) {
-        System.out.println("Get  price...");
-        Optional<Product> product=productRepository.findById (id);
-        Supplies supplies=suppliesRepository.findByProduct (product);
-        Double prixVente=0.0;
-        prixVente=supplies.getUnitprice ()+supplies.getProductPrice ().getVc ()+supplies.getProductPrice ().getFv ();
+        Optional<Product> product = productRepository.findById (id);
+        Supplies supplies = suppliesRepository.findByProduct (product);
+        Double prixVente = 0.0;
+        prixVente = supplies.getUnitprice () + supplies.getProductPrice ().getVc () + supplies.getProductPrice ().getFv ();
         return prixVente;
-
     }
 }

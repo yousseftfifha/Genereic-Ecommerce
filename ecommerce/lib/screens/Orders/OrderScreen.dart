@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:shop_app/components/coustom_bottom_nav_bar.dart';
-import 'package:shop_app/constants.dart';
+import 'package:shop_app/models/Invoice.dart';
 import 'package:shop_app/models/Order.dart';
 import 'package:shop_app/screens/Orders/OrderItemsScreen.dart';
 import 'package:shop_app/services/OrderService.dart';
+import 'package:shop_app/services/PdfApi.dart';
+import 'package:shop_app/services/PdfInvoiceApi.dart';
 
 import '../../enums.dart';
 
@@ -52,7 +54,6 @@ class _OrderScreenState extends State<OrderScreen> {
         builder: (ctx, snapshot) {
           if (snapshot.hasData) {
             List<Order> data = snapshot.data;
-            // print(data);
             return SingleChildScrollView(
               scrollDirection: Axis.vertical,
               child: Column(
@@ -73,17 +74,6 @@ class _OrderScreenState extends State<OrderScreen> {
                                 'Order ID',
                               ),
                               numeric: false,
-                            ),
-                            DataColumn(
-                              label: Text(
-                                'Total Price',
-                                style: TextStyle(
-                                  color: Colors.orange.shade900,
-                                  fontSize: 16.0,
-                                ),
-                              ),
-                              numeric: true,
-                              tooltip: "Total Price",
                             ),
                             DataColumn(
                               label: Text(
@@ -138,6 +128,17 @@ class _OrderScreenState extends State<OrderScreen> {
                               ),
                               numeric: false,
                               tooltip: "ACTION",
+                            ),
+                            DataColumn(
+                              label: Text(
+                                'ACTION',
+                                style: TextStyle(
+                                  color: Colors.orange.shade900,
+                                  fontSize: 16.0,
+                                ),
+                              ),
+                              numeric: false,
+                              tooltip: "ACTION",
                             )
                           ],
                           rows: data
@@ -153,18 +154,6 @@ class _OrderScreenState extends State<OrderScreen> {
                                           overflow: TextOverflow.ellipsis,
                                           style: TextStyle(
                                               fontWeight: FontWeight.w600),
-                                        ),
-                                      ),
-                                    ),
-                                    DataCell(
-                                      Container(
-                                        width: 60.0,
-                                        child: Center(
-                                          child: Text(
-                                            order.totalPrice.toString(),
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold),
-                                          ),
                                         ),
                                       ),
                                     ),
@@ -220,7 +209,6 @@ class _OrderScreenState extends State<OrderScreen> {
                                       Center(
                                         child: FlatButton(
                                           onPressed: () {
-                                            print(order.id);
                                             Navigator.pushNamed(
                                               context,
                                               OrderItemScreen.routeName,
@@ -230,6 +218,24 @@ class _OrderScreenState extends State<OrderScreen> {
                                           },
                                           child: Text(
                                             "Show Details",
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    DataCell(
+                                      Center(
+                                        child: FlatButton(
+                                          onPressed: () async {
+                                            final pdfFile =
+                                                await PdfInvoiceApi.generate(
+                                                    order);
+
+                                            PdfApi.openFile(pdfFile);
+                                          },
+                                          child: Text(
+                                            "PDF",
                                             style: TextStyle(
                                                 fontWeight: FontWeight.bold),
                                           ),

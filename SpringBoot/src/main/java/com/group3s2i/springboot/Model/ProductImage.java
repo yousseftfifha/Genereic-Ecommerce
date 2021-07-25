@@ -67,12 +67,5 @@ public class ProductImage {
         this.url = url;
     }
 
-    @Override
-    public String toString() {
-        return "ProductImage{" +
-                "id=" + id +
-                ", url='" + url + '\'' +
-                ", product=" + product +
-                '}';
-    }
+
 }

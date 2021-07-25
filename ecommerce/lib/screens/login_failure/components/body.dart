@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shop_app/components/default_button.dart';
-import 'package:shop_app/screens/home/home_screen.dart';
 import 'package:shop_app/screens/sign_in/sign_in_screen.dart';
 import 'package:shop_app/size_config.dart';
 
 class Body extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -24,7 +22,8 @@ class Body extends StatelessWidget {
             fontWeight: FontWeight.bold,
             color: Colors.black,
           ),
-        ),Text(
+        ),
+        Text(
           "Check your credentials",
           style: TextStyle(
             fontSize: getProportionateScreenWidth(30),
@@ -47,11 +46,11 @@ class Body extends StatelessWidget {
       ],
     );
   }
+
   String email = "";
 
-  Future getEmail()async{
+  Future getEmail() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     email = preferences.getString('username');
-    print(email);
   }
 }

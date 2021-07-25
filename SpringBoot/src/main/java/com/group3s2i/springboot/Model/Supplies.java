@@ -2,13 +2,13 @@ package com.group3s2i.springboot.Model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
+import org.hibernate.Hibernate;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 /**
  * @author tfifha youssef
@@ -36,7 +36,7 @@ public class Supplies implements Serializable {
     @Column(name = "quantity", nullable = false)
     private int quantity;
 
-    @Column(name = "delivery_date", nullable = false)
+    @Column(name = "delivery_date")
     private LocalDateTime deliveryDate;
 
     @Column(name = "delivery_type", nullable = false)
@@ -45,14 +45,17 @@ public class Supplies implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="supplier", referencedColumnName = "id")
     @JsonBackReference
+    @ToString.Exclude
     private Supplier supplier;
 
     @OneToOne(fetch = FetchType.LAZY, cascade =  CascadeType.ALL, mappedBy = "supplies")
     @JsonIgnoreProperties("supplies")
+    @ToString.Exclude
     private Product product;
 
     @OneToOne(fetch = FetchType.LAZY, cascade =  CascadeType.ALL, mappedBy = "supplies")
     @JsonIgnoreProperties("supplies")
+    @ToString.Exclude
     private ProductPrice productPrice;
 
     public Supplies() {
@@ -107,5 +110,19 @@ public class Supplies implements Serializable {
 
     public void setSupplier(Supplier supplier) {
         this.supplier = supplier;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass (this) != Hibernate.getClass (o)) return false;
+        Supplies supplies = (Supplies) o;
+
+        return Objects.equals (id, supplies.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return 555013354;
     }
 }

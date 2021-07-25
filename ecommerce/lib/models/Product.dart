@@ -6,8 +6,7 @@ import 'dart:convert';
 
 import 'Category.dart';
 import 'Details.dart';
-import 'Informations.dart';
-import 'Mouvment.dart';
+
 import 'ProductImage.dart';
 
 Product productFromJson(String str) => Product.fromJson(json.decode(str));
@@ -25,8 +24,6 @@ class Product {
     this.sku,
     this.isbn,
     this.category,
-    this.information,
-    this.mouvements,
     this.productImages,
     this.details,
   });
@@ -40,10 +37,9 @@ class Product {
   int sku;
   int isbn;
   Category category;
-  Information information;
-  List<Mouvement> mouvements;
   List<ProductImage> productImages;
   List<Detail> details;
+  double price;
 
   factory Product.fromJson(Map<String, dynamic> json) => Product(
         id: json["id"],
@@ -55,9 +51,6 @@ class Product {
         sku: json["sku"],
         isbn: json["isbn"],
         category: Category.fromJson(json["category"]),
-        information: Information.fromJson(json["information"]),
-        mouvements: List<Mouvement>.from(
-            json["mouvements"].map((x) => Mouvement.fromJson(x))),
         productImages: List<ProductImage>.from(
             json["productImages"].map((x) => ProductImage.fromJson(x))),
         details:
@@ -74,8 +67,6 @@ class Product {
         "sku": sku,
         "isbn": isbn,
         "category": category.toJson(),
-        "information": information.toJson(),
-        "mouvements": List<dynamic>.from(mouvements.map((x) => x.toJson())),
         "productImages":
             List<dynamic>.from(productImages.map((x) => x.toJson())),
         "details": List<dynamic>.from(details.map((x) => x.toJson())),

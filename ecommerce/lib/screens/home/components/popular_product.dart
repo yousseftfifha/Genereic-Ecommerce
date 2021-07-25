@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:shop_app/components/product_card.dart';
-import 'package:shop_app/models/Product.dart';
-import 'package:shop_app/screens/details/components/product_images.dart';
 import 'package:shop_app/services/ProductService.dart';
 
 import '../../../size_config.dart';
@@ -22,16 +20,14 @@ class PopularProducts extends StatelessWidget {
           future: ps.fetchData(),
           builder: (context, AsyncSnapshot snapshot) {
             if (snapshot.hasData) {
-              return  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      children:[
-                      ...List.generate(snapshot.data.length, (index) {
-                        return ProductCard(product: snapshot.data[index]);
-                      }),
-                      ]
-                    ),
-                  );
+              return SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(children: [
+                  ...List.generate(snapshot.data.length, (index) {
+                    return ProductCard(product: snapshot.data[index]);
+                  }),
+                ]),
+              );
             } else {
               return CircularProgressIndicator();
             }

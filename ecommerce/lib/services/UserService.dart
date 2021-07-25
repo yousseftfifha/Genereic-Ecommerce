@@ -2,9 +2,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:shop_app/models/Customer.dart';
 import 'package:shop_app/models/User.dart';
 import 'package:shop_app/screens/login_failure/login_failure_screen.dart';
 import 'package:shop_app/screens/login_success/login_success_screen.dart';
@@ -16,7 +14,6 @@ class UserService {
     var res = await http.post(url + "/signin",
         headers: {'Content-Type': 'application/json'},
         body: json.encode({'username': username, 'password': password}));
-    print(res.body);
     var jsonData = json.decode(res.body);
     List<dynamic> role = jsonData["roles"];
     final int statusCode = res.statusCode;
@@ -57,7 +54,6 @@ class UserService {
         }));
 
     String responseString = response.body;
-    print(responseString);
   }
 
   Future<User> fetchData() async {
@@ -65,7 +61,6 @@ class UserService {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     email = preferences.getString('username');
 
-    print(email);
     var data = await http
         .get('http://localhost:8081/api/Users/username/' + email.toString());
     var jsonData = json.decode(data.body);
@@ -88,8 +83,6 @@ class UserService {
       Url,
       headers: <String, String>{"Content-Type": "application/json"},
     );
-
-    print(response.body);
   }
 
   Future updateUser(User user, BuildContext context) async {
@@ -106,6 +99,5 @@ class UserService {
           }
         }));
     String responseString = response.body;
-    print(responseString);
   }
 }

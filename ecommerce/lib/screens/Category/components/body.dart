@@ -1,17 +1,8 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:shop_app/models/Cart.dart';
 import 'package:shop_app/models/Category.dart';
-import 'package:shop_app/models/Product.dart';
 import 'package:shop_app/screens/Product/product_screen.dart';
-import 'package:shop_app/screens/home/home_screen.dart';
 import 'package:shop_app/services/CategoryService.dart';
-
-import '../../../size_config.dart';
-import 'package:http/http.dart' as http;
-
 import 'category_card.dart';
 
 class Body extends StatefulWidget {

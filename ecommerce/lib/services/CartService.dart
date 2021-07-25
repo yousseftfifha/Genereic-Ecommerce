@@ -1,13 +1,10 @@
 import 'dart:convert';
-import 'dart:ffi';
 
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:shop_app/models/Cart.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:shop_app/models/Product.dart';
-import 'package:shop_app/models/User.dart';
 
 class CartService {
   String url = "http://localhost:8081/api/cart";
@@ -19,6 +16,11 @@ class CartService {
 
     for (var jsonData in jsonDatas) {
       Cart cart = Cart.fromJson(jsonData);
+      var Url =
+          "http://localhost:8081/api/supplies/" + cart.product.id.toString();
+      var data1 = await http.get(Url);
+      var jsonData1 = json.decode(data1.body);
+      cart.product.price = jsonData1;
       carts.add(cart);
     }
     return carts;
@@ -31,7 +33,6 @@ class CartService {
             <dynamic, dynamic>{"product": product, "quantity": Quantity}));
 
     String responseString = response.body;
-    print(responseString);
   }
 
   Future RemoveFromCart(Cart cart, BuildContext context) async {
@@ -40,8 +41,6 @@ class CartService {
       Url,
       headers: <String, String>{"Content-Type": "application/json"},
     );
-
-    print(response.body);
   }
 
   Future getCartInfo(BuildContext context) async {
@@ -49,9 +48,26 @@ class CartService {
     var data = await http.get(Url);
     var jsonData = json.decode(data.body);
     double itemCount = jsonData["itemCount"];
-    double totalCost = jsonData["totalCost"];
     Map<String, double> map = new Map();
     map["itemCount"] = itemCount;
+    return map;
+  }
+
+  Future getTotal(BuildContext context) async {
+    var data = await http.get(url);
+    var jsonDatas = json.decode(data.body);
+    double total = 0;
+    for (var jsonData in jsonDatas) {
+      Cart cart = Cart.fromJson(jsonData);
+      var Url =
+          "http://localhost:8081/api/supplies/" + cart.product.id.toString();
+      var data1 = await http.get(Url);
+      var jsonData1 = json.decode(data1.body);
+      cart.product.price = jsonData1;
+      total += (cart.quantity * cart.product.price);
+    }
+    double totalCost = total;
+    Map<String, double> map = new Map();
     map["totalCost"] = totalCost;
     return map;
   }

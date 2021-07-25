@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:shop_app/components/custom_surfix_icon.dart';
 import 'package:shop_app/components/default_button.dart';
 import 'package:shop_app/components/form_error.dart';
 import 'package:shop_app/models/User.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shop_app/screens/profile/profile_screen.dart';
 import 'package:shop_app/services/UserService.dart';
-
-import '../../../constants.dart';
 import '../../../size_config.dart';
 
 class ProfileEditScreen extends StatefulWidget {

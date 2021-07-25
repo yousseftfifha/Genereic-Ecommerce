@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:shop_app/services/CartService.dart';
 
-import '../cart_screen.dart';
 import 'cart_card.dart';
 
 class Body extends StatefulWidget {
@@ -14,7 +13,6 @@ class _BodyState extends State<Body> {
   @override
   Widget build(BuildContext context) {
     CartService cs = new CartService();
-    GlobalKey<ScaffoldState> _scaffoldKey;
 
     return Scaffold(
         body: RefreshIndicator(

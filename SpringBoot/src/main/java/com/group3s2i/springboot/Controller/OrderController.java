@@ -35,19 +35,14 @@ public class OrderController {
         Order order =new Order ();
         List<Cart> cartList=cartRepository.findAll ();
         List<OrderItem> orderItems=new ArrayList<> ();
-
         double totalCost = 0;
         for (Cart cart:cartList) {
-            OrderItem orderItem=new OrderItem ();
-            orderItem.setCreatedDate (LocalDateTime.now());
+            OrderItem orderItem = new OrderItem ();
+            orderItem.setCreatedDate (LocalDateTime.now ());
             orderItem.setQuantity (cart.getQuantity ());
             orderItem.setProduct (cart.getProduct ());
             orderItems.add (orderItem);
-            Optional<Product> product=productRepository.findById (cart.getProduct ().getId ());
-            Supplies supplies=suppliesRepository.findByProduct (product);
-            totalCost += (supplies.getUnitprice ()+supplies.getProductPrice ().getVc ()+supplies.getProductPrice ().getFv ())* cart.getQuantity();
         }
-        order.setTotalPrice (totalCost);
         order.setStatus ("PENDING");
         order.setOrderItems (orderItems);
         order.setCreatedDate (LocalDateTime.now ());

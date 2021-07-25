@@ -42,8 +42,7 @@ class CartCard extends StatelessWidget {
             SizedBox(height: 10),
             Text.rich(
               TextSpan(
-                text: "/£ 12",
-                //text: "${cart.product.mouvement.unitPrice} \TND",
+                text: cart.product.price.toString() + "\TND",
                 style: TextStyle(
                     fontWeight: FontWeight.w600, color: kPrimaryColor),
                 children: [

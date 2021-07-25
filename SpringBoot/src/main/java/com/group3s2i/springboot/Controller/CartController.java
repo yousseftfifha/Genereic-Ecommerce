@@ -47,6 +47,13 @@ public class CartController {
     //create cart rest api
     @PostMapping("/cart")
     public Cart createCart(@RequestBody Cart cart){
+        List<Cart> cartList=cartRepository.findAll();
+        for (Cart cart1:cartList){
+            if(cart1.getProduct ().equals (cart.getProduct ())){
+                cart1.setQuantity (cart1.getQuantity ()+1);
+            return cartRepository.save (cart1);
+            }
+        }
         return cartRepository.save (cart);
     }
 
@@ -80,16 +87,10 @@ public class CartController {
     }
     @GetMapping("/cart/info")
     public Map<String, Double>  listCartItems() {
-        List<Cart> cartList = cartRepository.findAll ();
-        double totalCost = 0;
+
         double itemCount=cartRepository.count ();
-        for (Cart cart :cartList){
-            Optional<Product> product=productRepository.findById (cart.getProduct ().getId ());
-            Supplies supplies=suppliesRepository.findByProduct (product);
-            totalCost += (supplies.getUnitprice ()+supplies.getProductPrice ().getVc ()+supplies.getProductPrice ().getFv ())* cart.getQuantity();
-        }
+
         Map<String, Double> response = new HashMap<>();
-        response.put("totalCost", totalCost);
         response.put("itemCount", itemCount);
         return response;
     }

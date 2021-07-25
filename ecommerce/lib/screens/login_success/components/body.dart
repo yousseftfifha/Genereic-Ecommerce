@@ -44,6 +44,5 @@ class Body extends StatelessWidget {
   Future getEmail() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     email = preferences.getString('username');
-    print(email);
   }
 }

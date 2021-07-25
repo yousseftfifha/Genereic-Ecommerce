@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shop_app/screens/ProfileEdit/ProfileEdit.dart';
 import 'package:shop_app/screens/ProfileView/ProfileView.dart';
-import 'package:shop_app/screens/profile/profile_screen.dart';
 import 'package:shop_app/screens/sign_in/sign_in_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shop_app/services/UserService.dart';

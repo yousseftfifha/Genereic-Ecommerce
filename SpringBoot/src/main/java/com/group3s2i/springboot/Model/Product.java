@@ -3,14 +3,17 @@ package com.group3s2i.springboot.Model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.Data;
-import lombok.ToString;
+import lombok.*;
+import org.hibernate.Hibernate;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
-@Data
+@Getter
+@Setter
+@ToString
 @Entity
 @Table(name = "product")
 public class Product  {
@@ -45,15 +48,18 @@ public class Product  {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="category", referencedColumnName = "id")
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @ToString.Exclude
     private Category category;
 
     @OneToOne(fetch = FetchType.LAZY, cascade =  CascadeType.ALL, mappedBy = "product")
     @JsonIgnoreProperties("product")
+    @ToString.Exclude
     private Productinformation information;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "supplies")
     @JsonIgnore
+    @ToString.Exclude
     private Supplies supplies;
 
 
@@ -63,6 +69,7 @@ public class Product  {
             orphanRemoval = true
     )
     @JsonManagedReference
+    @ToString.Exclude
     private List<Mouvement> mouvements = new ArrayList<> ();
 
     @OneToMany(
@@ -71,6 +78,7 @@ public class Product  {
             orphanRemoval = true
     )
     @JsonManagedReference
+    @ToString.Exclude
     private List<ProductImage> productImages = new ArrayList<> ();
 
     @OneToMany(
@@ -79,6 +87,7 @@ public class Product  {
             orphanRemoval = true
     )
     @JsonManagedReference
+    @ToString.Exclude
     private List<ProductDetails> details = new ArrayList<> ();
 
 
@@ -214,20 +223,16 @@ public class Product  {
     }
 
     @Override
-    public String toString() {
-        return "Product{" +
-                "id=" + id +
-                ", tmpCode='" + tmpCode + '\'' +
-                ", code='" + code + '\'' +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", brand='" + brand + '\'' +
-                ", sku=" + sku +
-                ", isbn=" + isbn +
-                ", category=" + category +
-                ", information=" + information +
-                ", productImages=" + productImages +
-                ", details=" + details +
-                '}';
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass (this) != Hibernate.getClass (o)) return false;
+        Product product = (Product) o;
+
+        return Objects.equals (id, product.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return 2042274511;
     }
 }

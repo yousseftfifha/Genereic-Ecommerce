@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:shop_app/screens/Category/category_screen.dart';
 
 import '../../../size_config.dart';
 import 'section_title.dart';
