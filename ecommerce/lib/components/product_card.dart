@@ -32,13 +32,15 @@ class ProductCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               AspectRatio(
-                aspectRatio: 1.02,
+                aspectRatio: 1,
                 child: Container(
                   padding: EdgeInsets.all(getProportionateScreenWidth(20)),
                   decoration: BoxDecoration(
                     color: kSecondaryColor.withOpacity(0.1),
                     borderRadius: BorderRadius.circular(15),
                   ),
+                  height: getProportionateScreenHeight(40),
+                  width: getProportionateScreenWidth(40),
                   child: Hero(
                     tag: product.id,
                     child: Image.network('${product.productImages[0].url}'),
@@ -49,13 +51,13 @@ class ProductCard extends StatelessWidget {
               Text(
                 product.name,
                 style: TextStyle(color: Colors.black),
-                maxLines: 2,
+                maxLines: 1,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "${product.price} \TND",
+                    product.price.toStringAsFixed(2) + " \TND",
                     style: TextStyle(
                       fontSize: getProportionateScreenWidth(18),
                       fontWeight: FontWeight.w600,

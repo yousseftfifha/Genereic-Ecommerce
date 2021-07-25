@@ -37,4 +37,20 @@ class ProductService {
     }
     return products;
   }
+
+  Future Search(String keywords) async {
+    var data = await http.get(url + "/" + keywords);
+    var jsonDatas = json.decode(data.body);
+    List<Product> products = [];
+
+    for (var jsonData in jsonDatas) {
+      Product product = Product.fromJson(jsonData);
+      var Url = "http://localhost:8081/api/supplies/" + product.id.toString();
+      var data1 = await http.get(Url);
+      var jsonData1 = json.decode(data1.body);
+      product.price = jsonData1;
+      products.add(product);
+    }
+    return products;
+  }
 }

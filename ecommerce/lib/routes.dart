@@ -3,6 +3,7 @@ import 'package:shop_app/screens/Category/category_screen.dart';
 import 'package:shop_app/screens/CheckoutSuccess/CheckoutSuccessScreen.dart';
 import 'package:shop_app/screens/Orders/OrderItemsScreen.dart';
 import 'package:shop_app/screens/Orders/OrderScreen.dart';
+
 import 'package:shop_app/screens/Product/product_screen.dart';
 import 'package:shop_app/screens/ProfileEdit/ProfileEdit.dart';
 import 'package:shop_app/screens/ProfileView/ProfileView.dart';
@@ -17,6 +18,7 @@ import 'package:shop_app/screens/profile/profile_screen.dart';
 import 'package:shop_app/screens/sign_in/sign_in_screen.dart';
 import 'package:shop_app/screens/splash/splash_screen.dart';
 
+import 'screens/home/components/Spin.dart';
 import 'screens/sign_up/sign_up_screen.dart';
 
 final Map<String, WidgetBuilder> routes = {
@@ -38,4 +40,5 @@ final Map<String, WidgetBuilder> routes = {
   OrderScreen.routeName: (context) => OrderScreen(),
   OrderItemScreen.routeName: (context) => OrderItemScreen(),
   CheckoutSuccessScreen.routeName: (context) => CheckoutSuccessScreen(),
+  Spin.routeName: (context) => Spin(),
 };

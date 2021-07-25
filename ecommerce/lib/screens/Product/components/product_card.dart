@@ -43,7 +43,7 @@ class ProductCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "${product.price} \TND",
+                  product.price.toStringAsFixed(2) + "\TND",
                   style: TextStyle(
                     fontSize: getProportionateScreenWidth(18),
                     fontWeight: FontWeight.w600,

@@ -29,7 +29,13 @@ class PdfInvoiceApi {
       footer: (context) => buildFooter(order),
     ));
 
-    return PdfApi.saveDocument(name: 'my_invoice.pdf', pdf: pdf);
+    return PdfApi.saveDocument(
+        name: "Order N°:" +
+            order.id.toString() +
+            "  " +
+            order.user.username +
+            '.pdf',
+        pdf: pdf);
   }
 
   static Widget buildHeader(Order order) => Column(
@@ -108,8 +114,8 @@ class PdfInvoiceApi {
         item.product.name,
         Utils.formatDate(item.createdDate),
         '${item.quantity}',
-        '\$ ${item.product.price}',
-        '\$ ${total.toStringAsFixed(2)}',
+        '\TND' + item.product.price.toStringAsFixed(2),
+        '\TND ${total.toStringAsFixed(2)}',
       ];
     }).toList();
 

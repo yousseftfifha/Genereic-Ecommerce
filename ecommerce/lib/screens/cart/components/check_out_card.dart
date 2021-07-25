@@ -57,7 +57,7 @@ class Check extends State<CheckoutCard> {
                             children: [
                               TextSpan(
                                 text: snapshot.data["totalCost"]
-                                        .toStringAsFixed(3) +
+                                        .toStringAsFixed(2) +
                                     "\TND",
                                 style: TextStyle(
                                     fontSize: 16, color: Colors.black),

@@ -27,6 +27,12 @@ public class ProductController {
         return productRepository.findAll ();
     }
 
+    // get all products
+    @GetMapping("/product/{keywords}")
+    public ResponseEntity<List<Product>> search(@PathVariable String keywords){
+        List<Product> product = productRepository.findAllByNameOrBrandOrCategoryName (keywords) ;
+        return   ResponseEntity.ok(product);
+    }
     // get product rest api
     @GetMapping("/product/{id}")
     public ResponseEntity<Product> getProductById(@PathVariable long id){

@@ -46,7 +46,7 @@ class ProductDescription extends StatelessWidget {
             right: getProportionateScreenWidth(64),
           ),
           child: Text(
-            "${product.price} \TND",
+            product.price.toStringAsFixed(2) + "\TND",
             style: TextStyle(
               fontSize: getProportionateScreenWidth(18),
               fontWeight: FontWeight.w600,
