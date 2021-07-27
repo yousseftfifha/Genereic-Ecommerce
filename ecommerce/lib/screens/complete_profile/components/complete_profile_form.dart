@@ -1,3 +1,4 @@
+import 'package:country_state_city_picker/country_state_city_picker.dart';
 import 'package:date_field/date_field.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -47,6 +48,9 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
 
   @override
   Widget build(BuildContext context) {
+    String countryValue;
+    String stateValue;
+    String cityValue;
     return Form(
       key: _formKey,
       child: Column(
@@ -63,6 +67,68 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
           buildDobFormField(),
           SizedBox(height: getProportionateScreenHeight(40)),
           FormError(errors: errors),
+          RaisedButton(
+            child: Text("Open Popup"),
+            onPressed: () {
+              showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      scrollable: true,
+                      title: Text('Addresses'),
+                      content: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Form(
+                          child: Column(
+                            children: <Widget>[
+                              SelectState(
+                                onCountryChanged: (value) {
+                                  setState(() {
+                                    countryValue = value;
+                                  });
+                                },
+                                onStateChanged: (value) {
+                                  setState(() {
+                                    stateValue = value;
+                                  });
+                                },
+                                onCityChanged: (value) {
+                                  setState(() {
+                                    cityValue = value;
+                                  });
+                                },
+                              ),
+                              SizedBox(
+                                  height: getProportionateScreenHeight(30)),
+                              TextFormField(
+                                decoration: InputDecoration(
+                                  labelText: 'Street',
+                                  icon: Icon(Icons.streetview),
+                                ),
+                              ),
+                              SizedBox(
+                                  height: getProportionateScreenHeight(30)),
+                              TextFormField(
+                                decoration: InputDecoration(
+                                  labelText: 'ZipCode',
+                                  icon: Icon(Icons.code),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      actions: [
+                        RaisedButton(
+                            child: Text("Submit"),
+                            onPressed: () {
+                              // your code
+                            })
+                      ],
+                    );
+                  });
+            },
+          ),
           DefaultButton(
             text: "continue",
             press: () async {

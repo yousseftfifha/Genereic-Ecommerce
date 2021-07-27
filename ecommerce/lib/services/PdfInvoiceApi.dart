@@ -5,7 +5,8 @@ import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:pdf/widgets.dart';
 import 'package:shop_app/models/Order.dart';
-
+import 'dart:typed_data';
+import 'package:flutter/services.dart';
 import 'PdfApi.dart';
 
 class Utils {
@@ -16,7 +17,8 @@ class Utils {
 class PdfInvoiceApi {
   static Future<File> generate(Order order) async {
     final pdf = Document();
-
+    final ByteData bytes = await rootBundle.load('assets/images/logo.png');
+    final Uint8List byteList = bytes.buffer.asUint8List();
     pdf.addPage(MultiPage(
       build: (context) => [
         buildHeader(order),
@@ -25,6 +27,12 @@ class PdfInvoiceApi {
         buildInvoice(order),
         Divider(),
         buildTotal(order),
+        Divider(),
+        pw.Image(
+            pw.MemoryImage(
+              byteList,
+            ),
+            fit: pw.BoxFit.fitHeight)
       ],
       footer: (context) => buildFooter(order),
     ));

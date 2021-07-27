@@ -2,17 +2,17 @@ package com.group3s2i.springboot.Controller;
 
 import com.group3s2i.springboot.DAO.*;
 import com.group3s2i.springboot.Model.*;
+import com.group3s2i.springboot.Service.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
@@ -26,9 +26,15 @@ public class OrderController {
     private CartRepository cartRepository;
     @Autowired
     private SuppliesRepository suppliesRepository;
-
+    @Autowired
+    private MouvementRepository mouvementRepository;
     @Autowired
     private ProductRepository productRepository;
+    private final MailService mailService;
+
+    public OrderController(MailService mailService) {
+        this.mailService = mailService;
+    }
 
     @PostMapping("/order")
     public ResponseEntity<Order> createCart(@RequestBody User user){
@@ -41,6 +47,15 @@ public class OrderController {
             orderItem.setCreatedDate (LocalDateTime.now ());
             orderItem.setQuantity (cart.getQuantity ());
             orderItem.setProduct (cart.getProduct ());
+            Mouvement mouvement=new Mouvement();
+            List<Mouvement> mouvement1=mouvementRepository.findAllByProductOrderByIdAsc (cart.getProduct ());
+            Mouvement mouvement2=mouvement1.stream()
+                    .reduce((first, second) -> second).get();
+            mouvement.setType (1);
+            mouvement.setProduct (cart.getProduct ());
+            mouvement.setQuantity (mouvement2.getQuantity ()- cart.getQuantity ());
+            mouvement.setUpdatedat (LocalDateTime.now ());
+            mouvementRepository.save (mouvement);
             orderItems.add (orderItem);
         }
         order.setStatus ("PENDING");
@@ -53,10 +68,20 @@ public class OrderController {
         }
         System.out.println (orderItems);
         orderItemsRepository.saveAllAndFlush (orderItems);
+        String message= "Dear  "+user.getUsername ()+"\n you are receiving this mail because " +
+                "your order have been Successful and soon you will Receive your package" +
+                "\n Username:"+user.getUsername ()+
+                "\n Order Date:"+order.getCreatedDate ()+
+                "\n Order N°:"+order.getId ()+"\n Order Status:"+order.getStatus ()+
+                "\n Have a Great Day."
+                ;
+        ExecutorService emailExecutor = Executors.newSingleThreadExecutor();
+        emailExecutor.execute(() -> mailService.sendEmail ("youssef.tfifha@esprit.tn","Welcome To 3s2i E-Shop",message));
+        emailExecutor.shutdown();
+
         cartRepository.deleteAll();
         return   ResponseEntity.ok(order);
     }
-    // get all cart
     @GetMapping("/order/{user}")
     public List<Order> getAllOrders(@PathVariable User user){
         return orderRepository.findAllByUserOrderByCreatedDateDesc (user);

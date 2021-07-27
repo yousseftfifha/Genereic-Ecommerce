@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -31,24 +32,27 @@ public class SuppliesController {
     @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping("/supplies")
     public ResponseEntity<Supplies> createSupplies(@RequestBody Supplies supplies) {
-        supplies.getProduct ().setSupplies (supplies);
-        supplies.getProductPrice ().setSupplies (supplies);
-        suppliesRepository.save (supplies);
-        List<Mouvement> mouvementList = new ArrayList<> ();
-        Mouvement mouvement = new Mouvement ();
-        mouvement.setProduct (supplies.getProduct ());
-        mouvement.setQuantity (supplies.getQuantity ());
-        mouvement.setType (0);
-        mouvementList.add (mouvement);
-        mouvementRepository.saveAll (mouvementList);
-        Productinformation productinformation = new Productinformation ();
-        productinformation.setProduct (supplies.getProduct ());
-        productinformation.setMax (20);
-        productinformation.setMin (5);
-        productinformation.setSecurity (6);
-        productinformation.setThreshold (6);
-        productinformationRepository.save (productinformation);
-        supplies.getProduct ().setMouvements (mouvementList);
+
+            supplies.getProduct ().setSupplies (supplies);
+            supplies.getProductPrice ().setSupplies (supplies);
+            suppliesRepository.save (supplies);
+            List<Mouvement> mouvementList = new ArrayList<> ();
+            Mouvement mouvement = new Mouvement ();
+            mouvement.setProduct (supplies.getProduct ());
+            mouvement.setQuantity (supplies.getQuantity ());
+            mouvement.setType (0);
+            mouvement.setUpdatedat (LocalDateTime.now ());
+            mouvementList.add (mouvement);
+            mouvementRepository.saveAll (mouvementList);
+            Productinformation productinformation = new Productinformation ();
+            productinformation.setProduct (supplies.getProduct ());
+            productinformation.setMax (20);
+            productinformation.setMin (5);
+            productinformation.setSecurity (6);
+            productinformation.setThreshold (6);
+            productinformationRepository.save (productinformation);
+            supplies.getProduct ().setMouvements (mouvementList);
+
         return ResponseEntity.ok (supplies);
 
     }

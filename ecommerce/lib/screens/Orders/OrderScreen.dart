@@ -130,14 +130,14 @@ class _OrderScreenState extends State<OrderScreen> {
                             ),
                             DataColumn(
                               label: Text(
-                                'ACTION',
+                                'Invoice',
                                 style: TextStyle(
                                   color: Colors.orange.shade900,
                                   fontSize: 16.0,
                                 ),
                               ),
                               numeric: false,
-                              tooltip: "ACTION",
+                              tooltip: "Invoice",
                             )
                           ],
                           rows: data
@@ -234,7 +234,7 @@ class _OrderScreenState extends State<OrderScreen> {
                                             PdfApi.openFile(pdfFile);
                                           },
                                           child: Text(
-                                            "PDF",
+                                            "Genrate Invoice",
                                             style: TextStyle(
                                                 fontWeight: FontWeight.bold),
                                           ),

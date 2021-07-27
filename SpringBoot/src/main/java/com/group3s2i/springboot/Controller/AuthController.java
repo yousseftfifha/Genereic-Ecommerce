@@ -127,6 +127,7 @@ public class AuthController {
 					.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
 			roles.add(userRole);
 			user.setCustomer (signUpRequest.getCustomer ());
+			user.getCustomer ().setUrl ("http://localhost:8081/downloadFile/image_picker4915816687608941235.jpg");
 			user.getCustomer ().setUser (user);
 
 		} else {

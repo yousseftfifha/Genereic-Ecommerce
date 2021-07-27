@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 /**
  * @author tfifha youssef
@@ -32,6 +33,9 @@ public class Mouvement {
     @Column (name = "quantity")
     private int quantity;
 
+    @Column (name = "updatedat")
+    private LocalDateTime updatedat;
+
     public Mouvement() {
     }
 
@@ -40,6 +44,22 @@ public class Mouvement {
         this.product = product;
         this.type = type;
         this.quantity = quantity;
+    }
+
+    public Mouvement(Long id, Product product, int type, int quantity, LocalDateTime updatedat) {
+        this.id = id;
+        this.product = product;
+        this.type = type;
+        this.quantity = quantity;
+        this.updatedat = updatedat;
+    }
+
+    public LocalDateTime getUpdatedat() {
+        return updatedat;
+    }
+
+    public void setUpdatedat(LocalDateTime updatedat) {
+        this.updatedat = updatedat;
     }
 
     public Long getId() {
