@@ -1,9 +1,12 @@
+import 'package:country_state_city_picker/country_state_city_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:shop_app/components/custom_surfix_icon.dart';
 import 'package:shop_app/components/default_button.dart';
 import 'package:shop_app/components/form_error.dart';
+import 'package:shop_app/models/Address.dart';
 import 'package:shop_app/models/User.dart';
 import 'package:shop_app/screens/profile/profile_screen.dart';
+import 'package:shop_app/services/AddressService.dart';
 import 'package:shop_app/services/UserService.dart';
 import '../../../size_config.dart';
 
@@ -37,6 +40,9 @@ class _CompleteProfileFormState extends State<ProfileEditScreen> {
         });
     }
 
+    String countryValue;
+    String stateValue;
+    String cityValue;
     return Form(
       key: _formKey,
       child: Column(
@@ -53,6 +59,78 @@ class _CompleteProfileFormState extends State<ProfileEditScreen> {
           Cellphone(),
           SizedBox(height: getProportionateScreenHeight(30)),
           FormError(errors: errors),
+          SizedBox(height: getProportionateScreenHeight(30)),
+          DefaultButton(
+            text: "Add Addresses",
+            press: () {
+              showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      scrollable: true,
+                      title: Text('Addresses'),
+                      content: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Form(
+                          child: Column(
+                            children: <Widget>[
+                              SelectState(
+                                onCountryChanged: (value) {
+                                  setState(() {
+                                    countryValue = value;
+                                  });
+                                },
+                                onStateChanged: (value) {
+                                  setState(() {
+                                    stateValue = value;
+                                  });
+                                },
+                                onCityChanged: (value) {
+                                  setState(() {
+                                    cityValue = value;
+                                  });
+                                },
+                              ),
+                              SizedBox(
+                                  height: getProportionateScreenHeight(30)),
+                              buildStreetFormField(),
+                              SizedBox(
+                                  height: getProportionateScreenHeight(30)),
+                              buildZipCodeFormField(),
+                            ],
+                          ),
+                        ),
+                      ),
+                      actions: [
+                        DefaultButton(
+                          text: "Submit",
+                          press: () async {
+                            if (_formKey.currentState.validate()) {
+                              AddressService as = new AddressService();
+
+                              Address address = new Address(
+                                  street: streetC.text,
+                                  city: cityValue,
+                                  country: countryValue,
+                                  state: stateValue,
+                                  zipcode: zipC.text);
+                              as.AddAddress(address,
+                                  widget.profileModel.customer.id, context);
+                              Navigator.pushNamed(
+                                  context, ProfileScreen.routeName);
+                              /* UserService us = new UserService();
+                              us.updateUser(widget.profileModel, context);
+                              Navigator.pushNamed(
+                                  context, ProfileScreen.routeName);*/
+                            }
+                          },
+                        ),
+                      ],
+                    );
+                  });
+            },
+          ),
+          SizedBox(height: getProportionateScreenHeight(30)),
           DefaultButton(
             text: "Save Changes",
             press: () async {
@@ -64,6 +142,38 @@ class _CompleteProfileFormState extends State<ProfileEditScreen> {
             },
           ),
         ],
+      ),
+    );
+  }
+
+  TextEditingController streetC = TextEditingController();
+  String street;
+  TextFormField buildStreetFormField() {
+    return TextFormField(
+      controller: streetC,
+      onSaved: (newValue) => street = newValue,
+      decoration: InputDecoration(
+        labelText: "Street",
+        // If  you are using latest version of flutter then lable text and hint text shown like this
+        // if you r using flutter less then 1.20.* then maybe this is not working properly
+        floatingLabelBehavior: FloatingLabelBehavior.always,
+        suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/User.svg"),
+      ),
+    );
+  }
+
+  TextEditingController zipC = TextEditingController();
+  String zip;
+  TextFormField buildZipCodeFormField() {
+    return TextFormField(
+      controller: zipC,
+      onSaved: (newValue) => zip = newValue,
+      decoration: InputDecoration(
+        labelText: "Zip Code",
+        // If  you are using latest version of flutter then lable text and hint text shown like this
+        // if you r using flutter less then 1.20.* then maybe this is not working properly
+        floatingLabelBehavior: FloatingLabelBehavior.always,
+        suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/User.svg"),
       ),
     );
   }

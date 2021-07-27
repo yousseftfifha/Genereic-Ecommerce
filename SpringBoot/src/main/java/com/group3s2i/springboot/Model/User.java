@@ -67,6 +67,7 @@ public class User implements Serializable {
     )
     @JsonManagedReference
     private List<Order> orders;
+
     public User() {
     }
 

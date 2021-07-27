@@ -2,6 +2,7 @@ package com.group3s2i.springboot.Model;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,7 +14,9 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 @Getter
@@ -56,6 +59,15 @@ public class Customer {
 	@ToString.Exclude
 	private User user;
 
+	@OneToMany(
+			mappedBy = "customer",
+			cascade = CascadeType.ALL,
+			orphanRemoval = true
+	)
+	@JsonManagedReference
+	@ToString.Exclude
+	private List<Address> addressList = new ArrayList<> ();
+
 	public Customer(String firstName, String lastName, String phoneNumber, Gender gender) {
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -92,6 +104,14 @@ public class Customer {
 		this.phoneNumber = phoneNumber;
 		this.gender = gender;
 		this.dateOfBirth = dateOfBirth;
+	}
+
+	public List<Address> getAddressList() {
+		return addressList;
+	}
+
+	public void setAddressList(List<Address> addressList) {
+		this.addressList = addressList;
 	}
 
 	public Long getId() {

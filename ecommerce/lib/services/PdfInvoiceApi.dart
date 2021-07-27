@@ -22,17 +22,17 @@ class PdfInvoiceApi {
     pdf.addPage(MultiPage(
       build: (context) => [
         buildHeader(order),
-        SizedBox(height: 3 * PdfPageFormat.cm),
+        pw.Image(
+            pw.MemoryImage(
+              byteList,
+            ),
+            fit: pw.BoxFit.fitHeight),
+        SizedBox(height: 2 * PdfPageFormat.cm),
         buildTitle(order),
         buildInvoice(order),
         Divider(),
         buildTotal(order),
         Divider(),
-        pw.Image(
-            pw.MemoryImage(
-              byteList,
-            ),
-            fit: pw.BoxFit.fitHeight)
       ],
       footer: (context) => buildFooter(order),
     ));
@@ -62,8 +62,10 @@ class PdfInvoiceApi {
                       order.id.toString() +
                       "\n Status: " +
                       order.status +
-                      "\n relative to User" +
-                      order.user.username,
+                      "\n relative to User  " +
+                      order.user.username +
+                      "\n Order Date:  " +
+                      order.orderItems[0].createdDate.toIso8601String(),
                 ),
               ),
             ],
@@ -122,8 +124,8 @@ class PdfInvoiceApi {
         item.product.name,
         Utils.formatDate(item.createdDate),
         '${item.quantity}',
-        '\TND' + item.product.price.toStringAsFixed(2),
-        '\TND ${total.toStringAsFixed(2)}',
+        item.product.price.toStringAsFixed(2) + '  \TND',
+        '${total.toStringAsFixed(2)}  \TND ',
       ];
     }).toList();
 
@@ -181,10 +183,21 @@ class PdfInvoiceApi {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Divider(),
-          SizedBox(height: 2 * PdfPageFormat.mm),
-          buildSimpleText(title: 'Address', value: 'Address'),
           SizedBox(height: 1 * PdfPageFormat.mm),
-          buildSimpleText(title: 'Paypal', value: 'Paypal'),
+          buildSimpleText(
+              title: 'Address:',
+              value: "Country:" +
+                  invoice.user.customer.addressList[0].country +
+                  "\n State:" +
+                  invoice.user.customer.addressList[0].state +
+                  "\n City:" +
+                  invoice.user.customer.addressList[0].city +
+                  "\n Street:" +
+                  invoice.user.customer.addressList[0].street +
+                  "\n Zip Code:" +
+                  invoice.user.customer.addressList[0].zipcode),
+          SizedBox(height: 1 * PdfPageFormat.mm),
+          buildSimpleText(title: 'Payment', value: 'on Hand'),
         ],
       );
 
@@ -199,7 +212,7 @@ class PdfInvoiceApi {
       crossAxisAlignment: pw.CrossAxisAlignment.end,
       children: [
         Text(title, style: style),
-        SizedBox(width: 2 * PdfPageFormat.mm),
+        SizedBox(width: 1 * PdfPageFormat.mm),
         Text(value),
       ],
     );

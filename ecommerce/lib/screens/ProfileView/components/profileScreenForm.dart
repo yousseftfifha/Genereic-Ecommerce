@@ -3,6 +3,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:shop_app/components/custom_surfix_icon.dart';
 import 'package:shop_app/models/User.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:shop_app/services/AddressService.dart';
 import 'package:shop_app/services/UserService.dart';
 
 import '../../../size_config.dart';
@@ -25,29 +26,71 @@ class _CompleteProfileFormState extends State<ProfileScreenForm> {
 
   @override
   Widget build(BuildContext context) {
+    AddressService as = new AddressService();
     return Form(
       key: _formKey,
-      child: Column(
-        children: [
-          SizedBox(height: 20),
-          ProfilePic1(),
-          SizedBox(height: 20),
-          Username(),
-          SizedBox(height: getProportionateScreenHeight(30)),
-          Email(),
-          SizedBox(height: getProportionateScreenHeight(30)),
-          Firstname(),
-          SizedBox(height: getProportionateScreenHeight(30)),
-          Lastname(),
-          SizedBox(height: getProportionateScreenHeight(30)),
-          Gender(),
-          SizedBox(height: getProportionateScreenHeight(30)),
-          Cellphone(),
-          SizedBox(height: getProportionateScreenHeight(30)),
-          Datebirth(),
-          SizedBox(height: getProportionateScreenHeight(30)),
-        ],
-      ),
+      child: Column(children: [
+        SizedBox(height: 20),
+        ProfilePic1(),
+        SizedBox(height: 20),
+        Username(),
+        SizedBox(height: getProportionateScreenHeight(30)),
+        Email(),
+        SizedBox(height: getProportionateScreenHeight(30)),
+        Firstname(),
+        SizedBox(height: getProportionateScreenHeight(30)),
+        Lastname(),
+        SizedBox(height: getProportionateScreenHeight(30)),
+        Gender(),
+        SizedBox(height: getProportionateScreenHeight(30)),
+        Cellphone(),
+        SizedBox(height: getProportionateScreenHeight(30)),
+        Datebirth(),
+        SizedBox(height: getProportionateScreenHeight(30)),
+        SizedBox(height: getProportionateScreenWidth(20)),
+        ...List.generate(widget.profileModel.customer.addressList.length,
+            (index) {
+          return Card(
+            clipBehavior: Clip.antiAlias,
+            child: Column(
+              children: [
+                ListTile(
+                  title: Text('Address N°:' + index.toString()),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Text(
+                    'Country :' +
+                        '${widget.profileModel.customer.addressList[index].country}' +
+                        '\n State:' +
+                        '${widget.profileModel.customer.addressList[index].state}' +
+                        '\n City:' +
+                        '${widget.profileModel.customer.addressList[index].city}' +
+                        '\n Street:' +
+                        '${widget.profileModel.customer.addressList[index].street}' +
+                        '\n ZipCode:' +
+                        '${widget.profileModel.customer.addressList[index].zipcode}',
+                    style: TextStyle(color: Colors.black.withOpacity(0.6)),
+                  ),
+                ),
+                ButtonBar(
+                  alignment: MainAxisAlignment.start,
+                  children: [
+                    FlatButton(
+                      textColor: const Color(0xFF6200EE),
+                      onPressed: () {
+                        // Perform some action
+                      },
+                      child:
+                          const Text(' Make this address default for delivery'),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          );
+        }),
+      ]),
     );
   }
 
