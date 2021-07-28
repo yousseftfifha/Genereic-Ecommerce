@@ -2,6 +2,7 @@ package com.group3s2i.springboot.Controller;
 
 
 import com.group3s2i.springboot.DAO.CartRepository;
+import com.group3s2i.springboot.DAO.MouvementRepository;
 import com.group3s2i.springboot.DAO.ProductRepository;
 import com.group3s2i.springboot.Model.Cart;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,8 @@ public class CartController {
     @Autowired
     CartRepository cartRepository;
 
-
+    @Autowired
+    private MouvementRepository mouvementRepository;
     @Autowired
     private ProductRepository productRepository;
 
@@ -82,11 +84,16 @@ public class CartController {
     }
     @GetMapping("/cart/info")
     public Map<String, Double>  listCartItems() {
-
+        List<Cart> cartList=cartRepository.findAll ();
+        double totalCost=0.0;
+        for (Cart cart:cartList){
+            totalCost+= mouvementRepository.sum (cart.getProduct ())* cart.getQuantity ();
+        }
         double itemCount=cartRepository.count ();
-
         Map<String, Double> response = new HashMap<>();
         response.put("itemCount", itemCount);
+        response.put("totalCost", totalCost);
+
         return response;
     }
 

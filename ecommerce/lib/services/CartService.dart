@@ -16,8 +16,8 @@ class CartService {
 
     for (var jsonData in jsonDatas) {
       Cart cart = Cart.fromJson(jsonData);
-      var Url =
-          "http://localhost:8081/api/supplies/" + cart.product.id.toString();
+      var Url = "http://localhost:8081/api/product/price/" +
+          cart.product.id.toString();
       var data1 = await http.get(Url);
       var jsonData1 = json.decode(data1.body);
       cart.product.price = jsonData1;
@@ -59,8 +59,8 @@ class CartService {
     double total = 0;
     for (var jsonData in jsonDatas) {
       Cart cart = Cart.fromJson(jsonData);
-      var Url =
-          "http://localhost:8081/api/supplies/" + cart.product.id.toString();
+      var Url = "http://localhost:8081/api/product/price/" +
+          cart.product.id.toString();
       var data1 = await http.get(Url);
       var jsonData1 = json.decode(data1.body);
       cart.product.price = jsonData1;

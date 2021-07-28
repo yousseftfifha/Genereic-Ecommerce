@@ -30,7 +30,8 @@ public class Mouvement {
     @ToString.Exclude
     private Product product;
 
-
+    @Column(name = "unitprice")
+    private Double unitPrice;
 
     @Column(name = "typemouvement")
     private String typeMouvement;

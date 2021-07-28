@@ -1,6 +1,7 @@
 package com.group3s2i.springboot.Controller;
 
 
+import com.group3s2i.springboot.DAO.MouvementRepository;
 import com.group3s2i.springboot.DAO.ProductRepository;
 import com.group3s2i.springboot.Model.Category;
 import com.group3s2i.springboot.Model.Product;
@@ -22,6 +23,8 @@ public class ProductController {
 
     @Autowired
     ProductRepository productRepository;
+    @Autowired
+    MouvementRepository mouvementRepository;
 
     // get all products
     @GetMapping("/product")
@@ -41,6 +44,12 @@ public class ProductController {
         Product product = productRepository.findById(id)
                 .orElseThrow(()-> new ResourceNotFoundException("product does not exist with id :"+ id));
         return   ResponseEntity.ok(product);
+    }
+    @GetMapping("/product/price/{id}")
+    public Double getPrice(@PathVariable long id){
+        Product product=productRepository.findById (id)
+                .orElseThrow(()-> new ResourceNotFoundException("product does not exist with id :"+ id));
+        return mouvementRepository.sum (product);
     }
 
     //create product rest api
@@ -82,8 +91,10 @@ public class ProductController {
         return productRepository.findByCategory (id);
 
     }
+
     @GetMapping("/product/search")
     public ResponseEntity<List<Product>> searchForProduct(@SearchSpec Specification<Product> specs) {
         return new ResponseEntity<>(productRepository.findAll(Specification.where(specs)), HttpStatus.OK);
     }
+
 }

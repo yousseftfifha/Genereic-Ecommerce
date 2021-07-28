@@ -24,7 +24,7 @@ class OrderService {
     for (var jsonData in jsonDatas) {
       Order order = Order.fromJson(jsonData);
       for (OrderItem orderItem in order.orderItems) {
-        var Url = "http://localhost:8081/api/supplies/" +
+        var Url = "http://localhost:8081/api/product/price/" +
             orderItem.product.id.toString();
         var data1 = await http.get(Url);
         var jsonData1 = json.decode(data1.body);
@@ -42,8 +42,9 @@ class OrderService {
     List<OrderItem> orderItems = [];
     for (var jsonData in jsonDatas) {
       OrderItem orderItem = OrderItem.fromJson(jsonData);
-      var Url = "http://localhost:8081/api/supplies/" +
+      var Url = "http://localhost:8081/api/product/price/" +
           orderItem.product.id.toString();
+
       var data1 = await http.get(Url);
       var jsonData1 = json.decode(data1.body);
       orderItem.product.price = jsonData1;

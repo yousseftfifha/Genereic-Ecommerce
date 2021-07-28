@@ -34,20 +34,20 @@ class ProductCard extends StatelessWidget {
               AspectRatio(
                 aspectRatio: 1,
                 child: Container(
-                  padding: EdgeInsets.all(getProportionateScreenWidth(20)),
+                  padding: EdgeInsets.all(getProportionateScreenWidth(10)),
                   decoration: BoxDecoration(
                     color: kSecondaryColor.withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(15),
+                    borderRadius: BorderRadius.circular(17),
                   ),
-                  height: getProportionateScreenHeight(40),
-                  width: getProportionateScreenWidth(40),
+                  height: getProportionateScreenHeight(50),
+                  width: getProportionateScreenWidth(50),
                   child: Hero(
                     tag: product.id,
                     child: Image.network('${product.productImages[0].url}'),
                   ),
                 ),
               ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 14),
               Text(
                 product.name,
                 style: TextStyle(color: Colors.black),
@@ -59,7 +59,7 @@ class ProductCard extends StatelessWidget {
                   Text(
                     product.price.toStringAsFixed(2) + " \TND",
                     style: TextStyle(
-                      fontSize: getProportionateScreenWidth(18),
+                      fontSize: getProportionateScreenWidth(16),
                       fontWeight: FontWeight.w600,
                       color: kPrimaryColor,
                     ),

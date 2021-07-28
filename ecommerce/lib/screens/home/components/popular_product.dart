@@ -15,7 +15,7 @@ class PopularProducts extends StatelessWidget {
             EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
         child: SectionTitle(title: "Recent Products", press: () {}),
       ),
-      SizedBox(height: getProportionateScreenWidth(20)),
+      SizedBox(height: getProportionateScreenWidth(30)),
       FutureBuilder(
           future: ps.fetchData(),
           builder: (context, AsyncSnapshot snapshot) {

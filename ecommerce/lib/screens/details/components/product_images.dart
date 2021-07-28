@@ -23,27 +23,26 @@ class _ProductImagesState extends State<ProductImages> {
     return Column(
       children: [
         SizedBox(
-          width: getProportionateScreenWidth(238),
+          width: getProportionateScreenWidth(300),
           child: AspectRatio(
             aspectRatio: 1,
             child: Hero(
               tag: widget.product.id.toString(),
-              child: Image.network('${widget.product.productImages[selectedImage].url}'),
+              child: Image.network(
+                  '${widget.product.productImages[selectedImage].url}'),
             ),
           ),
         ),
-         SizedBox(height: getProportionateScreenWidth(20)),
+        SizedBox(height: getProportionateScreenWidth(10)),
         SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 ...List.generate(widget.product.productImages.length,
-                        (index) => buildSmallProductPreview(index)),
+                    (index) => buildSmallProductPreview(index)),
               ],
-            )
-
-        )
+            ))
       ],
     );
   }
