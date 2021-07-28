@@ -33,11 +33,13 @@ public class Product  {
     @Column(name = "name")
     private String name;
 
+    @Column(name = "brand")
+    private String brand;
+
     @Column(name = "description")
     private String description;
 
-    @Column(name = "brand")
-    private String brand;
+
 
     @Column(name = "sku")
     private Integer sku;
@@ -56,11 +58,12 @@ public class Product  {
     @ToString.Exclude
     private Productinformation information;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "supplies")
-    @JsonIgnore
+    @OneToOne(fetch = FetchType.LAZY, cascade =  CascadeType.ALL, mappedBy = "product")
+    @JsonIgnoreProperties("product")
     @ToString.Exclude
-    private Supplies supplies;
+    private ProductPrice productPrice;
+
+
 
 
     @OneToMany(
@@ -108,14 +111,6 @@ public class Product  {
     }
 
     public Product() {
-    }
-
-    public Supplies getSupplies() {
-        return supplies;
-    }
-
-    public void setSupplies(Supplies supplies) {
-        this.supplies = supplies;
     }
 
     public List<Mouvement> getMouvements() {

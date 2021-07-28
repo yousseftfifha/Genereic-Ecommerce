@@ -60,8 +60,6 @@ class PdfInvoiceApi {
                   barcode: Barcode.qrCode(),
                   data: "Order N°" +
                       order.id.toString() +
-                      "\n Status: " +
-                      order.status +
                       "\n relative to User  " +
                       order.user.username +
                       "\n Order Date:  " +

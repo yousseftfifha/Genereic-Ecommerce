@@ -4,7 +4,9 @@ package com.group3s2i.springboot.Controller;
 import com.group3s2i.springboot.DAO.ProductRepository;
 import com.group3s2i.springboot.Model.Category;
 import com.group3s2i.springboot.Model.Product;
+import com.sipios.springsearch.anotation.SearchSpec;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -80,5 +82,8 @@ public class ProductController {
         return productRepository.findByCategory (id);
 
     }
-
+    @GetMapping("/product/search")
+    public ResponseEntity<List<Product>> searchForProduct(@SearchSpec Specification<Product> specs) {
+        return new ResponseEntity<>(productRepository.findAll(Specification.where(specs)), HttpStatus.OK);
+    }
 }

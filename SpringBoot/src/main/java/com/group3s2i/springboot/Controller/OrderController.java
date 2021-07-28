@@ -24,8 +24,7 @@ public class OrderController {
     private OrderItemsRepository orderItemsRepository;
     @Autowired
     private CartRepository cartRepository;
-    @Autowired
-    private SuppliesRepository suppliesRepository;
+
     @Autowired
     private MouvementRepository mouvementRepository;
     @Autowired
@@ -51,10 +50,10 @@ public class OrderController {
             List<Mouvement> mouvement1=mouvementRepository.findAllByProductOrderByIdAsc (cart.getProduct ());
             Mouvement mouvement2=mouvement1.stream()
                     .reduce((first, second) -> second).get();
-            mouvement.setType (1);
+            mouvement.setTypeMouvement ("IN");
             mouvement.setProduct (cart.getProduct ());
             mouvement.setQuantity (mouvement2.getQuantity ()- cart.getQuantity ());
-            mouvement.setUpdatedat (LocalDateTime.now ());
+            mouvement.setMouvementDate (LocalDateTime.now ());
             mouvementRepository.save (mouvement);
             orderItems.add (orderItem);
         }

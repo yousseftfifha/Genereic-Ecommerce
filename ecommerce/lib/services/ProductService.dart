@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:shop_app/models/Product.dart';
+import 'package:shop_app/screens/Product/components/product_card.dart';
 
 class ProductService {
   String url = "http://localhost:8081/api/product";
@@ -39,7 +40,7 @@ class ProductService {
   }
 
   Future Search(String keywords) async {
-    var data = await http.get(url + "/" + keywords);
+    var data = await http.get(url + '/search?search=' + keywords);
     var jsonDatas = json.decode(data.body);
     List<Product> products = [];
 
@@ -50,6 +51,7 @@ class ProductService {
       var jsonData1 = json.decode(data1.body);
       product.price = jsonData1;
       products.add(product);
+      print(product);
     }
     return products;
   }

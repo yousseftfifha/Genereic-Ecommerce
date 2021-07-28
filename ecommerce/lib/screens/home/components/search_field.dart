@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:shop_app/screens/Product/components/product_card.dart';
+import 'package:shop_app/screens/Product/product_screen.dart';
+import 'package:shop_app/services/ProductService.dart';
 
 import '../../../constants.dart';
 import '../../../size_config.dart';
@@ -10,6 +13,8 @@ class SearchField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ProductService ps = new ProductService();
+
     return Container(
       width: SizeConfig.screenWidth * 0.75,
       decoration: BoxDecoration(
@@ -17,7 +22,9 @@ class SearchField extends StatelessWidget {
         borderRadius: BorderRadius.circular(15),
       ),
       child: TextField(
-        onChanged: (value) => {print(value)},
+        onChanged: (value) => {
+          ps.Search(value),
+        },
         decoration: InputDecoration(
             contentPadding: EdgeInsets.symmetric(
                 horizontal: getProportionateScreenWidth(20),

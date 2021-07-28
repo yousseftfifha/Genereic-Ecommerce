@@ -2,15 +2,19 @@ package com.group3s2i.springboot.Model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.Data;
+import lombok.*;
+import org.hibernate.Hibernate;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
+import java.util.Objects;
 
 /**
  * @author tfifha youssef
  */
-@Data
+@Getter
+@Setter
+@ToString
 @Entity
 @Table(name = "productimage")
 public class ProductImage {
@@ -26,6 +30,7 @@ public class ProductImage {
     @JoinColumn(name="product", referencedColumnName = "id")
     @JsonIgnoreProperties("product")
     @JsonBackReference
+    @ToString.Exclude
     private Product product;
 
     public ProductImage(Long id, String url, Product product) {
@@ -67,5 +72,17 @@ public class ProductImage {
         this.url = url;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass (this) != Hibernate.getClass (o)) return false;
+        ProductImage that = (ProductImage) o;
 
+        return Objects.equals (id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return 625986504;
+    }
 }

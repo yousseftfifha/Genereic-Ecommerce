@@ -3,11 +3,15 @@ package com.group3s2i.springboot.Model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.Data;
+import lombok.*;
+import org.hibernate.Hibernate;
 
 import javax.persistence.*;
+import java.util.Objects;
 
-@Data
+@Getter
+@Setter
+@ToString
 @Entity
 @Table(name = "productdetails")
 public class ProductDetails {
@@ -27,6 +31,7 @@ public class ProductDetails {
     @JoinColumn(name="product", referencedColumnName = "id")
     @JsonIgnoreProperties("product")
     @JsonBackReference
+    @ToString.Exclude
     private Product product;
 
     public ProductDetails() {
@@ -69,5 +74,19 @@ public class ProductDetails {
 
     public void setProduct(Product productid) {
         this.product = productid;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass (this) != Hibernate.getClass (o)) return false;
+        ProductDetails that = (ProductDetails) o;
+
+        return Objects.equals (id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return 555209333;
     }
 }

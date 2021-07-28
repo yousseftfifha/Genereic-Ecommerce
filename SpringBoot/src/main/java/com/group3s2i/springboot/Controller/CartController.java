@@ -3,11 +3,7 @@ package com.group3s2i.springboot.Controller;
 
 import com.group3s2i.springboot.DAO.CartRepository;
 import com.group3s2i.springboot.DAO.ProductRepository;
-import com.group3s2i.springboot.DAO.SuppliesRepository;
 import com.group3s2i.springboot.Model.Cart;
-import com.group3s2i.springboot.Model.Product;
-import com.group3s2i.springboot.Model.Supplies;
-import com.group3s2i.springboot.Model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -23,8 +19,7 @@ public class CartController {
 
     @Autowired
     CartRepository cartRepository;
-    @Autowired
-    private SuppliesRepository suppliesRepository;
+
 
     @Autowired
     private ProductRepository productRepository;

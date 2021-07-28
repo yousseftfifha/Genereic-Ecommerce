@@ -1,16 +1,18 @@
 package com.group3s2i.springboot.Model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Getter
 @Setter
-@ToString
 @Entity
 @Table(name = "organization")
 public class Organization implements Serializable {
@@ -49,33 +51,18 @@ public class Organization implements Serializable {
     @Column(name = "scope", nullable = false)
     private String scope;
 
+    @OneToMany(
+            mappedBy = "organization",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    @JsonManagedReference
+    @ToString.Exclude
+    private List<Unity> unities = new ArrayList<> ();
+
     public Organization() {
     }
 
-    public Organization(String name, String fiscalCode, String patentcode, String legalStatus, String category, String finality, String size, String sector, String scope) {
-        this.name = name;
-        this.fiscalCode = fiscalCode;
-        this.patentcode = patentcode;
-        this.legalStatus = legalStatus;
-        this.category = category;
-        this.finality = finality;
-        this.size = size;
-        this.sector = sector;
-        this.scope = scope;
-    }
-
-    public Organization(Long id, String name, String fiscalCode, String patentcode, String legalStatus, String category, String finality, String size, String sector, String scope) {
-        this.id = id;
-        this.name = name;
-        this.fiscalCode = fiscalCode;
-        this.patentcode = patentcode;
-        this.legalStatus = legalStatus;
-        this.category = category;
-        this.finality = finality;
-        this.size = size;
-        this.sector = sector;
-        this.scope = scope;
-    }
 
     public static long getSerialVersionUID() {
         return serialVersionUID;

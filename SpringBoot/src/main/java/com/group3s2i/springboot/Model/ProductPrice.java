@@ -21,10 +21,7 @@ public class ProductPrice {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "supplies")
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    private Supplies supplies;
+
 
     @Column(name = "vc", nullable = false)
     private Double vc;
@@ -32,6 +29,10 @@ public class ProductPrice {
     @Column(name = "fc", nullable = false)
     private Double fv;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product")
+    @ToString.Exclude
+    private Product product;
     public ProductPrice() {
     }
 
@@ -41,14 +42,6 @@ public class ProductPrice {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Supplies getSupplies() {
-        return supplies;
-    }
-
-    public void setSupplies(Supplies supplies) {
-        this.supplies = supplies;
     }
 
     public Double getVc() {
@@ -65,5 +58,13 @@ public class ProductPrice {
 
     public void setFv(Double fv) {
         this.fv = fv;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
     }
 }

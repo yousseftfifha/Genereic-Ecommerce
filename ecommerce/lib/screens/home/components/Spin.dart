@@ -55,14 +55,14 @@ class RouletteScore extends StatelessWidget {
   final int selected;
 
   final Map<int, String> labels = {
-    1: '1000\$',
-    2: '400\$',
-    3: '800\$',
-    4: '7000\$',
-    5: '5000\$',
-    6: '300\$',
-    7: '2000\$',
-    8: '100\$',
+    1: '1000 \TND',
+    2: '400 \TND',
+    3: '800 \TND',
+    4: '7000 \TND',
+    5: '5000 \TND',
+    6: '300 \TND',
+    7: '2000 \TND',
+    8: '100 \TND',
   };
 
   RouletteScore(this.selected);

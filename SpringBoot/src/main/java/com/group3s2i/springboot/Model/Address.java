@@ -44,7 +44,9 @@ public class Address implements Serializable {
     @JoinColumn(name="customer", referencedColumnName = "id")
     @JsonIgnoreProperties("customer")
     @JsonBackReference
+    @ToString.Exclude
     private Customer customer;
+
 
 
     public Address() {

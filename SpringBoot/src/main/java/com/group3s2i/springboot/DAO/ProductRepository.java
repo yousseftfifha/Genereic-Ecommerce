@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 import java.util.Optional;
 
-public interface ProductRepository extends JpaRepository<Product, Long>{
+public interface ProductRepository extends JpaRepository<Product, Long>, JpaSpecificationExecutor<Product>{
 
     @Query("select p from Product p where p.category = ?1")
     Optional<List<Product>> findByCategory(Category id);
@@ -18,4 +18,5 @@ public interface ProductRepository extends JpaRepository<Product, Long>{
 
     @Query("select p from Product p WHERE CONCAT(p.name, p.brand, p.category.name) LIKE %?1%")
     List<Product> findAllByNameOrBrandOrCategoryName(String key);
+
 }

@@ -20,7 +20,6 @@ import java.util.*;
  */
 @Getter
 @Setter
-@ToString
 @Entity
 @Table(name = "user")
 public class User implements Serializable {

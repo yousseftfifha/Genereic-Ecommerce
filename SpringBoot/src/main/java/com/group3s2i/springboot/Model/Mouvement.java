@@ -2,15 +2,19 @@ package com.group3s2i.springboot.Model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.Data;
+import lombok.*;
+import org.hibernate.Hibernate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 /**
  * @author tfifha youssef
  */
-@Data
+@Getter
+@Setter
+@ToString
 @Entity
 @Table(name = "mouvement")
 public class Mouvement {
@@ -23,43 +27,29 @@ public class Mouvement {
     @JoinColumn(name="product", referencedColumnName = "id")
     @JsonIgnoreProperties("product")
     @JsonBackReference
+    @ToString.Exclude
     private Product product;
 
 
 
-    @Column(name = "type")
-    private int type;
+    @Column(name = "typemouvement")
+    private String typeMouvement;
 
     @Column (name = "quantity")
     private int quantity;
 
-    @Column (name = "updatedat")
-    private LocalDateTime updatedat;
+    @Column (name = "mouvementdate")
+    private LocalDateTime mouvementDate;
 
     public Mouvement() {
     }
 
-    public Mouvement(Long id, Product product, int type,  int quantity) {
-        this.id = id;
-        this.product = product;
-        this.type = type;
-        this.quantity = quantity;
+    public LocalDateTime getMouvementDate() {
+        return mouvementDate;
     }
 
-    public Mouvement(Long id, Product product, int type, int quantity, LocalDateTime updatedat) {
-        this.id = id;
-        this.product = product;
-        this.type = type;
-        this.quantity = quantity;
-        this.updatedat = updatedat;
-    }
-
-    public LocalDateTime getUpdatedat() {
-        return updatedat;
-    }
-
-    public void setUpdatedat(LocalDateTime updatedat) {
-        this.updatedat = updatedat;
+    public void setMouvementDate(LocalDateTime updatedat) {
+        this.mouvementDate = updatedat;
     }
 
     public Long getId() {
@@ -78,12 +68,12 @@ public class Mouvement {
         this.product = product;
     }
 
-    public int getType() {
-        return type;
+    public String getTypeMouvement() {
+        return typeMouvement;
     }
 
-    public void setType(int type) {
-        this.type = type;
+    public void setTypeMouvement(String type) {
+        this.typeMouvement = type;
     }
 
     public int getQuantity() {
@@ -94,4 +84,17 @@ public class Mouvement {
         this.quantity = quantity;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass (this) != Hibernate.getClass (o)) return false;
+        Mouvement mouvement = (Mouvement) o;
+
+        return Objects.equals (id, mouvement.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return 2031935510;
+    }
 }
