@@ -42,6 +42,10 @@ public class Mouvement {
     @Column (name = "mouvementdate")
     private LocalDateTime mouvementDate;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "deliveryOrder")
+    private DeliveryOrder deliveryOrder;
+
     public Mouvement() {
     }
 

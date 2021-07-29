@@ -22,8 +22,6 @@ public class OrderItemSupplier {
     @Column(name = "quantity")
     private @NotNull int quantity;
 
-    @Column(name = "created_date")
-    private LocalDateTime createdDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="order_supplier_id", referencedColumnName = "id")
@@ -55,13 +53,6 @@ public class OrderItemSupplier {
         this.quantity = quantity;
     }
 
-    public LocalDateTime getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(LocalDateTime createdDate) {
-        this.createdDate = createdDate;
-    }
 
     public OrderSupplier getOrderSupplier() {
         return orderSupplier;

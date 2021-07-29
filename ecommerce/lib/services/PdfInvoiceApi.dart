@@ -21,18 +21,17 @@ class PdfInvoiceApi {
     final Uint8List byteList = bytes.buffer.asUint8List();
     pdf.addPage(MultiPage(
       build: (context) => [
-        buildHeader(order),
         pw.Image(
             pw.MemoryImage(
               byteList,
             ),
             fit: pw.BoxFit.fitHeight),
-        SizedBox(height: 2 * PdfPageFormat.cm),
+        buildHeader(order),
+        SizedBox(height: 1.5 * PdfPageFormat.cm),
         buildTitle(order),
         buildInvoice(order),
         Divider(),
         buildTotal(order),
-        Divider(),
       ],
       footer: (context) => buildFooter(order),
     ));
@@ -80,13 +79,19 @@ class PdfInvoiceApi {
       );
 
   static Widget buildInvoiceInfo(Order info) {
-    final titles = <String>[
-      'Invoice Number:',
-      'Invoice Date:',
-    ];
+    final titles = <String>['Invoice Number:', 'Invoice Date:', 'To:\n'];
     final data = <String>[
       info.id.toString(),
       Utils.formatDate(info.orderItems[0].createdDate),
+      info.user.customer.addressList[0].country +
+          " " +
+          info.user.customer.addressList[0].state +
+          " " +
+          info.user.customer.addressList[0].city +
+          " " +
+          info.user.customer.addressList[0].street +
+          " " +
+          info.user.customer.addressList[0].zipcode
     ];
 
     return Column(
@@ -181,19 +186,6 @@ class PdfInvoiceApi {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Divider(),
-          SizedBox(height: 1 * PdfPageFormat.mm),
-          buildSimpleText(
-              title: 'Address:',
-              value: "Country:" +
-                  invoice.user.customer.addressList[0].country +
-                  "\n State:" +
-                  invoice.user.customer.addressList[0].state +
-                  "\n City:" +
-                  invoice.user.customer.addressList[0].city +
-                  "\n Street:" +
-                  invoice.user.customer.addressList[0].street +
-                  "\n Zip Code:" +
-                  invoice.user.customer.addressList[0].zipcode),
           SizedBox(height: 1 * PdfPageFormat.mm),
           buildSimpleText(title: 'Payment', value: 'on Hand'),
         ],

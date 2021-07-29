@@ -1,7 +1,5 @@
 package com.group3s2i.springboot.Model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import org.hibernate.Hibernate;
@@ -81,7 +79,7 @@ private List<Product> products ;
             orphanRemoval = true
     )
     @JsonManagedReference
-    private List<SalesOrder> salesOrders;
+    private List<DeliveryOrder> deliveryOrders;
     public Supplier() {
     }
 

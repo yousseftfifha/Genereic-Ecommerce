@@ -60,6 +60,13 @@ public class Organization implements Serializable {
     @ToString.Exclude
     private List<Unity> unities = new ArrayList<> ();
 
+    @OneToMany(
+            mappedBy = "organization",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    @JsonManagedReference
+    private List<DeliveryOrder> deliveryOrders;
     public Organization() {
     }
 

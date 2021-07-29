@@ -13,7 +13,7 @@ import java.util.List;
 public interface MouvementRepository extends JpaRepository<Mouvement,Long> {
     List<Mouvement> findAllByProductOrderByIdAsc(Product product);
 
-    @Query("SELECT SUM(m.unitPrice) FROM Mouvement m where m.product=?1")
+    @Query("SELECT AVG(m.unitPrice) FROM Mouvement m where m.product=?1")
     double sum(Product product);
 }
 

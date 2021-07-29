@@ -49,7 +49,7 @@ public class ProductController {
     public Double getPrice(@PathVariable long id){
         Product product=productRepository.findById (id)
                 .orElseThrow(()-> new ResourceNotFoundException("product does not exist with id :"+ id));
-        return mouvementRepository.sum (product);
+        return mouvementRepository.sum (product)+product.getProductPrice ().getVc ()+product.getProductPrice ().getFv ();
     }
 
     //create product rest api
