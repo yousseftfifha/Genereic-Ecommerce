@@ -1,80 +1,75 @@
 package com.group3s2i.springboot.Model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 
 /**
  * @author tfifha youssef
  */
+@Getter
+@Setter
+@ToString
 @Entity
-@Table(name="ordersupplier")
-public class OrderSupplier {
+@Table(name="orders_supplier")
+public class OrderSupplier implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "order_number")
+    private String orderNumber;
 
     @Column(name = "status")
     private String status;
 
     @Column(name = "created_date")
     private LocalDateTime createdDate;
+
+    @Column(name = "canceled_date")
+    private LocalDateTime cancelledDate;
+
+    @Column(name = "order_date")
+    private LocalDateTime orderDate;
+
+    @Column(name = "sent_media")
+    private String sentMedia;
+
+    @Column(name = "urgent")
+    private String urgent;
+
     @OneToMany(
             mappedBy = "orderSupplier",
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
-    @JsonManagedReference
+    @JsonIgnoreProperties
+    @ToString.Exclude
     private List<OrderItemSupplier> orderItemSuppliers;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "supplier_id", referencedColumnName = "id")
-    @JsonBackReference
+    @JsonIgnoreProperties
+    @ToString.Exclude
     private Supplier supplier;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "currency_id")
+    @ToString.Exclude
+    private Currency currency;
 
     public OrderSupplier() {
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public LocalDateTime getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(LocalDateTime createdDate) {
-        this.createdDate = createdDate;
-    }
-
-    public List<OrderItemSupplier> getOrderItemSuppliers() {
-        return orderItemSuppliers;
-    }
-
-    public void setOrderItemSuppliers(List<OrderItemSupplier> orderItemSuppliers) {
-        this.orderItemSuppliers = orderItemSuppliers;
-    }
-
-    public Supplier getSupplier() {
-        return supplier;
-    }
-
-    public void setSupplier(Supplier supplier) {
-        this.supplier = supplier;
-    }
 }

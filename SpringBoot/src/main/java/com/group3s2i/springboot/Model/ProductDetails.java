@@ -7,14 +7,18 @@ import lombok.*;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
+import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Getter
 @Setter
 @ToString
 @Entity
-@Table(name = "productdetails")
-public class ProductDetails {
+@Table(name = "product_details")
+public class ProductDetails implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     @Id
     @Column(name = "id")
@@ -27,66 +31,19 @@ public class ProductDetails {
     @Column(name = "value")
     private String value;
 
+    @Column(name = "created_date")
+    private LocalDateTime createdDate;
+
+    @Column(name = "canceled_date")
+    private LocalDateTime cancelledDate;
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="product", referencedColumnName = "id")
-    @JsonIgnoreProperties("product")
-    @JsonBackReference
+    @JoinColumn(name="product_id", referencedColumnName = "id")
     @ToString.Exclude
+    @JsonBackReference(value = "product_detail")
     private Product product;
 
     public ProductDetails() {
     }
 
-    public ProductDetails(Long id, String attribute, String value, Product productid) {
-        this.id = id;
-        this.attribute = attribute;
-        this.value = value;
-        this.product = productid;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getAttribute() {
-        return attribute;
-    }
-
-    public void setAttribute(String attribute) {
-        this.attribute = attribute;
-    }
-
-    public String getValue() {
-        return value;
-    }
-
-    public void setValue(String value) {
-        this.value = value;
-    }
-
-    public Product getProduct() {
-        return product;
-    }
-
-    public void setProduct(Product productid) {
-        this.product = productid;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || Hibernate.getClass (this) != Hibernate.getClass (o)) return false;
-        ProductDetails that = (ProductDetails) o;
-
-        return Objects.equals (id, that.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return 555209333;
-    }
 }

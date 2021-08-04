@@ -11,11 +11,11 @@ import java.util.Optional;
 
 @Repository
 public interface CategoryRepository extends JpaRepository<Category, Long> {
-    @Query("select c from Category c where c.idup IS NULL")
+    @Query("select c from Category c where c.parentId IS NULL")
     Optional<List<Category>> findByIdupEqualsNull();
 
-    @Query("select c from Category c where c.idup = ?1")
-    Optional<List<Category>>findByidup(Category idup);
+    @Query("select c from Category c where c.parentId = ?1")
+    Optional<List<Category>>findByidup(Category parentId);
 
 
 }

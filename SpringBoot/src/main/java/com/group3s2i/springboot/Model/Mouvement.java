@@ -2,10 +2,12 @@ package com.group3s2i.springboot.Model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -17,89 +19,42 @@ import java.util.Objects;
 @ToString
 @Entity
 @Table(name = "mouvement")
-public class Mouvement {
+public class Mouvement implements Serializable {
+
+    private static final long serialVersionUID = 1L;
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="product", referencedColumnName = "id")
-    @JsonIgnoreProperties("product")
-    @JsonBackReference
+    @JoinColumn(name="product_id", referencedColumnName = "id")
     @ToString.Exclude
+    @JsonBackReference(value = "product_mouvement")
     private Product product;
 
-    @Column(name = "unitprice")
+    @Column(name = "unit_price")
     private Double unitPrice;
 
-    @Column(name = "typemouvement")
+    @Column(name = "mouvement_type")
     private String typeMouvement;
 
     @Column (name = "quantity")
     private int quantity;
 
-    @Column (name = "mouvementdate")
+    @Column (name = "delivery_item")
+    private Long deliveryItem;
+
+    @Column (name = "mouvement_date")
     private LocalDateTime mouvementDate;
 
+
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "deliveryOrder")
-    private DeliveryOrder deliveryOrder;
+    @JoinColumn(name = "warehouse_id")
+    @ToString.Exclude
+    private Warehouse warehouse;
 
     public Mouvement() {
     }
 
-    public LocalDateTime getMouvementDate() {
-        return mouvementDate;
-    }
-
-    public void setMouvementDate(LocalDateTime updatedat) {
-        this.mouvementDate = updatedat;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Product getProduct() {
-        return product;
-    }
-
-    public void setProduct(Product product) {
-        this.product = product;
-    }
-
-    public String getTypeMouvement() {
-        return typeMouvement;
-    }
-
-    public void setTypeMouvement(String type) {
-        this.typeMouvement = type;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || Hibernate.getClass (this) != Hibernate.getClass (o)) return false;
-        Mouvement mouvement = (Mouvement) o;
-
-        return Objects.equals (id, mouvement.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return 2031935510;
-    }
 }

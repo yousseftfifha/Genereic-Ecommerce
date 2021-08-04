@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {LoginService} from "../../Entities/Login/login.service";
 
 @Component({
   selector: 'app-navbar',
@@ -7,9 +8,30 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavbarComponent implements OnInit {
 
-  constructor() { }
+  private roles!: string[];
+  isLoggedIn = false;
+  showAdminBoard = false;
+  username!: string;
+
+  constructor(private authService: LoginService) { }
+
+
 
   ngOnInit(): void {
+    this.isLoggedIn = !!this.authService.getToken();
+
+    if (this.isLoggedIn) {
+      const user = this.authService.getUser();
+      this.roles = user.roles;
+
+      this.showAdminBoard = this.roles.includes('ROLE_ADMIN');
+
+      this.username = user.username;
+    }
   }
 
+  logout(): void {
+    this.authService.signOut();
+    window.location.reload();
+  }
 }

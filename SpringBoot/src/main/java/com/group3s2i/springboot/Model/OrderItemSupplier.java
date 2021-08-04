@@ -2,71 +2,61 @@ package com.group3s2i.springboot.Model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
  * @author tfifha youssef
  */
-
+@Getter
+@Setter
+@ToString
 @Entity
-@Table(name = "orderitemsupplier")
-public class OrderItemSupplier {
+@Table(name = "order_supplier_items")
+public class OrderItemSupplier implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @Column(name = "item_seq")
+    private  int itemSeq;
 
     @Column(name = "quantity")
     private @NotNull int quantity;
 
+    @Column(name = "unit_price")
+    private  Double unitPrice;
+
+    @Column(name = "vat_code")
+    private  Double vatCode;
+
+    @Column(name = "discount_rate")
+    private  Double discountRate;
+
+    @Column(name = "created_date")
+    private LocalDateTime createdDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="order_supplier_id", referencedColumnName = "id")
+    @JoinColumn(name = "order_id", referencedColumnName = "id")
     @JsonIgnoreProperties("order")
-    @JsonBackReference
+    @ToString.Exclude
     private OrderSupplier orderSupplier;
 
     @OneToOne
-    @JoinColumn(name = "productsupplier_id", referencedColumnName = "id")
+    @JoinColumn(name = "product_supplier_id", referencedColumnName = "id")
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private ProductSupplier productSupplier;
 
     public OrderItemSupplier() {
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
-
-    public OrderSupplier getOrderSupplier() {
-        return orderSupplier;
-    }
-
-    public void setOrderSupplier(OrderSupplier orderSupplier) {
-        this.orderSupplier = orderSupplier;
-    }
-
-    public ProductSupplier getProductSupplier() {
-        return productSupplier;
-    }
-
-    public void setProductSupplier(ProductSupplier productSupplier) {
-        this.productSupplier = productSupplier;
-    }
 }

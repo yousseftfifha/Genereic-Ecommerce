@@ -4,24 +4,19 @@ import com.group3s2i.springboot.DAO.*;
 import com.group3s2i.springboot.Model.*;
 import com.group3s2i.springboot.Service.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/api")
 public class OrderController {
     @Autowired
-    private OrderRepository orderRepository;
+    private OrderCustomerRepository orderCustomerRepository;
     @Autowired
-    private OrderItemsRepository orderItemsRepository;
+    private OrderCustomerItemRepository orderCustomerItemRepository;
     @Autowired
     private CartRepository cartRepository;
 
@@ -35,17 +30,17 @@ public class OrderController {
         this.mailService = mailService;
     }
 
-    @PostMapping("/order")
-    public ResponseEntity<Order> createCart(@RequestBody User user){
-        Order order =new Order ();
+   /* @PostMapping("/order")
+    public ResponseEntity<OrderCustomer> createCart(@RequestBody User user){
+        OrderCustomer orderCustomer =new OrderCustomer ();
         List<Cart> cartList=cartRepository.findAll ();
-        List<OrderItem> orderItems=new ArrayList<> ();
+        List<OrderCustomerItem> orderCustomerItems =new ArrayList<> ();
         double totalCost = 0;
         for (Cart cart:cartList) {
-            OrderItem orderItem = new OrderItem ();
-            orderItem.setCreatedDate (LocalDateTime.now ());
-            orderItem.setQuantity (cart.getQuantity ());
-            orderItem.setProduct (cart.getProduct ());
+            OrderCustomerItem orderCustomerItem = new OrderCustomerItem ();
+            orderCustomerItem.setCreatedDate (LocalDateTime.now ());
+            orderCustomerItem.setQuantity (cart.getQuantity ());
+            orderCustomerItem.setProduct (cart.getProduct ());
             Mouvement mouvement=new Mouvement();
             List<Mouvement> mouvement1=mouvementRepository.findAllByProductOrderByIdAsc (cart.getProduct ());
             Mouvement mouvement2=mouvement1.stream()
@@ -55,23 +50,23 @@ public class OrderController {
             mouvement.setQuantity (mouvement2.getQuantity ()- cart.getQuantity ());
             mouvement.setMouvementDate (LocalDateTime.now ());
             mouvementRepository.save (mouvement);
-            orderItems.add (orderItem);
+            orderCustomerItems.add (orderCustomerItem);
         }
-        order.setStatus ("PENDING");
-        order.setOrderItems (orderItems);
-        order.setCreatedDate (LocalDateTime.now ());
-        order.setUser (user);
-        orderRepository.save (order);
-        for (OrderItem orderItem1:orderItems){
-            orderItem1.setOrder (order);
+        orderCustomer.setStatus ("PENDING");
+        orderCustomer.setOrderCustomerItems (orderCustomerItems);
+        orderCustomer.setCreatedDate (LocalDateTime.now ());
+        orderCustomer.setUser (user);
+        orderRepository.save (orderCustomer);
+        for (OrderCustomerItem orderCustomerItem1 : orderCustomerItems){
+            orderCustomerItem1.setOrder (orderCustomer);
         }
-        System.out.println (orderItems);
-        orderItemsRepository.saveAllAndFlush (orderItems);
+        System.out.println (orderCustomerItems);
+        orderItemsRepository.saveAllAndFlush (orderCustomerItems);
         String message= "Dear  "+user.getUsername ()+"\n you are receiving this mail because " +
                 "your order have been Successful and soon you will Receive your package" +
                 "\n Username:"+user.getUsername ()+
-                "\n Order Date:"+order.getCreatedDate ()+
-                "\n Order N°:"+order.getId ()+"\n Order Status:"+order.getStatus ()+
+                "\n Order Date:"+ orderCustomer.getCreatedDate ()+
+                "\n Order N°:"+ orderCustomer.getId ()+"\n Order Status:"+ orderCustomer.getStatus ()+
                 "\n Have a Great Day."
                 ;
         ExecutorService emailExecutor = Executors.newSingleThreadExecutor();
@@ -79,16 +74,16 @@ public class OrderController {
         emailExecutor.shutdown();
 
         cartRepository.deleteAll();
-        return   ResponseEntity.ok(order);
-    }
-    @GetMapping("/order/{user}")
-    public List<Order> getAllOrders(@PathVariable User user){
-        return orderRepository.findAllByUserOrderByCreatedDateDesc (user);
+        return   ResponseEntity.ok(orderCustomer);
+    }*/
+    @GetMapping("/order/{customer}")
+    public List<OrderCustomer> getAllOrders(@PathVariable Customer customer){
+        return orderCustomerRepository.findAllByUserOrderByCreatedDateDesc (customer);
     }
     @GetMapping("/order/item/{id}")
-    public List<OrderItem> getAllOrderItems(@PathVariable long id){
-        Optional<Order> order=orderRepository.findById (id);
-        return orderItemsRepository.findAllByOrderOrderByCreatedDateDesc (order);
+    public List<OrderCustomerItem> getAllOrderItems(@PathVariable long id){
+        Optional<OrderCustomer> order= orderCustomerRepository.findById (id);
+        return orderCustomerItemRepository.findAllByOrderOrderByCreatedDateDesc (order);
     }
 
 

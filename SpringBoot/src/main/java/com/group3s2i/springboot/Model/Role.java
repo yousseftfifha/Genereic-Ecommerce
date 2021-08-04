@@ -1,15 +1,14 @@
 package com.group3s2i.springboot.Model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
+@Getter
+@Setter
 @Table(name = "roles")
-@Data @NoArgsConstructor @AllArgsConstructor @ToString
+@NoArgsConstructor @AllArgsConstructor @ToString
 public class Role {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

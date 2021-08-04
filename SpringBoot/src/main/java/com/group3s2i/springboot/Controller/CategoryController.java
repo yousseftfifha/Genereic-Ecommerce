@@ -64,8 +64,7 @@ public class CategoryController {
             Category category1 = optionalCategory.get();
             category1.setName (category.getName());
             category1.setDescription (category.getDescription());
-            System.out.println(category.getIdup());
-            category1.setIdup (category.getIdup());
+            category1.setParentId (category.getParentId ());
 
             return new ResponseEntity<>(categoryRepository.save(category), HttpStatus.OK);
         } else {

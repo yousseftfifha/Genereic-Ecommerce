@@ -1,23 +1,25 @@
 package com.group3s2i.springboot.Model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
-import org.hibernate.Hibernate;
+import org.exolab.castor.types.DateTime;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.util.*;
 
 @Getter
 @Setter
 @ToString
 @Entity
 @Table(name = "product")
-public class Product  {
+public class Product  implements Serializable {
 
+    private static final long serialVersionUID = 1L;
 
     @Id
     @Column(name = "id")
@@ -39,13 +41,22 @@ public class Product  {
     @Column(name = "description")
     private String description;
 
-
-
     @Column(name = "sku")
     private Integer sku;
 
     @Column(name = "isbn")
     private Integer isbn;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "created_date")
+    @CreatedDate
+    private Date createdDate;
+
+    @Column(name = "canceled_date")
+    private LocalDateTime cancelledDate;
+
+    @Column(name = "canceled_reason")
+    private String cancelledReason;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="category", referencedColumnName = "id")
@@ -54,25 +65,23 @@ public class Product  {
     private Category category;
 
     @OneToOne(fetch = FetchType.LAZY, cascade =  CascadeType.ALL, mappedBy = "product")
-    @JsonIgnoreProperties("product")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @ToString.Exclude
+    @JsonBackReference(value = "product-info")
     private Productinformation information;
 
     @OneToOne(fetch = FetchType.LAZY, cascade =  CascadeType.ALL, mappedBy = "product")
-    @JsonIgnoreProperties("product")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @ToString.Exclude
-    private ProductPrice productPrice;
-
-
-
+    private ProductExtraCost productExtraCost;
 
     @OneToMany(
             mappedBy = "product",
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
-    @JsonManagedReference
     @ToString.Exclude
+    @JsonManagedReference(value = "product_mouvement")
     private List<Mouvement> mouvements = new ArrayList<> ();
 
     @OneToMany(
@@ -80,8 +89,8 @@ public class Product  {
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
-    @JsonManagedReference
     @ToString.Exclude
+    @JsonManagedReference(value = "product_image")
     private List<ProductImage> productImages = new ArrayList<> ();
 
     @OneToMany(
@@ -89,145 +98,19 @@ public class Product  {
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
-    @JsonManagedReference
     @ToString.Exclude
+    @JsonManagedReference(value = "product_detail")
     private List<ProductDetails> details = new ArrayList<> ();
 
-
-
-    public Product(Long id, String tmpCode, String code, String name, String description, String brand, Integer sku, Integer isbn, Category category, Productinformation information, List<ProductImage> productImages, List<ProductDetails> details) {
-        this.id = id;
-        this.tmpCode = tmpCode;
-        this.code = code;
-        this.name = name;
-        this.description = description;
-        this.brand = brand;
-        this.sku = sku;
-        this.isbn = isbn;
-        this.category = category;
-        this.information = information;
-        this.productImages = productImages;
-        this.details = details;
-    }
+    @OneToMany(mappedBy = "product",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
+    @ToString.Exclude
+    @JsonManagedReference(value = "product-ps")
+    private List<ProductSupplier> productSuppliers;
 
     public Product() {
     }
 
-    public List<Mouvement> getMouvements() {
-        return mouvements;
-    }
 
-    public void setMouvements(List<Mouvement> mouvements) {
-        this.mouvements = mouvements;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getTmpCode() {
-        return tmpCode;
-    }
-
-    public void setTmpCode(String tmpCode) {
-        this.tmpCode = tmpCode;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getBrand() {
-        return brand;
-    }
-
-    public void setBrand(String brand) {
-        this.brand = brand;
-    }
-
-    public Integer getSku() {
-        return sku;
-    }
-
-    public void setSku(Integer sku) {
-        this.sku = sku;
-    }
-
-    public Integer getIsbn() {
-        return isbn;
-    }
-
-    public void setIsbn(Integer isbn) {
-        this.isbn = isbn;
-    }
-
-    public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
-    }
-
-    public Productinformation getInformation() {
-        return information;
-    }
-
-    public void setInformation(Productinformation information) {
-        this.information = information;
-    }
-
-    public List<ProductImage> getProductImages() {
-        return productImages;
-    }
-
-    public void setProductImages(List<ProductImage> productImages) {
-        this.productImages = productImages;
-    }
-
-    public List<ProductDetails> getDetails() {
-        return details;
-    }
-
-    public void setDetails(List<ProductDetails> details) {
-        this.details = details;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || Hibernate.getClass (this) != Hibernate.getClass (o)) return false;
-        Product product = (Product) o;
-
-        return Objects.equals (id, product.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return 2042274511;
-    }
 }

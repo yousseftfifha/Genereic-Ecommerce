@@ -1,6 +1,6 @@
 package com.group3s2i.springboot.Service;
 
-import com.group3s2i.springboot.Model.Order;
+import com.group3s2i.springboot.Model.OrderCustomer;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperReport;
@@ -33,7 +33,7 @@ public class InvoiceService {
     @Value("${invoice.template.path}")
     private String invoice_template;
 
-    public File generateInvoiceFor(Order order, Locale locale) throws IOException {
+    public File generateInvoiceFor(OrderCustomer orderCustomer, Locale locale) throws IOException {
 
         File pdfFile = File.createTempFile("my-invoice", ".pdf");
 
@@ -45,7 +45,7 @@ public class InvoiceService {
             final JasperReport report = loadTemplate();
 
             // Fill parameters map.
-            final Map<String, Object> parameters = parameters(order, locale);
+            final Map<String, Object> parameters = parameters(orderCustomer, locale);
 
             // Create an empty datasource.
             final JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(Collections.singletonList("Invoice"));
@@ -64,10 +64,10 @@ public class InvoiceService {
     }
 
     // Fill template order params
-    private Map<String, Object> parameters(Order order, Locale locale) {
+    private Map<String, Object> parameters(OrderCustomer orderCustomer, Locale locale) {
         final Map<String, Object> parameters = new HashMap<>();
         parameters.put("logo", getClass().getResourceAsStream(logo_path));
-        parameters.put("order",  order);
+        parameters.put("order", orderCustomer);
         parameters.put("REPORT_LOCALE", locale);
         return parameters;
     }

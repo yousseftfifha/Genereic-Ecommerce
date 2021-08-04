@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {LoginService} from "../../Entities/Login/login.service";
 
 @Component({
   selector: 'app-sidebar',
@@ -6,10 +7,26 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./sidebar.component.css']
 })
 export class SidebarComponent implements OnInit {
+  private roles!: string[];
+  isLoggedIn = false;
+  showAdminBoard = false;
+  username!: string;
 
-  constructor() { }
+  constructor(private authService: LoginService) { }
+
+
 
   ngOnInit(): void {
+    this.isLoggedIn = !!this.authService.getToken();
+
+    if (this.isLoggedIn) {
+      const user = this.authService.getUser();
+      this.roles = user.roles;
+
+      this.showAdminBoard = this.roles.includes('ROLE_ADMIN');
+
+      this.username = user.username;
+    }
   }
 
 }

@@ -3,8 +3,11 @@ package com.group3s2i.springboot.Controller;
 
 import com.group3s2i.springboot.DAO.MouvementRepository;
 import com.group3s2i.springboot.DAO.ProductRepository;
+import com.group3s2i.springboot.DAO.ProductSupplierRepository;
 import com.group3s2i.springboot.Model.Category;
 import com.group3s2i.springboot.Model.Product;
+import com.group3s2i.springboot.Model.ProductDetails;
+import com.group3s2i.springboot.Model.ProductSupplier;
 import com.sipios.springsearch.anotation.SearchSpec;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
@@ -25,6 +28,8 @@ public class ProductController {
     ProductRepository productRepository;
     @Autowired
     MouvementRepository mouvementRepository;
+    @Autowired
+    ProductSupplierRepository productSupplierRepository;
 
     // get all products
     @GetMapping("/product")
@@ -49,14 +54,20 @@ public class ProductController {
     public Double getPrice(@PathVariable long id){
         Product product=productRepository.findById (id)
                 .orElseThrow(()-> new ResourceNotFoundException("product does not exist with id :"+ id));
-        return mouvementRepository.sum (product)+product.getProductPrice ().getVc ()+product.getProductPrice ().getFv ();
+        return mouvementRepository.sum (product)+product.getProductExtraCost ().getFixedCost ()+product.getProductExtraCost ().getVariableCost ();
     }
 
-    //create product rest api
+//    @PostMapping("/product")
+//    public Product createProduct(@RequestBody Product product){
+//        for(ProductDetails details:product.getDetails ()){
+//            details.setProduct (product);
+//        }
+//        return productRepository.save (product);
+//    }
     @PostMapping("/product")
-    public Product createProduct(@RequestBody Product product){
-         product.getInformation().setProduct (product);
-        return productRepository.save (product);
+    public ProductSupplier createProduct(@RequestBody ProductSupplier product){
+
+        return productSupplierRepository.save (product);
     }
 
     //update product rest api

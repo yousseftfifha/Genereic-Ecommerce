@@ -1,12 +1,20 @@
 package com.group3s2i.springboot.Model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.assertj.core.internal.ErrorMessages;
 
 import javax.persistence.*;
+import javax.validation.constraints.FutureOrPresent;
+import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -16,127 +24,55 @@ import java.util.List;
 @Setter
 @ToString
 @Entity
-@Table(name = "productsupplier")
-public class ProductSupplier {
+@Table(name = "product_supplier")
+public class ProductSupplier implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     @Id
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "code")
-    private String code;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "supplier_id",referencedColumnName = "id")
+    @ToString.Exclude
+    @JsonBackReference(value = "supplier-ps")
+    private Supplier supplier;
 
-    @Column(name = "name")
-    private String name;
 
-    @Column(name = "brand")
-    private String brand;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_id",referencedColumnName = "id" )
+    @ToString.Exclude
+    @JsonBackReference(value = "product-ps")
+    private Product product;
 
-    @Column(name = "unit_price")
-    private Double unitPrice;
-
-    @Column(name = "tva")
-    private Double tva;
-
-    @Column(name = "margin_rate")
-    private Double marginRate;
-
-    @Column(name = "qty")
-    private int qty;
-
-    @Column(name = "currency")
-    private String currency;
+    @Column(name = "supplier_product_code")
+    private String supplierProductCode;
 
     @Column(name = "delivery_eta")
     private String deliveryETA;
 
-//    @OneToMany(
-//            mappedBy = "product",
-//            cascade = CascadeType.ALL,
-//            orphanRemoval = true
-//    )
-//    @JsonManagedReference
-//    @ToString.Exclude
-//    private List<Supplier> suppliers = new ArrayList<> ();
+    @Column(name = "vat_code")
+    private Double vatCode;
 
-    public Long getId() {
-        return id;
-    }
+    @Column(name = "discount_rate")
+    private Double discountRate;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
 
-    public String getCode() {
-        return code;
-    }
+    @Column(name = "unit_price")
+    private Double unitPrice;
 
-    public void setCode(String code) {
-        this.code = code;
-    }
+    @Temporal (TemporalType.TIMESTAMP)
+    @Column(name = "created_date")
+    private Date createdDate;
 
-    public String getName() {
-        return name;
-    }
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "currency_id")
+    @ToString.Exclude
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    private Currency currency;
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getBrand() {
-        return brand;
-    }
-
-    public void setBrand(String brand) {
-        this.brand = brand;
-    }
-
-    public Double getUnitPrice() {
-        return unitPrice;
-    }
-
-    public void setUnitPrice(Double unitPrice) {
-        this.unitPrice = unitPrice;
-    }
-
-    public Double getTva() {
-        return tva;
-    }
-
-    public void setTva(Double tva) {
-        this.tva = tva;
-    }
-
-    public Double getMarginRate() {
-        return marginRate;
-    }
-
-    public void setMarginRate(Double marginRate) {
-        this.marginRate = marginRate;
-    }
-
-    public int getQty() {
-        return qty;
-    }
-
-    public void setQty(int qty) {
-        this.qty = qty;
-    }
-
-    public String getCurrency() {
-        return currency;
-    }
-
-    public void setCurrency(String currency) {
-        this.currency = currency;
-    }
-
-    public String getDeliveryETA() {
-        return deliveryETA;
-    }
-
-    public void setDeliveryETA(String deliveryETA) {
-        this.deliveryETA = deliveryETA;
+    public ProductSupplier() {
     }
 
 
