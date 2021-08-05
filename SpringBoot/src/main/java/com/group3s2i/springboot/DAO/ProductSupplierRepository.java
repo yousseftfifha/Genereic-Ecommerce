@@ -6,5 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 /**
  * @author tfifha youssef
  */
-public interface ProductSupplierRepository extends JpaRepository<ProductSupplier,Long> {
+public interface ProductSupplierRepository extends JpaRepository<ProductSupplier,ProductSupplier.ProductSupplierId> {
 }

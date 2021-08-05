@@ -51,10 +51,10 @@ public class OrderItemSupplier implements Serializable {
     @ToString.Exclude
     private OrderSupplier orderSupplier;
 
-    @OneToOne
-    @JoinColumn(name = "product_supplier_id", referencedColumnName = "id")
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    private ProductSupplier productSupplier;
+//    @OneToOne
+//    @JoinColumn(name = "product_supplier_id", referencedColumnName = "id")
+//    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+//    private ProductSupplier productSupplier;
 
     public OrderItemSupplier() {
     }

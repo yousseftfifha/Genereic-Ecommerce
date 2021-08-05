@@ -1,5 +1,6 @@
 package com.group3s2i.springboot.Model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
@@ -54,13 +55,24 @@ public class Supplier implements Serializable {
     @Column(name = "scope", nullable = false)
     private String scope;
 
-    @OneToMany(mappedBy = "supplier",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true)
-    @ToString.Exclude
-    @JsonManagedReference(value = "supplier-ps")
-    private List<ProductSupplier> productSuppliers;
+//    @OneToMany(mappedBy = "supplier",
+//            cascade = CascadeType.ALL,
+//            orphanRemoval = true)
+//    @ToString.Exclude
+//    @JsonManagedReference(value = "supplier-ps")
+//    private List<ProductSupplier> productSuppliers;
 
+
+
+//    @ManyToMany
+//    @JoinTable( name = "product_supplier",
+//            joinColumns = @JoinColumn(referencedColumnName = "id", name = "productId"),
+//            inverseJoinColumns = @JoinColumn(referencedColumnName = "id", name = "supplierId"))
+//    public List<Product> products;
+        @ManyToMany(mappedBy = "suppliers")
+        @ToString.Exclude
+        @JsonBackReference
+Set<Product> products;
     public Supplier() {
     }
 

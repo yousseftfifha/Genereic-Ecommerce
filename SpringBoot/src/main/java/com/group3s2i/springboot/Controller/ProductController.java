@@ -3,11 +3,9 @@ package com.group3s2i.springboot.Controller;
 
 import com.group3s2i.springboot.DAO.MouvementRepository;
 import com.group3s2i.springboot.DAO.ProductRepository;
-import com.group3s2i.springboot.DAO.ProductSupplierRepository;
 import com.group3s2i.springboot.Model.Category;
 import com.group3s2i.springboot.Model.Product;
 import com.group3s2i.springboot.Model.ProductDetails;
-import com.group3s2i.springboot.Model.ProductSupplier;
 import com.sipios.springsearch.anotation.SearchSpec;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
@@ -28,8 +26,8 @@ public class ProductController {
     ProductRepository productRepository;
     @Autowired
     MouvementRepository mouvementRepository;
-    @Autowired
-    ProductSupplierRepository productSupplierRepository;
+//    @Autowired
+//    ProductSupplierRepository productSupplierRepository;
 
     // get all products
     @GetMapping("/product")
@@ -64,11 +62,11 @@ public class ProductController {
 //        }
 //        return productRepository.save (product);
 //    }
-    @PostMapping("/product")
-    public ProductSupplier createProduct(@RequestBody ProductSupplier product){
-
-        return productSupplierRepository.save (product);
-    }
+//    @PostMapping("/product")
+//    public ProductSupplier createProduct(@RequestBody ProductSupplier product){
+//
+//        return productSupplierRepository.save (product);
+//    }
 
     //update product rest api
 

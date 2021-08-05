@@ -16,36 +16,18 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author tfifha youssef
  */
-@Getter
-@Setter
-@ToString
-@Entity
+
+@Entity(name="ProductSupplierEntity")
 @Table(name = "product_supplier")
 public class ProductSupplier implements Serializable {
     private static final long serialVersionUID = 1L;
-
-    @Id
-    @Column(name = "id", nullable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "supplier_id",referencedColumnName = "id")
-    @ToString.Exclude
-    @JsonBackReference(value = "supplier-ps")
-    private Supplier supplier;
-
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "product_id",referencedColumnName = "id" )
-    @ToString.Exclude
-    @JsonBackReference(value = "product-ps")
-    private Product product;
-
+    @EmbeddedId
+    public  ProductSupplierId id;
     @Column(name = "supplier_product_code")
     private String supplierProductCode;
 
@@ -74,6 +56,31 @@ public class ProductSupplier implements Serializable {
 
     public ProductSupplier() {
     }
+  public ProductSupplier(Product product,Supplier supplier) {
+      id = new ProductSupplier.ProductSupplierId ();
+      id.product_id = product.getId ();
+      id.supplier_id = supplier.getId ();
+    }
 
+
+    @Embeddable
+    public static class ProductSupplierId implements Serializable {
+
+        public Long product_id;
+        public Long supplier_id;
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass () != o.getClass ()) return false;
+            ProductSupplierId that = (ProductSupplierId) o;
+            return Objects.equals (product_id, that.product_id) && Objects.equals (supplier_id, that.supplier_id);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash (product_id, supplier_id);
+        }
+    }
 
 }

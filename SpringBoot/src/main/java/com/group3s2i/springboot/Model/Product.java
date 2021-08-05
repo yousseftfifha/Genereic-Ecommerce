@@ -17,6 +17,7 @@ import java.util.*;
 @ToString
 @Entity
 @Table(name = "product")
+@AllArgsConstructor
 public class Product  implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -102,13 +103,20 @@ public class Product  implements Serializable {
     @JsonManagedReference(value = "product_detail")
     private List<ProductDetails> details = new ArrayList<> ();
 
-    @OneToMany(mappedBy = "product",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true)
-    @ToString.Exclude
-    @JsonManagedReference(value = "product-ps")
-    private List<ProductSupplier> productSuppliers;
+//    @OneToMany(mappedBy = "product",
+//            cascade = CascadeType.ALL,
+//            orphanRemoval = true)
+//    @ToString.Exclude
+//    @JsonManagedReference(value = "product-ps")
+//    private List<ProductSupplier> productSuppliers;
 
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(	name = "product_supplier",
+            joinColumns = @JoinColumn(name = "product_id",referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "supplier_id",referencedColumnName = "id"))
+    @ToString.Exclude
+    @JsonManagedReference
+    private Set<Supplier> suppliers = new HashSet<> ();
     public Product() {
     }
 
