@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {LoginService} from "./login.service";
 import {User} from "./user";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-login',
@@ -15,7 +16,7 @@ export class LoginComponent implements OnInit {
   roles: string[] = [];
   user: User = new User();
 
-  constructor(private authService: LoginService) { }
+  constructor(private authService: LoginService, private router:Router) { }
 
   ngOnInit(): void {
     if (this.authService.getToken()) {

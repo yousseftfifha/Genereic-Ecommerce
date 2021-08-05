@@ -1,0 +1,37 @@
+<p-card   header="Simple Card" [style]="{'width': '25rem', 'margin-bottom': '2em'}">
+  <ng-template pTemplate="header">
+    <img alt="Card" src="assets/showcase/images/usercard.png">
+  </ng-template>
+  <p >
+  Name:{{dashboard[0].name}};
+    <br>
+  Patent Code:{{dashboard[0].patentcode}};
+    <br>
+  Fiscal Code:{{dashboard[0].fiscalCode}};
+    <br>
+  Category:{{dashboard[0].category}};
+    <br>
+  Legal Status{{dashboard[0].legalStatus}};
+    <br>
+  Size:{{dashboard[0].size}};
+    <br>
+  Sector:{{dashboard[0].sector}};
+    <br>
+  Scope:{{dashboard[0].scope}};
+    <br>
+  </p>
+</p-card>
+<p-toast [style]="{marginTop: '80px'}"></p-toast>
+<h5>Organization</h5>
+<p-organizationChart [value]="data1" selectionMode="single" [(selection)]="selectedNode" (onNodeSelect)="onNodeSelect($event)"
+                     styleClass="company">
+  <ng-template let-node pTemplate="person">
+    <div class="node-header p-corner-top">{{node.label}}</div>
+    <div class="node-content">
+      <div>{{node.data.name}}</div>
+    </div>
+  </ng-template>
+  <ng-template let-node pTemplate="department">
+    {{node.label}}
+  </ng-template>
+</p-organizationChart>

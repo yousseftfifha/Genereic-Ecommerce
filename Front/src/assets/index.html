@@ -580,12 +580,12 @@
 
 	<script>
 		$(function() {
-			var ctx = document.getElementById('chartjs-dashboard-line').getContext("2d");
+			var ctx = document.getElementById('chartjs-Organization-line').getContext("2d");
 			var gradient = ctx.createLinearGradient(0, 0, 0, 225);
 			gradient.addColorStop(0, 'rgba(215, 227, 244, 1)');
 			gradient.addColorStop(1, 'rgba(215, 227, 244, 0)');
 			// Line chart
-			new Chart(document.getElementById("chartjs-dashboard-line"), {
+			new Chart(document.getElementById("chartjs-Organization-line"), {
 				type: 'line',
 				data: {
 					labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
@@ -651,7 +651,7 @@
 	<script>
 		$(function() {
 			// Pie chart
-			new Chart(document.getElementById("chartjs-dashboard-pie"), {
+			new Chart(document.getElementById("chartjs-Organization-pie"), {
 				type: 'pie',
 				data: {
 					labels: ["Chrome", "Firefox", "IE"],
@@ -679,7 +679,7 @@
 	<script>
 		$(function() {
 			// Bar chart
-			new Chart(document.getElementById("chartjs-dashboard-bar"), {
+			new Chart(document.getElementById("chartjs-Organization-bar"), {
 				type: 'bar',
 				data: {
 					labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
@@ -798,7 +798,7 @@
 	</script>
 	<script>
 		$(function() {
-			$('#datetimepicker-dashboard').datetimepicker({
+			$('#datetimepicker-Organization').datetimepicker({
 				inline: true,
 				sideBySide: false,
 				format: 'L'

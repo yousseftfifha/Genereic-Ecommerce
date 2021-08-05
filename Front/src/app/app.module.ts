@@ -9,7 +9,7 @@ import { FooterComponent } from './Template/footer/footer.component';
 import { LoginComponent } from './Entities/Login/login.component';
 import {FormsModule} from "@angular/forms";
 import { HttpClientModule } from '@angular/common/http';
-import { SuppliersListComponent } from './Entities/Suppliers/suppliers-list/suppliers-list.component';
+import { SuppliersComponent } from './Entities/Suppliers/suppliers.component';
 import {ToastModule} from "primeng/toast";
 import {ToolbarModule} from "primeng/toolbar";
 import {FileUploadModule} from "primeng/fileupload";
@@ -22,6 +22,10 @@ import {ConfirmDialogModule} from "primeng/confirmdialog";
 import {InputTextareaModule} from "primeng/inputtextarea";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {RadioButtonModule} from "primeng/radiobutton";
+import {OrganizationChartModule} from "primeng/organizationchart";
+import { OrganizationComponent } from './Entities/Organization/organization.component';
+import {RouterModule} from "@angular/router";
+import {CardModule} from "primeng/card";
 
 
 @NgModule({
@@ -31,7 +35,8 @@ import {RadioButtonModule} from "primeng/radiobutton";
     SidebarComponent,
     FooterComponent,
     LoginComponent,
-    SuppliersListComponent,
+    SuppliersComponent,
+    OrganizationComponent,
 
   ],
   imports: [
@@ -50,7 +55,11 @@ import {RadioButtonModule} from "primeng/radiobutton";
     ConfirmDialogModule,
     InputTextareaModule,
     BrowserAnimationsModule,
-    RadioButtonModule
+    RadioButtonModule,
+    OrganizationChartModule,
+    RouterModule,
+    CardModule,
+
   ],
   providers: [],
   bootstrap: [AppComponent]

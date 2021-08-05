@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import {SupplierService} from "../Supplier.service";
+import {SupplierService} from "./supplier.service";
 import {Router} from "@angular/router";
-import {Supplier} from "../supplier";
+import {Supplier} from "./supplier";
 import {ConfirmationService, MessageService} from "primeng/api";
 
 @Component({
   selector: 'app-Suppliers-list',
-  templateUrl: './Suppliers-list.component.html',
-  styleUrls: ['./Suppliers-list.component.css'],
+  templateUrl: './suppliers-list.component.html',
+  styleUrls: ['./suppliers.component.css'],
   styles: [`
         :host ::ng-deep .p-dialog .product-image {
             width: 150px;
@@ -18,7 +18,7 @@ import {ConfirmationService, MessageService} from "primeng/api";
   providers: [MessageService,ConfirmationService]
 
 })
-export class SuppliersListComponent implements OnInit {
+export class SuppliersComponent implements OnInit {
   suppliers!: Supplier[];
   supplier!:Supplier;
   selectedSuppliers!:Supplier[];

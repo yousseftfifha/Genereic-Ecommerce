@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {LoginService} from "../../Entities/Login/login.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-sidebar',
@@ -12,7 +13,7 @@ export class SidebarComponent implements OnInit {
   showAdminBoard = false;
   username!: string;
 
-  constructor(private authService: LoginService) { }
+  constructor(private authService: LoginService,private router:Router) { }
 
 
 

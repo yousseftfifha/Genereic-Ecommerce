@@ -1,27 +1,24 @@
 <nav id="sidebar" class="sidebar" *ngIf="isLoggedIn">
   <div class="sidebar-content js-simplebar">
-    <a class="sidebar-brand" href="index.html">
+    <a class="sidebar-brand active" routerLink="home"  routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:true}">
       <span class="align-middle">3s2i Dashboard</span>
     </a>
 
     <ul class="sidebar-nav">
-      <li class="sidebar-header">
-        Pages
-      </li>
 
-      <li class="sidebar-item active">
-        <a class="sidebar-link" href="index.html">
+      <li class="sidebar-item " routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:true}">
+        <a class="sidebar-link" routerLink="home">
           <i class="align-middle" data-feather="sliders"></i> <span class="align-middle">Dashboard</span>
         </a>
       </li>
 
-      <li class="sidebar-item">
-        <a class="sidebar-link" routerLink="supplier" routerLinkActive="active">
+      <li class="sidebar-item" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:true}">
+        <a class="sidebar-link" routerLink="supplier" >
           <i class="align-middle" data-feather="book"></i> <span class="align-middle">Suppliers</span>
         </a>
       </li>
-      <li class="sidebar-item">
-        <a class="sidebar-link" href="pages-profile.html">
+      <li class="sidebar-item" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:true}">
+        <a class="sidebar-link" >
           <i class="align-middle" data-feather="user"></i> <span class="align-middle">Product</span>
         </a>
       </li>
