@@ -24,6 +24,12 @@ export class SuppliersListComponent implements OnInit {
   selectedSuppliers!:Supplier[];
   submitted!:boolean;
   supplierDialog!: boolean;
+  category!:any;
+  legalStatus!:any;
+  finality!:any;
+  size!:any;
+  sector!:any;
+  scope!:any;
 
   constructor(private supplierService: SupplierService,
               private router:Router,
@@ -32,6 +38,42 @@ export class SuppliersListComponent implements OnInit {
 
   ngOnInit() {
     this.supplierService.getSuppliers().subscribe(data => this.suppliers = data);
+
+    this.category = [
+      {label: 'Enterprise', value: 'Enterprise'},
+      {label: 'Organization', value: 'Organization'},
+      {label: 'Association', value: 'Association'},
+      {label: 'Public', value: 'Public'}
+    ];
+    this.legalStatus = [
+      {label: 'Entrepreneur', value: 'Entrepreneur'},
+      {label: 'individual Enterprise', value: 'individual Enterprise '},
+      {label: 'Society', value: 'Society'}
+    ];
+    this.finality = [
+      {label: 'Economical', value: 'Economical'},
+      {label: 'Social', value: 'Social'},
+      {label: 'societal', value: 'societal'}
+    ];
+    this.size = [
+      {label: 'Micro', value: 'Micro'},
+      {label: 'Very Small', value: 'Very Small'},
+      {label: 'Small', value: 'Small'},
+      {label: 'Average', value: 'Average'},
+      {label: 'Big', value: 'Big'},
+    ];
+    this.sector = [
+      {label: 'Primary', value: 'Primary'},
+      {label: 'Secondary', value: 'Secondary'},
+      {label: 'Tertiary', value: 'Tertiary'},
+      {label: 'Ntics', value: 'Ntics'},
+    ];
+    this.scope = [
+      {label: 'Human', value: 'Human'},
+      {label: 'Financial', value: 'Financial'},
+      {label: 'Material', value: 'Material'},
+      {label: 'Immaterial', value: 'Immaterial'},
+    ];
   }
   openNew() {
     this.supplier =new Supplier();
@@ -51,8 +93,13 @@ export class SuppliersListComponent implements OnInit {
     });
   }
   editSupplier(supplier: Supplier) {
+    this.supplierService.updateSupplier(supplier.id,supplier).subscribe( data =>{
+        console.log(data);
+      }
+      , error => console.log(error));
     this.supplier = {...supplier};
     this.supplierDialog = true;
+
   }
 
   deleteSupplier(supplier: Supplier) {
@@ -61,8 +108,15 @@ export class SuppliersListComponent implements OnInit {
       header: 'Confirm',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
+        this.supplierService.DeleteSupplier(supplier.id).subscribe(
+          data=>{
+            console.log(data);
+
+          }
+        )
         this.suppliers = this.suppliers.filter(val => val.id !== supplier.id);
         this.supplier = new Supplier();
+
         this.messageService.add({severity:'success', summary: 'Successful', detail: 'Supplier Deleted', life: 3000});
       }
     });
@@ -79,9 +133,17 @@ export class SuppliersListComponent implements OnInit {
     if (this.supplier.name.trim()) {
       if (this.supplier.id) {
         this.suppliers[this.findIndexById(this.supplier.id)] = this.supplier;
+        this.supplierService.createSupplier(this.supplier).subscribe( data =>{
+            console.log(data);
+          }
+          , error => console.log(error));
         this.messageService.add({severity:'success', summary: 'Successful', detail: 'Supplier Updated', life: 3000});
       }
       else {
+        this.supplierService.createSupplier(this.supplier).subscribe( data =>{
+            console.log(data);
+          }
+          , error => console.log(error));
         this.suppliers.push(this.supplier);
         this.messageService.add({severity:'success', summary: 'Successful', detail: 'Supplier Created', life: 3000});
       }
@@ -104,5 +166,7 @@ export class SuppliersListComponent implements OnInit {
     return index;
   }
 
-
+  reloadPage(): void {
+    window.location.reload();
+  }
 }

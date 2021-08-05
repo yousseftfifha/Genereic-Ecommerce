@@ -1,8 +1,6 @@
 package com.group3s2i.springboot.Model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.*;
 import lombok.*;
 import org.exolab.castor.types.DateTime;
 import org.springframework.data.annotation.CreatedDate;
@@ -18,6 +16,7 @@ import java.util.*;
 @Entity
 @Table(name = "product")
 @AllArgsConstructor
+@JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class, property="@UUID")
 public class Product  implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -116,7 +115,6 @@ public class Product  implements Serializable {
             joinColumns = @JoinColumn(name = "product_id",referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "supplier_id",referencedColumnName = "id"))
     @ToString.Exclude
-    @JsonManagedReference(value = "p-s")
     private Set<Supplier> suppliers = new HashSet<> ();
     public Product() {
     }

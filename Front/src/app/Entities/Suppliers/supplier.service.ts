@@ -13,4 +13,19 @@ export class SupplierService {
   public getSuppliers():Observable<Supplier[]>{
     return this.http.get<Supplier[]>(this.host+"/supplier");
   }
+  public getSupplierById(id: number): Observable<Supplier>{
+    return this.http.get<Supplier>(this.host+"/supplier"+'/'+id);
+  }
+  public createSupplier(supplier:Supplier):Observable<Object>{
+    return this.http.post(this.host+"/supplier",supplier);
+  }
+
+
+  public updateSupplier(id: number,supplier:Supplier): Observable<Object>{
+    return this.http.put(this.host+"/supplier"+'/'+id,supplier);
+  }
+  public DeleteSupplier(id: number): Observable<Object>{
+    return this.http.delete(this.host+"/supplier"+'/'+id);
+
+  }
 }

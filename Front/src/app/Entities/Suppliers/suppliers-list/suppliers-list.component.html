@@ -1,8 +1,14 @@
 <p-toast></p-toast>
 
 <div class="card">
-  <p-table  #dt [value]="suppliers"
-           [rowHover]="true" >
+  <p-toolbar styleClass="p-mb-4">
+    <ng-template pTemplate="left">
+      <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success p-mr-2" (click)="openNew()"></button>
+    </ng-template>
+  </p-toolbar>
+  <p-table  #dt [value]="suppliers" [rows]="10" [paginator]="true" [globalFilterFields]="['name','country.name','representative.name','status']"
+            [(selection)]="selectedSuppliers" [rowHover]="true" dataKey="id"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
     <ng-template pTemplate="caption">
       <div class="p-d-flex p-ai-center p-jc-between">
         <h5 class="p-m-0">Manage Suppliers</h5>
@@ -15,14 +21,14 @@
   <ng-template pTemplate="header">
     <tr>
       <th pSortableColumn="name">Name</th>
-      <th pSortableColumn="fiscalCode">fiscalCode</th>
-      <th pSortableColumn="patentcode">patentcode</th>
-      <th pSortableColumn="legalStatus">legalStatus</th>
-      <th pSortableColumn="category">category</th>
-      <th pSortableColumn="finality">finality</th>
-      <th pSortableColumn="size">size</th>
-      <th pSortableColumn="sector">sector</th>
-      <th pSortableColumn="scope">scope</th>
+      <th pSortableColumn="fiscalCode">Fiscal Code</th>
+      <th pSortableColumn="patentcode">Patent Code</th>
+      <th pSortableColumn="legalStatus">Legal Status</th>
+      <th pSortableColumn="category">Category</th>
+      <th pSortableColumn="finality">Finality</th>
+      <th pSortableColumn="size">Size</th>
+      <th pSortableColumn="sector">Sector</th>
+      <th pSortableColumn="scope">Scope</th>
       <th></th>
   </ng-template>
   <ng-template pTemplate="body" let-supplier>
@@ -50,15 +56,73 @@
     </ng-template>
   </p-table>
 </div>
-<p-dialog [(visible)]="supplierDialog" [style]="{width: '450px'}" header="Supplier Details" [modal]="true" styleClass="p-fluid">
+<p-dialog [(visible)]="supplierDialog" [style]="{width: '400px',height:'600'}" header="Product Details" [modal]="true" styleClass="p-fluid">
   <ng-template pTemplate="content">
     <div class="p-field">
       <label for="name">Name</label>
       <input type="text" pInputText id="name" [(ngModel)]="supplier.name" required autofocus />
       <small class="p-error" *ngIf="submitted && !supplier.name">Name is required.</small>
     </div>
+    <div class="p-field">
+      <label for="name">Fiscal Code</label>
+      <input type="text" pInputText id="fiscalcode" [(ngModel)]="supplier.fiscalCode" required autofocus />
+      <small class="p-error" *ngIf="submitted && !supplier.fiscalCode">Fiscal Code is required.</small>
+    </div>
+    <div class="p-field">
+      <label for="name">Patent Code</label>
+      <input type="text" pInputText id="patentcode" [(ngModel)]="supplier.patentcode" required autofocus />
+      <small class="p-error" *ngIf="submitted && !supplier.fiscalCode">Patent Code is required.</small>
+    </div>
+    <div class="p-field">
+      <label >Category</label>
+      <p-dropdown [(ngModel)]="supplier.category" inputId="category" [options]="category" placeholder="Select">
+        <ng-template let-option pTemplate="item">
+          <span [class]="'product-badge status-' + option.value">{{option.label}}</span>
+        </ng-template>
+      </p-dropdown>
+    </div>
+    <div class="p-field">
+      <label >Legal Status</label>
+      <p-dropdown [(ngModel)]="supplier.legalStatus" inputId="legalStatus" [options]="legalStatus" placeholder="Select">
+        <ng-template let-option pTemplate="item">
+          <span [class]="'product-badge status-' + option.value">{{option.label}}</span>
+        </ng-template>
+      </p-dropdown>
+    </div>
+    <div class="p-field">
+      <label >Finality</label>
+      <p-dropdown [(ngModel)]="supplier.finality" inputId="finality" [options]="finality" placeholder="Select">
+        <ng-template let-option pTemplate="item">
+          <span [class]="'product-badge status-' + option.value">{{option.label}}</span>
+        </ng-template>
+      </p-dropdown>
+    </div>
 
+    <div class="p-field">
+      <label >Size</label>
+      <p-dropdown [(ngModel)]="supplier.size" inputId="size" [options]="size" placeholder="Select">
+        <ng-template let-option pTemplate="item">
+          <span [class]="'product-badge status-' + option.value">{{option.label}}</span>
+        </ng-template>
+      </p-dropdown>
+    </div>
 
+    <div class="p-field">
+      <label >Sector</label>
+      <p-dropdown [(ngModel)]="supplier.sector" inputId="sector" [options]="sector" placeholder="Select">
+        <ng-template let-option pTemplate="item">
+          <span [class]="'product-badge status-' + option.value">{{option.label}}</span>
+        </ng-template>
+      </p-dropdown>
+    </div>
+    <div class="p-field">
+      <label >Scope</label>
+      <p-dropdown [(ngModel)]="supplier.scope" inputId="scope" [options]="scope" placeholder="Select">
+        <ng-template let-option pTemplate="item">
+          <span [class]="'product-badge status-' + option.value">{{option.label}}</span>
+        </ng-template>
+      </p-dropdown>
+    </div>
   </ng-template>
 
   <ng-template pTemplate="footer">

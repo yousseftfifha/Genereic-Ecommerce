@@ -19,6 +19,9 @@ import {InputTextModule} from "primeng/inputtext";
 import {DropdownModule} from "primeng/dropdown";
 import {RippleModule} from "primeng/ripple";
 import {ConfirmDialogModule} from "primeng/confirmdialog";
+import {InputTextareaModule} from "primeng/inputtextarea";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {RadioButtonModule} from "primeng/radiobutton";
 
 
 @NgModule({
@@ -44,7 +47,10 @@ import {ConfirmDialogModule} from "primeng/confirmdialog";
     InputTextModule,
     DropdownModule,
     RippleModule,
-    ConfirmDialogModule
+    ConfirmDialogModule,
+    InputTextareaModule,
+    BrowserAnimationsModule,
+    RadioButtonModule
   ],
   providers: [],
   bootstrap: [AppComponent]

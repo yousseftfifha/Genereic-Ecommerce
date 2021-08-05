@@ -1,8 +1,6 @@
 package com.group3s2i.springboot.Model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.*;
 import lombok.*;
 import org.hibernate.Hibernate;
 
@@ -19,6 +17,7 @@ import java.util.*;
 @ToString
 @Entity
 @Table(name = "supplier")
+@JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class, property="@UUID")
 public class Supplier implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -71,8 +70,8 @@ public class Supplier implements Serializable {
 //    public List<Product> products;
         @ManyToMany(mappedBy = "suppliers")
         @ToString.Exclude
-        @JsonBackReference(value = "p-s")
-        Set<Product> products= new HashSet<> ();;
+        private  Set<Product> products= new HashSet<> ();
+
     public Supplier() {
     }
 
