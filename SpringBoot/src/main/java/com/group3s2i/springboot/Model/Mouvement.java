@@ -31,6 +31,7 @@ public class Mouvement implements Serializable {
     @JoinColumn(name="product_id", referencedColumnName = "id")
     @ToString.Exclude
     @JsonBackReference(value = "product_mouvement")
+
     private Product product;
 
     @Column(name = "unit_price")

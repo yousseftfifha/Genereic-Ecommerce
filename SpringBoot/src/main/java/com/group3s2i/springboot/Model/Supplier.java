@@ -71,8 +71,7 @@ public class Supplier implements Serializable {
 //    public List<Product> products;
         @ManyToMany(mappedBy = "suppliers")
         @ToString.Exclude
-        @JsonBackReference
-Set<Product> products;
+        Set<Product> products= new HashSet<> ();;
     public Supplier() {
     }
 

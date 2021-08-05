@@ -115,7 +115,6 @@ public class Product  implements Serializable {
             joinColumns = @JoinColumn(name = "product_id",referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "supplier_id",referencedColumnName = "id"))
     @ToString.Exclude
-    @JsonManagedReference
     private Set<Supplier> suppliers = new HashSet<> ();
     public Product() {
     }

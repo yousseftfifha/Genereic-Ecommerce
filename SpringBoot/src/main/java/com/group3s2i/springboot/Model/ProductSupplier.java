@@ -21,7 +21,9 @@ import java.util.Objects;
 /**
  * @author tfifha youssef
  */
-
+@Getter
+@Setter
+@ToString
 @Entity(name="ProductSupplierEntity")
 @Table(name = "product_supplier")
 public class ProductSupplier implements Serializable {
@@ -62,6 +64,18 @@ public class ProductSupplier implements Serializable {
       id.supplier_id = supplier.getId ();
     }
 
+    public ProductSupplier(Product product,Supplier supplier, String supplierProductCode, String deliveryETA, Double vatCode, Double discountRate, Double unitPrice, Date createdDate, Currency currency) {
+        id = new ProductSupplier.ProductSupplierId ();
+        id.product_id = product.getId ();
+        id.supplier_id = supplier.getId ();
+        this.supplierProductCode = supplierProductCode;
+        this.deliveryETA = deliveryETA;
+        this.vatCode = vatCode;
+        this.discountRate = discountRate;
+        this.unitPrice = unitPrice;
+        this.createdDate = createdDate;
+        this.currency = currency;
+    }
 
     @Embeddable
     public static class ProductSupplierId implements Serializable {
