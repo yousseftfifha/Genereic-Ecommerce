@@ -6,7 +6,7 @@ import {Organization} from "./organization";
 
 @Component({
   selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html',
+  templateUrl: './organization.component.html',
   styleUrls: ['./organization.component.css'],
   styles:[":host ::ng-deep .p-organizationchart {\n" +
   "    .p-person {\n" +
