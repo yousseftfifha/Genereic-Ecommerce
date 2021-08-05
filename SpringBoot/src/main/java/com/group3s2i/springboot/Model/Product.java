@@ -68,12 +68,13 @@ public class Product  implements Serializable {
     @OneToOne(fetch = FetchType.LAZY, cascade =  CascadeType.ALL, mappedBy = "product")
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @ToString.Exclude
-    @JsonBackReference(value = "product-info")
+    @JsonManagedReference(value = "product-info")
     private Productinformation information;
 
     @OneToOne(fetch = FetchType.LAZY, cascade =  CascadeType.ALL, mappedBy = "product")
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @ToString.Exclude
+    @JsonManagedReference(value = "product-cost")
     private ProductExtraCost productExtraCost;
 
     @OneToMany(
@@ -115,6 +116,7 @@ public class Product  implements Serializable {
             joinColumns = @JoinColumn(name = "product_id",referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "supplier_id",referencedColumnName = "id"))
     @ToString.Exclude
+    @JsonManagedReference(value = "p-s")
     private Set<Supplier> suppliers = new HashSet<> ();
     public Product() {
     }

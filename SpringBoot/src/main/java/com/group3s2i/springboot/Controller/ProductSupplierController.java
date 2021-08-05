@@ -1,5 +1,6 @@
 package com.group3s2i.springboot.Controller;
 
+import com.group3s2i.springboot.Config.response.MessageResponse;
 import com.group3s2i.springboot.DAO.*;
 import com.group3s2i.springboot.Model.*;
 import lombok.Getter;
@@ -31,7 +32,7 @@ public class ProductSupplierController {
     ProductSupplierRepository productSupplierRepository;
     @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping("/product")
-    public Params createProductSupplier(@RequestBody Params params) {
+    public ResponseEntity<?>  createProductSupplier(@RequestBody Params params) {
         supplierRepository.save (params.getSupplier ()) ;
 
         Set<Supplier> suppliers = new HashSet<> ();
@@ -66,12 +67,12 @@ public class ProductSupplierController {
 
         productinformationRepository.save (productinformation);
 
-        return params;
+        return ResponseEntity.ok(new MessageResponse ("Product and Supplier registered successfully! "));
 
     }
     @GetMapping("/product/supplier")
-    public List<ProductSupplier> getAllProducts(){
-        return productSupplierRepository.findAll ();
+    public List<Product> getAllProducts(){
+        return productRepository.findAll ();
     }
 
 }

@@ -1,5 +1,7 @@
 package com.group3s2i.springboot.Model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -37,6 +39,7 @@ public class ProductExtraCost implements Serializable {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
     @ToString.Exclude
+    @JsonBackReference(value = "product-cost")
     private Product product;
     public ProductExtraCost() {
     }
