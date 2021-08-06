@@ -1,6 +1,7 @@
 package com.group3s2i.springboot.Model;
 
 import com.fasterxml.jackson.annotation.*;
+import com.voodoodyne.jackson.jsog.JSOGGenerator;
 import lombok.*;
 import org.hibernate.Hibernate;
 
@@ -17,7 +18,7 @@ import java.util.*;
 @ToString
 @Entity
 @Table(name = "supplier")
-@JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class, property="@UUID")
+@JsonIgnoreProperties("supplier")
 public class Supplier implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -27,31 +28,31 @@ public class Supplier implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "name", nullable = true)
     private String name;
 
-    @Column(name = "fiscalcode", nullable = false)
+    @Column(name = "fiscalcode", nullable = true)
     private String fiscalCode;
 
-    @Column(name = "patentcode", nullable = false)
+    @Column(name = "patentcode", nullable = true)
     private String patentcode;
 
-    @Column(name = "legalstatus", nullable = false)
+    @Column(name = "legalstatus", nullable = true)
     private String legalStatus;
 
-    @Column(name = "category", nullable = false)
+    @Column(name = "category", nullable = true)
     private String category;
 
-    @Column(name = "finality", nullable = false)
+    @Column(name = "finality", nullable = true)
     private String finality;
 
-    @Column(name = "size", nullable = false)
+    @Column(name = "size", nullable = true)
     private String size;
 
-    @Column(name = "sector", nullable = false)
+    @Column(name = "sector", nullable = true)
     private String sector;
 
-    @Column(name = "scope", nullable = false)
+    @Column(name = "scope", nullable = true)
     private String scope;
 
 //    @OneToMany(mappedBy = "supplier",
@@ -70,6 +71,7 @@ public class Supplier implements Serializable {
 //    public List<Product> products;
         @ManyToMany(mappedBy = "suppliers")
         @ToString.Exclude
+        @JsonIgnore
         private  Set<Product> products= new HashSet<> ();
 
     public Supplier() {

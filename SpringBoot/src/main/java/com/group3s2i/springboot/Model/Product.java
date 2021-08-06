@@ -1,6 +1,7 @@
 package com.group3s2i.springboot.Model;
 
 import com.fasterxml.jackson.annotation.*;
+import com.voodoodyne.jackson.jsog.JSOGGenerator;
 import lombok.*;
 import org.exolab.castor.types.DateTime;
 import org.springframework.data.annotation.CreatedDate;
@@ -16,7 +17,7 @@ import java.util.*;
 @Entity
 @Table(name = "product")
 @AllArgsConstructor
-@JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class, property="@UUID")
+@JsonIgnoreProperties("product")
 public class Product  implements Serializable {
 
     private static final long serialVersionUID = 1L;

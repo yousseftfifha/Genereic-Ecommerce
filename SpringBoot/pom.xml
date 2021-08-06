@@ -121,6 +121,11 @@
             <artifactId>spring-search</artifactId>
             <version>0.2.0</version>
         </dependency>
+        <dependency>
+            <groupId>com.voodoodyne.jackson.jsog</groupId>
+            <artifactId>jackson-jsog</artifactId>
+            <version>1.0</version>
+        </dependency>
     </dependencies>
 
     <build>

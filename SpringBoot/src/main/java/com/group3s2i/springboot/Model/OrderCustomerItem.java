@@ -1,7 +1,6 @@
 package com.group3s2i.springboot.Model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -49,7 +48,7 @@ public class OrderCustomerItem implements Serializable {
 
     @OneToOne
     @JoinColumn(name = "product_id", referencedColumnName = "id")
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @JsonProperty("product")
     private Product product;
 
     public OrderCustomerItem() {

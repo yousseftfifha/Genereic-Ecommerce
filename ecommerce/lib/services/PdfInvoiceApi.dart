@@ -38,7 +38,7 @@ class PdfInvoiceApi {
 
     return PdfApi.saveDocument(
         name: "Order N°:" +
-            order.id.toString() +
+            order.orderNumber +
             "  " +
             order.user.username +
             '.pdf',
@@ -58,7 +58,7 @@ class PdfInvoiceApi {
                 child: BarcodeWidget(
                   barcode: Barcode.qrCode(),
                   data: "Order N°" +
-                      order.id.toString() +
+                      order.orderNumber+
                       "\n relative to User  " +
                       order.user.username +
                       "\n Order Date:  " +
@@ -81,7 +81,7 @@ class PdfInvoiceApi {
   static Widget buildInvoiceInfo(OrderCustomer info) {
     final titles = <String>['Invoice Number:', 'Invoice Date:', 'To:\n'];
     final data = <String>[
-      info.id.toString(),
+      info.orderNumber,
       Utils.formatDate(info.orderCustomerItems[0].createdDate),
       info.user.customer.addressList[0].country +
           " " +

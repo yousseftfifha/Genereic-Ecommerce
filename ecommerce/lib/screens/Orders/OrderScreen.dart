@@ -148,7 +148,7 @@ class _OrderScreenState extends State<OrderScreen> {
                                       Container(
                                         width: 100,
                                         child: Text(
-                                          order.id.toString(),
+                                          order.orderNumber,
                                           softWrap: true,
                                           overflow: TextOverflow.ellipsis,
                                           style: TextStyle(
