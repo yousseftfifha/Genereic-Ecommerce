@@ -61,7 +61,7 @@ export class OrganizationComponent implements OnInit {
   constructor(private dashboardService:OrganizationService , private messageService: MessageService, private router:Router) {}
 
   ngOnInit() {
-    this.dashboardService.getSuppliers().subscribe(data => this.dashboard = data);
+    this.dashboardService.getOrganization().subscribe(data => this.dashboard = data);
 
     this.data1 = [{
       label: 'CEO',

@@ -26,6 +26,10 @@ import {OrganizationChartModule} from "primeng/organizationchart";
 import { OrganizationComponent } from './Entities/Organization/organization.component';
 import {RouterModule} from "@angular/router";
 import {CardModule} from "primeng/card";
+import {DataViewModule} from "primeng/dataview";
+import {RatingModule} from "primeng/rating";
+import {ProductComponent} from "./Entities/Product/product.component";
+import {InputNumberModule} from "primeng/inputnumber";
 
 
 @NgModule({
@@ -37,6 +41,7 @@ import {CardModule} from "primeng/card";
     LoginComponent,
     SuppliersComponent,
     OrganizationComponent,
+    ProductComponent,
 
   ],
   imports: [
@@ -59,6 +64,9 @@ import {CardModule} from "primeng/card";
     OrganizationChartModule,
     RouterModule,
     CardModule,
+    DataViewModule,
+    RatingModule,
+    InputNumberModule,
 
   ],
   providers: [],

@@ -2,15 +2,16 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {Supplier} from "../Suppliers/supplier";
+import {Product} from "./product";
 
 @Injectable({
   providedIn: 'root'
 })
-export class OrganizationService {
+export class ProductService {
   public host:string = "http://localhost:8081/api";
 
   constructor(private http:HttpClient) { }
-  public getOrganization():Observable<Supplier[]>{
-    return this.http.get<Supplier[]>(this.host+"/organization");
+  public getProduct():Observable<Product[]>{
+    return this.http.get<Product[]>(this.host+"/product");
   }
 }
