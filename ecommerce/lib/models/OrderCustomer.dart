@@ -9,8 +9,6 @@ class OrderCustomer {
     this.sentMedia,
     this.urgent,
     this.createdDate,
-    this.cancelledDate,
-    this.orderDate,
     this.orderCustomerItems,
     this.user
   });
@@ -21,8 +19,6 @@ class OrderCustomer {
   String sentMedia;
   String urgent;
   DateTime createdDate;
-  DateTime cancelledDate;
-  DateTime orderDate;
   List<OrderCustomerItem> orderCustomerItems;
   User user;
 
@@ -33,8 +29,6 @@ class OrderCustomer {
     sentMedia: json["sentMedia"],
     urgent: json["urgent"],
     createdDate: DateTime.parse(json["createdDate"]),
-    cancelledDate: json["cancelledDate"],
-    orderDate: json["orderDate"],
     orderCustomerItems: List<OrderCustomerItem>.from(json["orderCustomerItems"].map((x) => OrderCustomerItem.fromJson(x))),
   );
 
@@ -45,8 +39,6 @@ class OrderCustomer {
     "sentMedia": sentMedia,
     "urgent": urgent,
     "createdDate": createdDate.toIso8601String(),
-    "cancelledDate": cancelledDate,
-    "orderDate": orderDate,
     "orderCustomerItems": List<dynamic>.from(orderCustomerItems.map((x) => x.toJson())),
   };
 }

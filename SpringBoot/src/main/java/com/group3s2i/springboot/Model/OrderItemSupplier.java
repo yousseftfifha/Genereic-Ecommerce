@@ -33,9 +33,6 @@ public class OrderItemSupplier implements Serializable {
     @Column(name = "quantity")
     private @NotNull int quantity;
 
-    @Column(name = "unit_price")
-    private  Double unitPrice;
-
     @Column(name = "vat_code")
     private  Double vatCode;
 

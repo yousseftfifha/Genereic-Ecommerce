@@ -42,8 +42,9 @@ public class OrderController {
         List<Cart> cartList=cartRepository.findAll ();
         List<OrderCustomerItem> orderCustomerItems =new ArrayList<> ();
         double totalCost = 0;
-        for (Cart cart:cartList) {
-            int i=0;
+     int i=0;
+
+     for (Cart cart:cartList) {
             OrderCustomerItem orderCustomerItem = new OrderCustomerItem ();
             orderCustomerItem.setCreatedDate (LocalDateTime.now ());
             orderCustomerItem.setQuantity (cart.getQuantity ());
@@ -67,6 +68,8 @@ public class OrderController {
         orderCustomer.setOrderCustomerItems (orderCustomerItems);
         orderCustomer.setCreatedDate (LocalDateTime.now ());
         orderCustomer.setCustomer (user);
+        orderCustomer.setSentMedia ("INTRANET");
+        orderCustomer.setUrgent ("NORMALE");
      Random random = new Random();
 
      orderCustomer.setOrderNumber (String.valueOf (random.nextInt(100000 - 1)+1));
@@ -74,7 +77,6 @@ public class OrderController {
         for (OrderCustomerItem orderCustomerItem1 : orderCustomerItems){
             orderCustomerItem1.setOrderCustomer (orderCustomer);
         }
-        System.out.println (orderCustomerItems);
         orderCustomerItemRepository.saveAllAndFlush (orderCustomerItems);
         String message= "Dear  "+user.getFirstName ()+" "+user.getLastName ()+"\n you are receiving this mail because " +
                 "your order have been Successful and soon you will Receive your package" +

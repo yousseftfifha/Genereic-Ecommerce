@@ -31,12 +31,6 @@ public class ProductDetails implements Serializable {
     @Column(name = "value")
     private String value;
 
-    @Column(name = "created_date")
-    private LocalDateTime createdDate;
-
-    @Column(name = "canceled_date")
-    private LocalDateTime cancelledDate;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="product_id", referencedColumnName = "id")
     @ToString.Exclude

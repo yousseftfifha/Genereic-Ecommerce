@@ -30,8 +30,6 @@ public class OrderCustomerItem implements Serializable {
     @Column(name = "quantity")
     private @NotNull int quantity;
 
-    @Column(name = "unit_price")
-    private  Double unitPrice;
 
     @Column(name = "vat_code")
     private  Double vatCode;
@@ -53,6 +51,8 @@ public class OrderCustomerItem implements Serializable {
     @JoinColumn(name = "product_id", referencedColumnName = "id")
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Product product;
+
+
 
     public OrderCustomerItem() {
     }

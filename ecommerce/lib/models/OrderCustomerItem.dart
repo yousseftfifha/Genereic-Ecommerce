@@ -5,7 +5,6 @@ class OrderCustomerItem {
     this.id,
     this.itemSeq,
     this.quantity,
-    this.unitPrice,
     this.vatCode,
     this.discountCode,
     this.createdDate,
@@ -15,7 +14,6 @@ class OrderCustomerItem {
   int id;
   int itemSeq;
   int quantity;
-  double unitPrice;
   double vatCode;
   double discountCode;
   DateTime createdDate;
@@ -25,7 +23,6 @@ class OrderCustomerItem {
     id: json["id"],
     itemSeq: json["itemSeq"],
     quantity: json["quantity"],
-    unitPrice: json["unitPrice"],
     vatCode: json["vatCode"],
     discountCode: json["discountCode"],
     createdDate: DateTime.parse(json["createdDate"]),
@@ -36,7 +33,6 @@ class OrderCustomerItem {
     "id": id,
     "itemSeq": itemSeq,
     "quantity": quantity,
-    "unitPrice": unitPrice,
     "vatCode": vatCode,
     "discountCode": discountCode,
     "createdDate": createdDate.toIso8601String(),

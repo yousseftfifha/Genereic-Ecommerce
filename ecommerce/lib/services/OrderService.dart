@@ -66,7 +66,7 @@ class OrderService {
     User user = User.fromJson(jsonData);
     var response = await http.post(url,
         headers: <String, String>{"Content-Type": "application/json"},
-        body: jsonEncode(user));
+        body: jsonEncode(user.customer));
 
     String responseString = response.body;
   }
