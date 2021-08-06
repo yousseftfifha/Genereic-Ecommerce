@@ -107,12 +107,7 @@ public class Product  implements Serializable {
     @ToString.Exclude
     private Set<Supplier> suppliers = new HashSet<> ();
 
-    @OneToOne(fetch = FetchType.LAZY, cascade =  CascadeType.ALL, mappedBy = "product",
-            orphanRemoval = true)
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    @ToString.Exclude
-    @JsonManagedReference(value = "product-order")
-    private OrderCustomerItem orderCustomerItem;
+
     public Product() {
     }
 

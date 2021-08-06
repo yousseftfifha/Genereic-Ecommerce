@@ -52,8 +52,6 @@ public class OrderCustomerItem implements Serializable {
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Product product;
 
-
-
     public OrderCustomerItem() {
     }
 }
