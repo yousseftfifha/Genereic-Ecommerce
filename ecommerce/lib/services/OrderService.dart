@@ -1,9 +1,9 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:shop_app/models/Order.dart';
 import 'package:flutter/material.dart';
-import 'package:shop_app/models/OrderItem.dart';
+import 'package:shop_app/models/OrderCustomer.dart';
+import 'package:shop_app/models/OrderCustomerItem.dart';
 import 'package:shop_app/models/User.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -18,14 +18,17 @@ class OrderService {
         .get('http://localhost:8081/api/Users/username/' + username.toString());
     var jsonData = json.decode(data1.body);
     User user = User.fromJson(jsonData);
-    var data = await http.get(url + "/" + user.id.toString());
+    var data = await http.get(url + "/" + user.customer.id.toString());
     var jsonDatas = json.decode(data.body);
-    List<Order> orders = [];
+    List<OrderCustomer> orders = [];
+
     for (var jsonData in jsonDatas) {
-      Order order = Order.fromJson(jsonData);
-      for (OrderItem orderItem in order.orderItems) {
+
+      OrderCustomer order = OrderCustomer.fromJson(jsonData);
+      for (OrderCustomerItem orderItem in order.orderCustomerItems) {
         var Url = "http://localhost:8081/api/product/price/" +
             orderItem.product.id.toString();
+
         var data1 = await http.get(Url);
         var jsonData1 = json.decode(data1.body);
         orderItem.product.price = jsonData1;
@@ -39,9 +42,9 @@ class OrderService {
   Future fetchData1(int id) async {
     var data = await http.get(url + "/item/" + id.toString());
     var jsonDatas = json.decode(data.body);
-    List<OrderItem> orderItems = [];
+    List<OrderCustomerItem> orderItems = [];
     for (var jsonData in jsonDatas) {
-      OrderItem orderItem = OrderItem.fromJson(jsonData);
+      OrderCustomerItem orderItem = OrderCustomerItem.fromJson(jsonData);
       var Url = "http://localhost:8081/api/product/price/" +
           orderItem.product.id.toString();
 

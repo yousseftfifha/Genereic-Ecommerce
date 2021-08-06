@@ -46,9 +46,9 @@ public class CartController {
     public Cart createCart(@RequestBody Cart cart){
         List<Cart> cartList=cartRepository.findAll();
         for (Cart cart1:cartList){
-            if(cart1.getProduct ().equals (cart.getProduct ())){
+            if(cart1.getProduct ().getId ().equals (cart.getProduct ().getId ())){
                 cart1.setQuantity (cart1.getQuantity ()+1);
-            return cartRepository.save (cart1);
+                return cartRepository.save (cart1);
             }
         }
         return cartRepository.save (cart);
@@ -86,9 +86,7 @@ public class CartController {
     public Map<String, Double>  listCartItems() {
         List<Cart> cartList=cartRepository.findAll ();
         double totalCost=0.0;
-        for (Cart cart:cartList){
-            totalCost+= mouvementRepository.avg (cart.getProduct ())* cart.getQuantity ();
-        }
+
         double itemCount=cartRepository.count ();
         Map<String, Double> response = new HashMap<>();
         response.put("itemCount", itemCount);

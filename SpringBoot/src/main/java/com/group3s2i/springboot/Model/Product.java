@@ -47,16 +47,6 @@ public class Product  implements Serializable {
     @Column(name = "isbn")
     private Integer isbn;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "created_date")
-    @CreatedDate
-    private Date createdDate;
-
-    @Column(name = "canceled_date")
-    private LocalDateTime cancelledDate;
-
-    @Column(name = "canceled_reason")
-    private String cancelledReason;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="category", referencedColumnName = "id")
@@ -119,5 +109,16 @@ public class Product  implements Serializable {
     public Product() {
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass () != o.getClass ()) return false;
+        Product product = (Product) o;
+        return Objects.equals (getId (), product.getId ()) && Objects.equals (getTmpCode (), product.getTmpCode ()) && Objects.equals (getCode (), product.getCode ()) && Objects.equals (getName (), product.getName ()) && Objects.equals (getBrand (), product.getBrand ()) && Objects.equals (getDescription (), product.getDescription ()) && Objects.equals (getSku (), product.getSku ()) && Objects.equals (getIsbn (), product.getIsbn ()) && Objects.equals (getCategory (), product.getCategory ()) && Objects.equals (getInformation (), product.getInformation ()) && Objects.equals (getProductExtraCost (), product.getProductExtraCost ()) && Objects.equals (getMouvements (), product.getMouvements ()) && Objects.equals (getProductImages (), product.getProductImages ()) && Objects.equals (getDetails (), product.getDetails ()) && Objects.equals (getSuppliers (), product.getSuppliers ());
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash (getId (), getTmpCode (), getCode (), getName (), getBrand (), getDescription (), getSku (), getIsbn (),  getCategory (), getInformation (), getProductExtraCost (), getMouvements (), getProductImages (), getDetails (), getSuppliers ());
+    }
 }

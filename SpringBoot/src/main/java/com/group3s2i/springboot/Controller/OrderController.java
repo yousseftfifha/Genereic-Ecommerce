@@ -4,10 +4,16 @@ import com.group3s2i.springboot.DAO.*;
 import com.group3s2i.springboot.Model.*;
 import com.group3s2i.springboot.Service.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
@@ -30,17 +36,21 @@ public class OrderController {
         this.mailService = mailService;
     }
 
-   /* @PostMapping("/order")
-    public ResponseEntity<OrderCustomer> createCart(@RequestBody User user){
+ @PostMapping("/order")
+    public ResponseEntity<OrderCustomer> createCart(@RequestBody Customer user){
         OrderCustomer orderCustomer =new OrderCustomer ();
         List<Cart> cartList=cartRepository.findAll ();
         List<OrderCustomerItem> orderCustomerItems =new ArrayList<> ();
         double totalCost = 0;
         for (Cart cart:cartList) {
+            int i=0;
             OrderCustomerItem orderCustomerItem = new OrderCustomerItem ();
             orderCustomerItem.setCreatedDate (LocalDateTime.now ());
             orderCustomerItem.setQuantity (cart.getQuantity ());
             orderCustomerItem.setProduct (cart.getProduct ());
+            orderCustomerItem.setItemSeq (i);
+            orderCustomerItem.setDiscountCode (0.0);
+            orderCustomerItem.setVatCode (19.0);
             Mouvement mouvement=new Mouvement();
             List<Mouvement> mouvement1=mouvementRepository.findAllByProductOrderByIdAsc (cart.getProduct ());
             Mouvement mouvement2=mouvement1.stream()
@@ -51,20 +61,23 @@ public class OrderController {
             mouvement.setMouvementDate (LocalDateTime.now ());
             mouvementRepository.save (mouvement);
             orderCustomerItems.add (orderCustomerItem);
+            i++;
         }
         orderCustomer.setStatus ("PENDING");
         orderCustomer.setOrderCustomerItems (orderCustomerItems);
         orderCustomer.setCreatedDate (LocalDateTime.now ());
-        orderCustomer.setUser (user);
-        orderRepository.save (orderCustomer);
+        orderCustomer.setCustomer (user);
+     Random random = new Random();
+
+     orderCustomer.setOrderNumber (String.valueOf (random.nextInt(100000 - 1)+1));
+     orderCustomerRepository.save (orderCustomer);
         for (OrderCustomerItem orderCustomerItem1 : orderCustomerItems){
-            orderCustomerItem1.setOrder (orderCustomer);
+            orderCustomerItem1.setOrderCustomer (orderCustomer);
         }
         System.out.println (orderCustomerItems);
-        orderItemsRepository.saveAllAndFlush (orderCustomerItems);
-        String message= "Dear  "+user.getUsername ()+"\n you are receiving this mail because " +
+        orderCustomerItemRepository.saveAllAndFlush (orderCustomerItems);
+        String message= "Dear  "+user.getFirstName ()+" "+user.getLastName ()+"\n you are receiving this mail because " +
                 "your order have been Successful and soon you will Receive your package" +
-                "\n Username:"+user.getUsername ()+
                 "\n Order Date:"+ orderCustomer.getCreatedDate ()+
                 "\n Order N°:"+ orderCustomer.getId ()+"\n Order Status:"+ orderCustomer.getStatus ()+
                 "\n Have a Great Day."
@@ -75,7 +88,7 @@ public class OrderController {
 
         cartRepository.deleteAll();
         return   ResponseEntity.ok(orderCustomer);
-    }*/
+    }
     @GetMapping("/order/{customer}")
     public List<OrderCustomer> getAllOrders(@PathVariable Customer customer){
         return orderCustomerRepository.findAllByUserOrderByCreatedDateDesc (customer);

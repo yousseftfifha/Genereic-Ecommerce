@@ -4,9 +4,9 @@ import 'package:intl/intl.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:pdf/widgets.dart';
-import 'package:shop_app/models/Order.dart';
 import 'dart:typed_data';
 import 'package:flutter/services.dart';
+import 'package:shop_app/models/OrderCustomer.dart';
 import 'PdfApi.dart';
 
 class Utils {
@@ -15,7 +15,7 @@ class Utils {
 }
 
 class PdfInvoiceApi {
-  static Future<File> generate(Order order) async {
+  static Future<File> generate(OrderCustomer order) async {
     final pdf = Document();
     final ByteData bytes = await rootBundle.load('assets/images/logo.png');
     final Uint8List byteList = bytes.buffer.asUint8List();
@@ -45,7 +45,7 @@ class PdfInvoiceApi {
         pdf: pdf);
   }
 
-  static Widget buildHeader(Order order) => Column(
+  static Widget buildHeader(OrderCustomer order) => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(height: 1 * PdfPageFormat.cm),
@@ -62,7 +62,7 @@ class PdfInvoiceApi {
                       "\n relative to User  " +
                       order.user.username +
                       "\n Order Date:  " +
-                      order.orderItems[0].createdDate.toIso8601String(),
+                      order.orderCustomerItems[0].createdDate.toIso8601String(),
                 ),
               ),
             ],
@@ -78,11 +78,11 @@ class PdfInvoiceApi {
         ],
       );
 
-  static Widget buildInvoiceInfo(Order info) {
+  static Widget buildInvoiceInfo(OrderCustomer info) {
     final titles = <String>['Invoice Number:', 'Invoice Date:', 'To:\n'];
     final data = <String>[
       info.id.toString(),
-      Utils.formatDate(info.orderItems[0].createdDate),
+      Utils.formatDate(info.orderCustomerItems[0].createdDate),
       info.user.customer.addressList[0].country +
           " " +
           info.user.customer.addressList[0].state +
@@ -105,7 +105,7 @@ class PdfInvoiceApi {
     );
   }
 
-  static Widget buildTitle(Order invoice) => Column(
+  static Widget buildTitle(OrderCustomer invoice) => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
@@ -118,9 +118,9 @@ class PdfInvoiceApi {
         ],
       );
 
-  static Widget buildInvoice(Order invoice) {
+  static Widget buildInvoice(OrderCustomer invoice) {
     final headers = ['Description', 'Date', 'Quantity', 'Unit Price', 'Total'];
-    final data = invoice.orderItems.map((item) {
+    final data = invoice.orderCustomerItems.map((item) {
       final total = item.product.price * item.quantity;
 
       return [
@@ -149,8 +149,8 @@ class PdfInvoiceApi {
     );
   }
 
-  static Widget buildTotal(Order invoice) {
-    final netTotal = invoice.orderItems
+  static Widget buildTotal(OrderCustomer invoice) {
+    final netTotal = invoice.orderCustomerItems
         .map((item) => item.product.price * item.quantity)
         .reduce((item1, item2) => item1 + item2);
 
@@ -182,7 +182,7 @@ class PdfInvoiceApi {
     );
   }
 
-  static Widget buildFooter(Order invoice) => Column(
+  static Widget buildFooter(OrderCustomer invoice) => Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Divider(),

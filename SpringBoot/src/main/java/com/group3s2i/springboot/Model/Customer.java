@@ -73,9 +73,8 @@ public class Customer implements Serializable {
 			orphanRemoval = true
 	)
 	@ToString.Exclude
-	@JsonManagedReference(value = "customer_order")
-	private List<OrderCustomer> orderCustomers;
-
+	@JsonManagedReference(value = "o-s")
+	private List<OrderCustomer> orderCustomers = new ArrayList<> ();
 	public Customer() {
 	}
 

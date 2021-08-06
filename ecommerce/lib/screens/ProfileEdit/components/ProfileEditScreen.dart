@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:shop_app/components/custom_surfix_icon.dart';
 import 'package:shop_app/components/default_button.dart';
 import 'package:shop_app/components/form_error.dart';
-import 'package:shop_app/models/Address.dart';
+import 'package:shop_app/models/AddressList.dart';
 import 'package:shop_app/models/User.dart';
 import 'package:shop_app/screens/profile/profile_screen.dart';
 import 'package:shop_app/services/AddressService.dart';
@@ -108,7 +108,7 @@ class _CompleteProfileFormState extends State<ProfileEditScreen> {
                             if (_formKey.currentState.validate()) {
                               AddressService as = new AddressService();
 
-                              Address address = new Address(
+                              AddressList address = new AddressList(
                                   street: streetC.text,
                                   city: cityValue,
                                   country: countryValue,

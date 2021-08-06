@@ -41,11 +41,6 @@ public class OrderCustomer implements Serializable {
     @Column(name = "created_date")
     private LocalDateTime createdDate;
 
-    @Column(name = "canceled_date")
-    private LocalDateTime cancelledDate;
-
-    @Column(name = "order_date")
-    private LocalDateTime orderDate;
 
     @OneToMany(
             mappedBy = "orderCustomer",
@@ -54,18 +49,14 @@ public class OrderCustomer implements Serializable {
     )
     @JsonIgnoreProperties
     @ToString.Exclude
+    @JsonManagedReference(value = "m-d")
     private List<OrderCustomerItem> orderCustomerItems;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "customer_id", referencedColumnName = "id")
+    @JoinColumn(name="customer_id", referencedColumnName = "id")
     @ToString.Exclude
-    @JsonManagedReference(value = "customer_order")
+    @JsonBackReference(value = "o-s")
     private Customer customer;
-
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "currency_id")
-    @ToString.Exclude
-    private Currency currency;
 
     public OrderCustomer() {
     }

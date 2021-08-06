@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : mer. 04 août 2021 à 16:25
+-- Généré le : ven. 06 août 2021 à 17:59
 -- Version du serveur :  5.7.19
 -- Version de PHP : 7.4.16
 
@@ -79,16 +79,14 @@ CREATE TABLE IF NOT EXISTS `cart` (
   `productid` bigint(20) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `FKkh5di77cfr01hq05rbcogspec` (`productid`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `cart`
 --
 
 INSERT INTO `cart` (`id`, `quantity`, `productid`) VALUES
-(1, 10, 1),
-(2, 42, 3),
-(3, 10, 7);
+(15, 2, 1);
 
 -- --------------------------------------------------------
 
@@ -508,7 +506,7 @@ CREATE TABLE IF NOT EXISTS `delivery_customer_items` (
   PRIMARY KEY (`id`),
   KEY `FK` (`delivery_id`),
   KEY `FK69s4s12thfnvgs3f4ngwwl8ng` (`order_item_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -586,6 +584,13 @@ CREATE TABLE IF NOT EXISTS `hibernate_sequence` (
   `next_val` bigint(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Déchargement des données de la table `hibernate_sequence`
+--
+
+INSERT INTO `hibernate_sequence` (`next_val`) VALUES
+(7);
+
 -- --------------------------------------------------------
 
 --
@@ -598,14 +603,36 @@ CREATE TABLE IF NOT EXISTS `mouvement` (
   `mouvement_type` varchar(10) NOT NULL,
   `mouvement_date` datetime DEFAULT NULL,
   `quantity` int(11) DEFAULT NULL,
-  `unit_price` double NOT NULL,
+  `unit_price` double DEFAULT NULL,
   `product_id` bigint(20) DEFAULT NULL,
-  `delivery_item` bigint(20) NOT NULL,
+  `delivery_item` bigint(20) DEFAULT NULL,
   `warehouse_id` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `FKk0fgvyrd4gg1eugabyqg2cbxd` (`product_id`),
   KEY `FKwarehouse` (`warehouse_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
+
+--
+-- Déchargement des données de la table `mouvement`
+--
+
+INSERT INTO `mouvement` (`id`, `mouvement_type`, `mouvement_date`, `quantity`, `unit_price`, `product_id`, `delivery_item`, `warehouse_id`) VALUES
+(1, 'IN', '2021-08-05 17:52:44', 10, 140, 1, NULL, NULL),
+(2, 'IN', '2021-08-06 15:17:24', 10, 114, 2, NULL, NULL),
+(3, 'IN', '2021-08-06 16:44:21', 8, NULL, 1, NULL, NULL),
+(4, 'IN', '2021-08-06 16:44:21', 9, NULL, 2, NULL, NULL),
+(5, 'IN', '2021-08-06 16:54:21', 6, NULL, 1, NULL, NULL),
+(6, 'IN', '2021-08-06 16:54:21', 8, NULL, 2, NULL, NULL),
+(7, 'IN', '2021-08-06 17:00:04', 4, NULL, 1, NULL, NULL),
+(8, 'IN', '2021-08-06 17:00:04', 7, NULL, 2, NULL, NULL),
+(9, 'IN', '2021-08-06 17:03:05', 2, NULL, 1, NULL, NULL),
+(10, 'IN', '2021-08-06 17:03:05', 6, NULL, 2, NULL, NULL),
+(11, 'IN', '2021-08-06 17:04:17', 0, NULL, 1, NULL, NULL),
+(12, 'IN', '2021-08-06 17:04:17', 5, NULL, 2, NULL, NULL),
+(13, 'IN', '2021-08-06 17:07:09', -2, NULL, 1, NULL, NULL),
+(14, 'IN', '2021-08-06 17:07:09', 4, NULL, 2, NULL, NULL),
+(15, 'IN', '2021-08-06 17:09:21', -4, NULL, 1, NULL, NULL),
+(16, 'IN', '2021-08-06 17:09:21', 3, NULL, 2, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -617,19 +644,21 @@ DROP TABLE IF EXISTS `orders_customer`;
 CREATE TABLE IF NOT EXISTS `orders_customer` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `order_number` varchar(25) NOT NULL,
-  `order_date` datetime DEFAULT NULL,
-  `offer_number` varchar(25) DEFAULT NULL,
   `created_date` datetime DEFAULT CURRENT_TIMESTAMP,
-  `canceled_date` datetime DEFAULT NULL,
   `status` varchar(25) DEFAULT NULL,
   `sent_media` varchar(25) DEFAULT 'OnLine',
   `urgent` varchar(25) DEFAULT 'Normal',
   `customer_id` bigint(20) DEFAULT NULL,
-  `currency_id` bigint(20) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `FKel9kyl84ego2otj2accfd8mr7` (`customer_id`),
-  KEY `FKcurrency` (`currency_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  KEY `FKel9kyl84ego2otj2accfd8mr7` (`customer_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+
+--
+-- Déchargement des données de la table `orders_customer`
+--
+
+INSERT INTO `orders_customer` (`id`, `order_number`, `created_date`, `status`, `sent_media`, `urgent`, `customer_id`) VALUES
+(5, '70698', '2021-08-06 17:09:21', 'PENDING', 'sss', 'qqq', 2);
 
 -- --------------------------------------------------------
 
@@ -665,16 +694,24 @@ CREATE TABLE IF NOT EXISTS `order_customer_items` (
   `id` bigint(20) NOT NULL,
   `item_seq` int(11) DEFAULT NULL,
   `quantity` int(11) DEFAULT NULL,
-  `unit_price` double NOT NULL,
   `vat_code` double NOT NULL DEFAULT '19',
   `discount_code` double NOT NULL DEFAULT '0',
   `created_date` datetime DEFAULT CURRENT_TIMESTAMP,
   `order_id` bigint(20) DEFAULT NULL,
   `product_id` bigint(20) DEFAULT NULL,
+  `unit_price` double DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `FKm3mp87f5ygbbfuqfdhc09y9a` (`order_id`),
   KEY `FKatri80p9fodn2lpjxxpcv03hm` (`product_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Déchargement des données de la table `order_customer_items`
+--
+
+INSERT INTO `order_customer_items` (`id`, `item_seq`, `quantity`, `vat_code`, `discount_code`, `created_date`, `order_id`, `product_id`, `unit_price`) VALUES
+(5, 0, 2, 19, 0, '2021-08-06 17:09:21', 5, 1, 140),
+(6, 0, 1, 19, 0, '2021-08-06 17:09:21', 5, 2, 480);
 
 -- --------------------------------------------------------
 
@@ -717,7 +754,14 @@ CREATE TABLE IF NOT EXISTS `organization` (
   `sector` varchar(255) NOT NULL,
   `scope` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+--
+-- Déchargement des données de la table `organization`
+--
+
+INSERT INTO `organization` (`id`, `name`, `fiscalcode`, `patentcode`, `legalstatus`, `category`, `finality`, `size`, `sector`, `scope`) VALUES
+(1, '3s2i Group', '1452', '22250', 'Society', 'Organization', 'Economical', 'Big', 'Secondary', 'Material');
 
 -- --------------------------------------------------------
 
@@ -735,25 +779,18 @@ CREATE TABLE IF NOT EXISTS `product` (
   `name` varchar(255) DEFAULT NULL,
   `sku` int(11) DEFAULT NULL,
   `tmpcode` varchar(255) DEFAULT NULL,
-  `created_date` datetime DEFAULT CURRENT_TIMESTAMP,
-  `canceled_date` datetime DEFAULT NULL,
-  `canceled_reason` varchar(25) DEFAULT NULL,
   `category` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `FKqx9wikktsev17ctu0kcpkrafc` (`category`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `product`
 --
 
-INSERT INTO `product` (`id`, `brand`, `code`, `description`, `isbn`, `name`, `sku`, `tmpcode`, `created_date`, `canceled_date`, `canceled_reason`, `category`) VALUES
-(1, 'TOZO ', '12AW', 'TOZO T6 True Wireless Earbuds Bluetooth Headphones Touch Control with Wireless Charging Case IPX8 Waterproof Stereo Earphones in-Ear Built-in Mic Headset Premium Deep Bass for Sport Black', 1111004, 'TOZO T6 True Wireless Earbuds', 1110001, 'T12AW', '2021-07-31 19:32:47', NULL, NULL, 24),
-(2, 'SAMSUNG ', '12AW', 'SAMSUNG: EVO Select 128GB MicroSDXC UHS-I U3 100MB/s Full HD & 4K UHD Memory Card with Adapter (MB-ME128HA)', 1111004, 'SAMSUNG: EVO', 1110001, 'T12AW', '2021-07-31 19:32:47', NULL, NULL, 24),
-(3, 'Neewer  ', '12AW', 'Neewer Ring Light Kit:18\'\'/48cm Outer 55W 5500K Dimmable LED Ring Light, Light Stand, Carrying Bag for Camera,Smartphone,YouTube,TikTok,Self-Portrait Shooting, Black, Model:10088612', 1111004, 'Ring Light', 1110001, 'T12AW', '2021-07-31 19:32:47', NULL, NULL, 25),
-(4, 'iOttie ', '12AW', 'iOttie Easy One Touch 4 Dash & Windshield Universal Car Mount Phone Holder Desk Stand for iPhone, Samsung, Moto, Huawei, Nokia, LG, Smartphones', 1111004, 'iOttie ', 1110001, 'T12AW', '2021-07-31 19:32:47', NULL, NULL, 26),
-(5, 'Acer ', '12AW', 'Acer Aspire 5 A515-46-R14K Slim Laptop | 15.6 Full HD IPS | AMD Ryzen 3 3350U Quad-Core Mobile Processor | 4GB DDR4 | 128GB NVMe SSD | WiFi 6 | Backlit KB | Amazon Alexa | Windows 10 Home (S mode)', 1111004, 'Acer Aspire 5 ', 1110001, 'T12AW', '2021-07-31 19:32:47', NULL, NULL, 43),
-(7, 'SAMSUNG  ', '12AW', 'SAMSUNG Galaxy S21 Ultra 5G Factory Unlocked Android Cell Phone 256GB US Version Smartphone Pro-Grade Camera 8K Video 108MP High Res, Phantom Black', 1111104, 'Galaxy S21 ', 11100101, 'T12AW', '2021-07-31 19:32:47', NULL, NULL, 27);
+INSERT INTO `product` (`id`, `brand`, `code`, `description`, `isbn`, `name`, `sku`, `tmpcode`, `category`) VALUES
+(1, 'TOZO ', '12AW', 'TOZO T6 True Wireless Earbuds Bluetooth Headphones Touch Control with Wireless Charging Case IPX8 Waterproof Stereo Earphones in-Ear Built-in Mic Headset Premium Deep Bass for Sport Black', 1111004, 'TOZO T6', 1110001, 'T12AW', 24),
+(2, 'SAMSUNG ', '12AW', 'SAMSUNG: EVO Select 128GB MicroSDXC UHS-I U3 100MB/s Full HD & 4K UHD Memory Card with Adapter (MB-ME128HA)', 1111004, 'SAMSUNG: EVO', 1110001, 'T12AW', 24);
 
 -- --------------------------------------------------------
 
@@ -771,36 +808,17 @@ CREATE TABLE IF NOT EXISTS `product_details` (
   `product_id` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `FK4y967p539vfvrt7tn47rlhr2q` (`product_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `product_details`
 --
 
 INSERT INTO `product_details` (`id`, `attribute`, `value`, `created_date`, `canceled_date`, `product_id`) VALUES
-(1, 'Color', 'BLACK', '2021-07-31 19:35:12', NULL, 1),
-(2, 'Color', 'BLACK', '2021-07-31 19:35:12', NULL, 2),
-(3, 'Flash Memory Type', 'Micro SDXC', '2021-07-31 19:35:12', NULL, 2),
-(4, 'Secure Digital Association Speed Class', 'Class 10', '2021-07-31 19:35:12', NULL, 2),
-(5, 'Memory Storage Capacity', '128 GB', '2021-07-31 19:35:12', NULL, 2),
-(6, 'Dimmable ', '18\'\'/48cm Outer 55W 5500K 240 Pieces', '2021-07-31 19:35:12', NULL, 3),
-(7, 'Mounting Type', 'Dashboard and Windshield', '2021-07-31 19:35:12', NULL, 4),
-(8, 'Special Feature', 'Universal Phone Control', '2021-07-31 19:35:12', NULL, 4),
-(9, 'Compatible Phone Models', 'IPhone 12/ 12 mini/ 12 pro/ 12 pro max/ SE/ 11/ 11 Pro/ 11 Pro Max/ XS/ XR/ XS Max/ X/ 8/ 8 Plus/ 7', '2021-07-31 19:35:12', NULL, 4),
-(10, 'Model Name', '852306006596', '2021-07-31 19:35:12', NULL, 4),
-(11, 'Series', 'A515-46-R14K', '2021-07-31 19:35:12', NULL, 5),
-(12, 'Specific Uses For Product', 'Multimedia, Personal, Business', '2021-07-31 19:35:12', NULL, 5),
-(13, 'Display Size', '15.6 inches LED', '2021-07-31 19:35:12', NULL, 5),
-(14, 'Operating System', 'Windows 10 S', '2021-07-31 19:35:12', NULL, 5),
-(24, 'Model Name', 'P3', '2021-07-31 19:35:12', NULL, 7),
-(25, 'Wireless Carrier', 'Unlocked', '2021-07-31 19:35:12', NULL, 7),
-(26, 'Form Factor', 'Smartphone', '2021-07-31 19:35:12', NULL, 7),
-(27, 'Memory Storage Capacity', '256 GB', '2021-07-31 19:35:12', NULL, 7),
-(28, 'Operating System', 'Android', '2021-07-31 19:35:12', NULL, 7),
-(29, 'Color', 'Phantom Black', '2021-07-31 19:35:12', NULL, 7),
-(30, 'Cellular Technology', '5G', '2021-07-31 19:35:12', NULL, 7),
-(31, 'Model Year', '2021', '2021-07-31 19:35:12', NULL, 7),
-(32, 'Display Size', '6.8 inches AMOLED', '2021-07-31 19:35:12', NULL, 7);
+(1, 'Color', 'BLACK', NULL, NULL, 1),
+(2, 'Color', 'BLACK', NULL, NULL, 2),
+(3, 'Flash Memory Type', 'Micro SDXC', NULL, NULL, 2),
+(4, 'Secure Digital Association Speed Class', 'Class 10', NULL, NULL, 2);
 
 -- --------------------------------------------------------
 
@@ -817,7 +835,15 @@ CREATE TABLE IF NOT EXISTS `product_extra_cost` (
   `product_id` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `FK838eqmn63sfta0iiv8v9r300v` (`product_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+--
+-- Déchargement des données de la table `product_extra_cost`
+--
+
+INSERT INTO `product_extra_cost` (`id`, `fixed_cost`, `variable_cost`, `profit_margin`, `product_id`) VALUES
+(1, 140, 10, 19, 1),
+(2, 120, 19, 20, 2);
 
 -- --------------------------------------------------------
 
@@ -832,7 +858,7 @@ CREATE TABLE IF NOT EXISTS `product_image` (
   `product_id` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `FK8ut1k90uxasdhv7ek0ifvrktm` (`product_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `product_image`
@@ -840,53 +866,9 @@ CREATE TABLE IF NOT EXISTS `product_image` (
 
 INSERT INTO `product_image` (`id`, `url`, `product_id`) VALUES
 (1, 'http://localhost:8081/downloadFile/61eAIJI+nPL._AC_SL1500_.jpg', 1),
-(2, 'http://localhost:8081/downloadFile/71A7SdqzcML._AC_SL1500_.jpg', 1),
-(3, 'http://localhost:8081/downloadFile/71G+Ty9p3RL._AC_SL1500_.jpg', 1),
-(4, 'http://localhost:8081/downloadFile/71Jg3ZbDDwL._AC_SL1500_.jpg', 1),
-(5, 'http://localhost:8081/downloadFile/71rjegReukL._AC_SL1500_.jpg', 1),
-(6, 'http://localhost:8081/downloadFile/71rLGE51UAL._AC_SL1500_.jpg', 1),
-(7, 'http://localhost:8081/downloadFile/71-S-dtu42L._AC_SL1500_.jpg', 1),
-(8, 'http://localhost:8081/downloadFile/71vnkR9pmgL._AC_SL1500_.jpg', 1),
-(9, 'http://localhost:8081/downloadFile/7174oO6Np4L._AC_SL1500_.jpg', 1),
-(10, 'http://localhost:8081/downloadFile/61PSpNQlsQL._AC_SL1440_.jpg', 2),
-(11, 'http://localhost:8081/downloadFile/61Vr+9FI8PL._AC_SL1440_.jpg', 2),
-(12, 'http://localhost:8081/downloadFile/81axmUuRHrL._AC_SL1500_.jpg', 2),
-(13, 'http://localhost:8081/downloadFile/81bq7PsYrCL._AC_SL1500_.jpg', 2),
-(14, 'http://localhost:8081/downloadFile/81WLZZFVOTL._AC_SL1500_.jpg', 2),
-(15, 'http://localhost:8081/downloadFile/81yQNkjCPEL._AC_SL1500_.jpg', 2),
-(16, 'http://localhost:8081/downloadFile/619wrQwJfML._AC_SL1440_.jpg', 2),
-(17, 'http://localhost:8081/downloadFile/6175wb+NlSL._AC_SL1440_.jpg', 2),
-(18, 'http://localhost:8081/downloadFile/71+JKKAnfoL._AC_SL1500_.jpg', 3),
-(19, 'http://localhost:8081/downloadFile/71br3XRdErL._AC_SL1500_.jpg', 3),
-(20, 'http://localhost:8081/downloadFile/71Cc5uJ7f+L._AC_SL1500_.jpg', 3),
-(21, 'http://localhost:8081/downloadFile/71r+O7WmJoL._AC_SL1500_.jpg', 3),
-(22, 'http://localhost:8081/downloadFile/71WAQs6pNGL._AC_SL1500_.jpg', 3),
-(23, 'http://localhost:8081/downloadFile/71q30IQXKiL._AC_SL1500_.jpg', 4),
-(24, 'http://localhost:8081/downloadFile/71vo7i41SlL._AC_SL1500_.jpg', 4),
-(25, 'http://localhost:8081/downloadFile/81YqefIFZDL._AC_SL1500_.jpg', 4),
-(26, 'http://localhost:8081/downloadFile/718NVofDrCL._AC_SL1500_.jpg', 4),
-(27, 'http://localhost:8081/downloadFile/51b2xaZY4TL._AC_SL1500_.jpg', 5),
-(28, 'http://localhost:8081/downloadFile/71AmKW4yuMS._AC_SL1500_.jpg', 5),
-(29, 'http://localhost:8081/downloadFile/71CKs9n1d7S._AC_SL1500_.jpg', 5),
-(30, 'http://localhost:8081/downloadFile/71CYU9UGgaS._AC_SL1500_.jpg', 5),
-(31, 'http://localhost:8081/downloadFile/71dxg6IDASS._AC_SL1500_.jpg', 5),
-(32, 'http://localhost:8081/downloadFile/71esri4NxrL._AC_SL1500_.jpg', 5),
-(33, 'http://localhost:8081/downloadFile/71k95iZEk5S._AC_SL1500_.jpg', 5),
-(34, 'http://localhost:8081/downloadFile/71mGg-paOdL._AC_SL1500_.jpg', 5),
-(35, 'http://localhost:8081/downloadFile/71wE-2pa1TS._AC_SL1500_.jpg', 5),
-(36, 'http://localhost:8081/downloadFile/71YVpcbSAlS._AC_SL1500_.jpg', 5),
-(37, 'http://localhost:8081/downloadFile/71ZZkFclRhS._AC_SL1500_.jpg', 5),
-(38, 'http://localhost:8081/downloadFile/81hPA1cxiTS._AC_SL1500_.jpg', 5),
-(39, 'http://localhost:8081/downloadFile/615S89u-wUL._AC_SL1464_.jpg', 5),
-(40, 'http://localhost:8081/downloadFile/714+yuXQFmS._AC_SL1500_.jpg', 5),
-(41, 'http://localhost:8081/downloadFile/719k37ONwoL._AC_SL1500_.jpg', 5),
-(42, 'http://localhost:8081/downloadFile/61L1wmWGM7L._AC_SL1500_.jpg', 7),
-(43, 'http://localhost:8081/downloadFile/61O45C5qASL._AC_SL1000_.jpg', 7),
-(44, 'http://localhost:8081/downloadFile/61phaJPkGTL._AC_SL1500_.jpg', 7),
-(45, 'http://localhost:8081/downloadFile/61vhR6MFaeL._AC_SL1500_.jpg', 7),
-(46, 'http://localhost:8081/downloadFile/91BG98VgvCL._AC_SL1500_.jpg', 7),
-(47, 'http://localhost:8081/downloadFile/91umLqj5x6L._AC_SL1500_.jpg', 7),
-(48, 'http://localhost:8081/downloadFile/611gGEftfGL._AC_SL1500_.jpg', 7);
+(2, 'http://localhost:8081/downloadFile/61PSpNQlsQL._AC_SL1440_.jpg', 2),
+(3, 'http://localhost:8081/downloadFile/61Vr+9FI8PL._AC_SL1440_.jpg', 2),
+(4, 'http://localhost:8081/downloadFile/81axmUuRHrL._AC_SL1500_.jpg', 2);
 
 -- --------------------------------------------------------
 
@@ -903,7 +885,7 @@ CREATE TABLE IF NOT EXISTS `product_information` (
   `product_id` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `FKqiugp8n149cegb6a8167jcc45` (`product_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `product_information`
@@ -911,11 +893,7 @@ CREATE TABLE IF NOT EXISTS `product_information` (
 
 INSERT INTO `product_information` (`id`, `max`, `min`, `security`, `product_id`) VALUES
 (1, 20, 5, 6, 1),
-(2, 20, 5, 6, 2),
-(3, 20, 5, 6, 3),
-(4, 20, 5, 6, 4),
-(5, 20, 5, 6, 5),
-(6, 20, 5, 6, 7);
+(2, 20, 5, 6, 2);
 
 -- --------------------------------------------------------
 
@@ -925,7 +903,8 @@ INSERT INTO `product_information` (`id`, `max`, `min`, `security`, `product_id`)
 
 DROP TABLE IF EXISTS `product_supplier`;
 CREATE TABLE IF NOT EXISTS `product_supplier` (
-  `id` bigint(20) NOT NULL,
+  `product_id` bigint(20) NOT NULL,
+  `Supplier_id` bigint(20) NOT NULL,
   `created_date` datetime DEFAULT NULL,
   `delivery_eta` varchar(255) DEFAULT NULL,
   `discount_rate` double DEFAULT NULL,
@@ -933,25 +912,18 @@ CREATE TABLE IF NOT EXISTS `product_supplier` (
   `unit_price` double DEFAULT NULL,
   `vat_code` double DEFAULT NULL,
   `currency_id` bigint(20) DEFAULT NULL,
-  `product_id` bigint(20) DEFAULT NULL,
-  `supplier_id` bigint(20) DEFAULT NULL,
-  PRIMARY KEY (`id`),
+  PRIMARY KEY (`product_id`,`Supplier_id`),
   KEY `FKgu4p14kgkxrb8rxdvkcvjaggb` (`currency_id`),
-  KEY `FK9ycab4fchfe9g9uxleti557pv` (`product_id`),
-  KEY `FKojmkj7n4g02l3vj0lf10j7rer` (`supplier_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  KEY `FKojmkj7n4g02l3vj0lf10j7rer` (`Supplier_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `product_supplier`
 --
 
-INSERT INTO `product_supplier` (`id`, `created_date`, `delivery_eta`, `discount_rate`, `supplier_product_code`, `unit_price`, `vat_code`, `currency_id`, `product_id`, `supplier_id`) VALUES
-(1, '2021-08-02 18:04:58', 'aa', 0, 'aa', 14, 14, 1, 5, 1),
-(2, '2021-08-02 18:04:58', 'aa', 0, 'aa', 14, 14, 1, 4, 2),
-(3, '2021-08-02 18:04:58', 'aa', 0, 'aa', 14, 14, 1, 3, 1),
-(4, '2021-08-02 18:04:58', 'aa', 0, 'aa', 14, 14, 1, 2, 2),
-(5, '2021-08-02 18:04:58', 'aa', 0, 'aa', 14, 14, 1, 7, 2),
-(6, '2021-08-02 18:04:58', 'aa', 0, 'aa', 14, 14, 1, 1, 2);
+INSERT INTO `product_supplier` (`product_id`, `Supplier_id`, `created_date`, `delivery_eta`, `discount_rate`, `supplier_product_code`, `unit_price`, `vat_code`, `currency_id`) VALUES
+(1, 1, '2021-08-05 16:45:25', 'dda', 0, '1', 140, 14, 1),
+(2, 2, '2021-08-06 16:45:25', '4 days', 0, '2', 114, 16, 2);
 
 -- --------------------------------------------------------
 
@@ -1000,8 +972,8 @@ CREATE TABLE IF NOT EXISTS `supplier` (
 --
 
 INSERT INTO `supplier` (`id`, `category`, `finality`, `fiscalcode`, `legalstatus`, `name`, `patentcode`, `scope`, `sector`, `size`) VALUES
-(1, 'Enterprise', 'Economical', 'RSSMRA74D22A0001Q', 'Company', 'Toshiba', 'b82y5', 'International Activity', 'Ntics', 'Large'),
-(2, 'Enterprise', 'Economical', 'RSSMRA74D22A0001Q', 'Company', 'Samsung', 'b82y5', 'International Activity', 'Economy', 'Small');
+(1, 'Organization', 'Economical', '1452', 'Society', 'pull&bear', '22250', 'Material', 'Secondary', 'Small'),
+(2, 'Public', 'Economical', '1452', 'individual Enterprise ', 'Samsung', '14QA', 'Financial', 'Primary', 'Average');
 
 -- --------------------------------------------------------
 
@@ -1158,8 +1130,7 @@ ALTER TABLE `mouvement`
 -- Contraintes pour la table `orders_customer`
 --
 ALTER TABLE `orders_customer`
-  ADD CONSTRAINT `FKel9kyl84ego2otj2accfd8mr7` FOREIGN KEY (`customer_id`) REFERENCES `customer` (`id`),
-  ADD CONSTRAINT `fk_currency` FOREIGN KEY (`currency_id`) REFERENCES `currency` (`id`);
+  ADD CONSTRAINT `FKel9kyl84ego2otj2accfd8mr7` FOREIGN KEY (`customer_id`) REFERENCES `customer` (`id`);
 
 --
 -- Contraintes pour la table `orders_supplier`
@@ -1211,14 +1182,6 @@ ALTER TABLE `product_image`
 --
 ALTER TABLE `product_information`
   ADD CONSTRAINT `FKqiugp8n149cegb6a8167jcc45` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`);
-
---
--- Contraintes pour la table `product_supplier`
---
-ALTER TABLE `product_supplier`
-  ADD CONSTRAINT `FK9ycab4fchfe9g9uxleti557pv` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`),
-  ADD CONSTRAINT `FKgu4p14kgkxrb8rxdvkcvjaggb` FOREIGN KEY (`currency_id`) REFERENCES `currency` (`id`),
-  ADD CONSTRAINT `FKojmkj7n4g02l3vj0lf10j7rer` FOREIGN KEY (`supplier_id`) REFERENCES `supplier` (`id`);
 
 --
 -- Contraintes pour la table `unity`

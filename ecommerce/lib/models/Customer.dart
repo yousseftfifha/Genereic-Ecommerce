@@ -1,4 +1,4 @@
-import 'package:shop_app/models/Address.dart';
+import 'package:shop_app/models/AddressList.dart';
 
 class Customer {
   Customer({
@@ -19,7 +19,7 @@ class Customer {
   String gender;
   DateTime dateOfBirth;
   String url;
-  List<Address> addressList;
+  List<AddressList> addressList;
 
   factory Customer.fromJson(Map<String, dynamic> json) => Customer(
         id: json["id"],
@@ -31,8 +31,8 @@ class Customer {
         url: json["url"],
         addressList: json["addressList"] == null
             ? null
-            : List<Address>.from(
-                json["addressList"].map((x) => Address.fromJson(x))),
+            : List<AddressList>.from(
+                json["addressList"].map((x) => AddressList.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {

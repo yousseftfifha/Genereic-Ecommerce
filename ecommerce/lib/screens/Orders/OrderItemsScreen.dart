@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shop_app/components/coustom_bottom_nav_bar.dart';
+import 'package:shop_app/models/OrderCustomerItem.dart';
 
-import 'package:shop_app/models/OrderItem.dart';
 import 'package:shop_app/services/OrderService.dart';
 import 'package:shop_app/services/PdfApi.dart';
 import 'package:shop_app/services/PdfInvoiceApi.dart';
@@ -53,7 +53,7 @@ class _OrderItemScreenState extends State<OrderItemScreen> {
         future: _func,
         builder: (ctx, snapshot) {
           if (snapshot.hasData) {
-            List<OrderItem> data = snapshot.data;
+            List<OrderCustomerItem> data = snapshot.data;
             return SingleChildScrollView(
               scrollDirection: Axis.vertical,
               child: Column(

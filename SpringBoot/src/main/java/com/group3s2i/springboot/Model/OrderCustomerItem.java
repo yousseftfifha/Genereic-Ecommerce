@@ -46,6 +46,7 @@ public class OrderCustomerItem implements Serializable {
     @JoinColumn(name="order_id", referencedColumnName = "id")
     @JsonIgnoreProperties("order")
     @ToString.Exclude
+    @JsonBackReference(value = "m-d")
     private OrderCustomer orderCustomer;
 
     @OneToOne
