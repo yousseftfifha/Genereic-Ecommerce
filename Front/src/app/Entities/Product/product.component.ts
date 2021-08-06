@@ -3,6 +3,14 @@ import {Product} from "./product";
 import {ConfirmationService, MessageService, SelectItem} from "primeng/api";
 import {ProductService} from "./product.service";
 import {Router} from "@angular/router";
+import {Supplier} from "../Suppliers/supplier";
+import {DialogService, DynamicDialogRef} from "primeng/dynamicdialog";
+import {DetailComponent} from "../Detail/detail.component";
+import {Detail} from "../Detail/detail";
+import {Information} from "../Information/information";
+import {InformationComponent} from "../Information/information.component";
+import {MouvementComponent} from "../Mouvement/mouvement.component";
+import {Mouvement} from "../Mouvement/mouvement";
 
 @Component({
   selector: 'app-product',
@@ -14,8 +22,12 @@ import {Router} from "@angular/router";
             margin: 0 auto 2rem auto;
             display: block;
         }
+        :host ::ng-deep .p-button {
+          margin: 0 .5rem .5rem 0;
+          min-width: 1rem;
+        }
     `],
-  providers: [MessageService,ConfirmationService]
+  providers: [MessageService,ConfirmationService,DialogService]
 })
 export class ProductComponent implements OnInit {
 
@@ -29,18 +41,26 @@ export class ProductComponent implements OnInit {
 
   submitted!: boolean;
 
-  statuses!: any[];
+  price!: number;
 
-  constructor(private productService: ProductService, private messageService: MessageService, private confirmationService: ConfirmationService) { }
+  ref!: DynamicDialogRef;
+
+
+  constructor(private productService: ProductService, private messageService: MessageService, private confirmationService: ConfirmationService,public dialogService: DialogService,) { }
 
   ngOnInit() {
-    this.productService.getProduct().subscribe(data => this.products = data);
+    this.productService.getProduct().subscribe(data => {
+      this.products = data;
+      this.products.forEach((product : Product, val: number)=>{
+        this.productService.getPrice(product.id).subscribe( data =>{
+            val=data;
+            product.price = val;
 
-    this.statuses = [
-      {label: 'INSTOCK', value: 'instock'},
-      {label: 'LOWSTOCK', value: 'lowstock'},
-      {label: 'OUTOFSTOCK', value: 'outofstock'}
-    ];
+          }
+          , error => console.log(error));
+      })
+
+    });
   }
 
   openNew() {
@@ -61,7 +81,14 @@ export class ProductComponent implements OnInit {
       }
     });
   }
-
+  getPrice(product: Product) {
+    this.productService.getPrice(product.id).subscribe( data =>{
+      this.price=data;
+        console.log(data);
+      }
+      , error => console.log(error));
+    return this.price;
+  }
   editProduct(product: Product) {
     this.product = {...product};
     this.productDialog = true;
@@ -116,4 +143,46 @@ export class ProductComponent implements OnInit {
     return index;
   }
 
+  show() {
+    this.ref = this.dialogService.open(DetailComponent, {
+      header: 'Product Details',
+      width: '70%',
+      contentStyle: {"max-height": "500px", "overflow": "auto"},
+      baseZIndex: 10000
+    });
+
+    this.ref.onClose.subscribe((details: Detail) =>{
+
+    });
+  }
+  showInfo() {
+    this.ref = this.dialogService.open(InformationComponent, {
+      header: 'Product Information',
+      width: '70%',
+      contentStyle: {"max-height": "500px", "overflow": "auto"},
+      baseZIndex: 10000
+    });
+
+    this.ref.onClose.subscribe((information: Information) =>{
+
+    });
+  }
+  showMvt() {
+    this.ref = this.dialogService.open(MouvementComponent, {
+      header: 'Product Mouvement',
+      width: '70%',
+      contentStyle: {"max-height": "500px", "overflow": "auto"},
+      baseZIndex: 10000
+    });
+
+    this.ref.onClose.subscribe((mouvement: Mouvement) =>{
+
+    });
+  }
+
+  ngOnDestroy() {
+    if (this.ref) {
+      this.ref.close();
+    }
+  }
 }

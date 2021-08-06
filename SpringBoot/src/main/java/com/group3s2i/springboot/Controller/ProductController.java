@@ -5,7 +5,6 @@ import com.group3s2i.springboot.DAO.MouvementRepository;
 import com.group3s2i.springboot.DAO.ProductRepository;
 import com.group3s2i.springboot.Model.Category;
 import com.group3s2i.springboot.Model.Product;
-import com.group3s2i.springboot.Model.ProductDetails;
 import com.sipios.springsearch.anotation.SearchSpec;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
@@ -52,7 +51,7 @@ public class ProductController {
     public Double getPrice(@PathVariable long id){
         Product product=productRepository.findById (id)
                 .orElseThrow(()-> new ResourceNotFoundException("product does not exist with id :"+ id));
-        return mouvementRepository.sum (product)+product.getProductExtraCost ().getFixedCost ()+product.getProductExtraCost ().getVariableCost ();
+        return mouvementRepository.avg (product)+product.getProductExtraCost ().getFixedCost ()+product.getProductExtraCost ().getVariableCost ()+product.getProductExtraCost ().getProfitMargin ();
     }
 
 //    @PostMapping("/product")

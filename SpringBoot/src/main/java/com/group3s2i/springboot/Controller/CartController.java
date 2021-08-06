@@ -87,7 +87,7 @@ public class CartController {
         List<Cart> cartList=cartRepository.findAll ();
         double totalCost=0.0;
         for (Cart cart:cartList){
-            totalCost+= mouvementRepository.sum (cart.getProduct ())* cart.getQuantity ();
+            totalCost+= mouvementRepository.avg (cart.getProduct ())* cart.getQuantity ();
         }
         double itemCount=cartRepository.count ();
         Map<String, Double> response = new HashMap<>();

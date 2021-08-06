@@ -6,7 +6,7 @@
       <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success p-mr-2" (click)="openNew()"></button>
       <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger" (click)="deleteSelectedProducts()" [disabled]="!selectedProducts || !selectedProducts.length"></button>
     </ng-template>
-    
+
   </p-toolbar>
 
   <p-table #dt [value]="products" [rows]="10" [paginator]="true" [globalFilterFields]="['name','country.name','representative.name','status']"
@@ -26,12 +26,16 @@
         <th style="width: 3rem">
           <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
         </th>
-        <th pSortableColumn="name">Name <p-sortIcon field="name"></p-sortIcon></th>
         <th>Image</th>
+        <th pSortableColumn="name">Name <p-sortIcon field="name"></p-sortIcon></th>
         <th pSortableColumn="price">Price <p-sortIcon field="price"></p-sortIcon></th>
         <th pSortableColumn="category">Category <p-sortIcon field="category"></p-sortIcon></th>
+        <th pSortableColumn="code">Code <p-sortIcon field="code"></p-sortIcon></th>
+        <th pSortableColumn="brand">Brand <p-sortIcon field="brand"></p-sortIcon></th>
 
         <th></th>
+        <th></th>
+
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-product>
@@ -39,13 +43,20 @@
         <td>
           <p-tableCheckbox [value]="product"></p-tableCheckbox>
         </td>
-        <td>{{product.name}}</td>
         <td><img [src]="product.productImages[0].url" [alt]="product.name" width="100" class="p-shadow-4" /></td>
-        <td>{{145 | currency:'USD'}}</td>
+        <td>{{product.name}}</td>
+        <td>{{product.price | currency:' TND'}}</td>
         <td>{{product.category.name}}</td>
+        <td>{{product.code}}</td>
+        <td>{{product.brand}}</td>
         <td>
           <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2" (click)="editProduct(product)"></button>
           <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteProduct(product)"></button>
+        </td>
+        <td>
+          <button pButton pRipple label="Details" class="p-button-rounded p-button-warning p-mr-2" (click)="show()"></button>
+          <button pButton pRipple label="Information"  class="p-button-rounded p-button-danger p-mr-2" (click)="showInfo()"></button>
+          <button pButton pRipple label="Mouvment" class="p-button-rounded p-button-help p-mr-2" (click)="showMvt()"></button>
         </td>
       </tr>
     </ng-template>
@@ -72,3 +83,4 @@
 </p-dialog>
 
 <p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
+

@@ -6,7 +6,7 @@ import {ConfirmationService, MessageService} from "primeng/api";
 
 @Component({
   selector: 'app-Suppliers-list',
-  templateUrl: './suppliers-list.component.html',
+  templateUrl: './suppliers.component.html',
   styleUrls: ['./suppliers.component.css'],
   styles: [`
         :host ::ng-deep .p-dialog .product-image {

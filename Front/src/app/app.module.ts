@@ -30,6 +30,10 @@ import {DataViewModule} from "primeng/dataview";
 import {RatingModule} from "primeng/rating";
 import {ProductComponent} from "./Entities/Product/product.component";
 import {InputNumberModule} from "primeng/inputnumber";
+import {DetailComponent} from "./Entities/Detail/detail.component";
+import {InformationComponent} from "./Entities/Information/information.component";
+import {MouvementComponent} from "./Entities/Mouvement/mouvement.component";
+import {CategoryComponent} from "./Entities/Category/category.component";
 
 
 @NgModule({
@@ -42,6 +46,10 @@ import {InputNumberModule} from "primeng/inputnumber";
     SuppliersComponent,
     OrganizationComponent,
     ProductComponent,
+    DetailComponent,
+    MouvementComponent,
+    InformationComponent,
+    CategoryComponent,
 
   ],
   imports: [

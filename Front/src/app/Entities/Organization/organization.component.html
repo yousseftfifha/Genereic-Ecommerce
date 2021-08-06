@@ -21,7 +21,7 @@
   </p>
 </p-card>
 <p-toast [style]="{marginTop: '80px'}"></p-toast>
-<h5>Organization</h5>
+<h5>Organization Hierarchy</h5>
 <p-organizationChart [value]="data1" selectionMode="single" [(selection)]="selectedNode" (onNodeSelect)="onNodeSelect($event)"
                      styleClass="company">
   <ng-template let-node pTemplate="person">
