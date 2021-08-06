@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : ven. 06 août 2021 à 17:59
+-- Généré le : ven. 06 août 2021 à 20:13
 -- Version du serveur :  5.7.19
 -- Version de PHP : 7.4.16
 
@@ -79,14 +79,7 @@ CREATE TABLE IF NOT EXISTS `cart` (
   `productid` bigint(20) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `FKkh5di77cfr01hq05rbcogspec` (`productid`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
-
---
--- Déchargement des données de la table `cart`
---
-
-INSERT INTO `cart` (`id`, `quantity`, `productid`) VALUES
-(15, 2, 1);
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -589,7 +582,7 @@ CREATE TABLE IF NOT EXISTS `hibernate_sequence` (
 --
 
 INSERT INTO `hibernate_sequence` (`next_val`) VALUES
-(7);
+(19);
 
 -- --------------------------------------------------------
 
@@ -610,7 +603,7 @@ CREATE TABLE IF NOT EXISTS `mouvement` (
   PRIMARY KEY (`id`),
   KEY `FKk0fgvyrd4gg1eugabyqg2cbxd` (`product_id`),
   KEY `FKwarehouse` (`warehouse_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `mouvement`
@@ -632,7 +625,21 @@ INSERT INTO `mouvement` (`id`, `mouvement_type`, `mouvement_date`, `quantity`, `
 (13, 'IN', '2021-08-06 17:07:09', -2, NULL, 1, NULL, NULL),
 (14, 'IN', '2021-08-06 17:07:09', 4, NULL, 2, NULL, NULL),
 (15, 'IN', '2021-08-06 17:09:21', -4, NULL, 1, NULL, NULL),
-(16, 'IN', '2021-08-06 17:09:21', 3, NULL, 2, NULL, NULL);
+(16, 'IN', '2021-08-06 17:09:21', 3, NULL, 2, NULL, NULL),
+(17, 'IN', '2021-08-06 19:02:52', -6, NULL, 1, NULL, NULL),
+(18, 'IN', '2021-08-06 19:04:09', -8, NULL, 1, NULL, NULL),
+(19, 'IN', '2021-08-06 19:09:40', -9, NULL, 1, NULL, NULL),
+(20, 'IN', '2021-08-06 19:18:21', -10, NULL, 1, NULL, NULL),
+(21, 'IN', '2021-08-06 19:18:21', 2, NULL, 2, NULL, NULL),
+(22, 'IN', '2021-08-06 19:42:25', -11, NULL, 1, NULL, NULL),
+(23, 'IN', '2021-08-06 19:52:06', -12, NULL, 1, NULL, NULL),
+(24, 'IN', '2021-08-06 19:55:16', -14, NULL, 1, NULL, NULL),
+(25, 'IN', '2021-08-06 20:05:24', -15, NULL, 1, NULL, NULL),
+(26, 'IN', '2021-08-06 20:08:50', -16, NULL, 1, NULL, NULL),
+(27, 'IN', '2021-08-06 20:15:22', -17, NULL, 1, NULL, NULL),
+(28, 'IN', '2021-08-06 20:55:20', -19, NULL, 1, NULL, NULL),
+(29, 'IN', '2021-08-06 21:09:59', 10, 33, 3, NULL, NULL),
+(30, 'IN', '2021-08-06 21:12:22', 9, NULL, 3, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -651,14 +658,18 @@ CREATE TABLE IF NOT EXISTS `orders_customer` (
   `customer_id` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `FKel9kyl84ego2otj2accfd8mr7` (`customer_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `orders_customer`
 --
 
 INSERT INTO `orders_customer` (`id`, `order_number`, `created_date`, `status`, `sent_media`, `urgent`, `customer_id`) VALUES
-(5, '70698', '2021-08-06 17:09:21', 'PENDING', 'sss', 'qqq', 2);
+(5, '70698', '2021-08-06 17:09:21', 'PENDING', 'sss', 'qqq', 2),
+(10, '82070', '2021-08-06 19:42:26', 'PENDING', 'INTRANET', 'NORMALE', 2),
+(15, '31977', '2021-08-06 20:15:22', 'PENDING', 'INTRANET', 'NORMALE', 2),
+(16, '12449', '2021-08-06 20:55:21', 'PENDING', 'INTRANET', 'NORMALE', 2),
+(17, '68964', '2021-08-06 21:12:22', 'PENDING', 'INTRANET', 'NORMALE', 2);
 
 -- --------------------------------------------------------
 
@@ -699,7 +710,6 @@ CREATE TABLE IF NOT EXISTS `order_customer_items` (
   `created_date` datetime DEFAULT CURRENT_TIMESTAMP,
   `order_id` bigint(20) DEFAULT NULL,
   `product_id` bigint(20) DEFAULT NULL,
-  `unit_price` double DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `FKm3mp87f5ygbbfuqfdhc09y9a` (`order_id`),
   KEY `FKatri80p9fodn2lpjxxpcv03hm` (`product_id`)
@@ -709,9 +719,12 @@ CREATE TABLE IF NOT EXISTS `order_customer_items` (
 -- Déchargement des données de la table `order_customer_items`
 --
 
-INSERT INTO `order_customer_items` (`id`, `item_seq`, `quantity`, `vat_code`, `discount_code`, `created_date`, `order_id`, `product_id`, `unit_price`) VALUES
-(5, 0, 2, 19, 0, '2021-08-06 17:09:21', 5, 1, 140),
-(6, 0, 1, 19, 0, '2021-08-06 17:09:21', 5, 2, 480);
+INSERT INTO `order_customer_items` (`id`, `item_seq`, `quantity`, `vat_code`, `discount_code`, `created_date`, `order_id`, `product_id`) VALUES
+(6, 0, 1, 19, 0, '2021-08-06 17:09:21', 5, 2),
+(11, 0, 1, 19, 0, '2021-08-06 19:42:25', 10, 1),
+(16, 0, 1, 19, 0, '2021-08-06 20:15:22', 15, 1),
+(17, 0, 2, 19, 0, '2021-08-06 20:55:20', 16, 1),
+(18, 0, 1, 19, 0, '2021-08-06 21:12:22', 17, 3);
 
 -- --------------------------------------------------------
 
@@ -782,7 +795,7 @@ CREATE TABLE IF NOT EXISTS `product` (
   `category` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `FKqx9wikktsev17ctu0kcpkrafc` (`category`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `product`
@@ -790,7 +803,8 @@ CREATE TABLE IF NOT EXISTS `product` (
 
 INSERT INTO `product` (`id`, `brand`, `code`, `description`, `isbn`, `name`, `sku`, `tmpcode`, `category`) VALUES
 (1, 'TOZO ', '12AW', 'TOZO T6 True Wireless Earbuds Bluetooth Headphones Touch Control with Wireless Charging Case IPX8 Waterproof Stereo Earphones in-Ear Built-in Mic Headset Premium Deep Bass for Sport Black', 1111004, 'TOZO T6', 1110001, 'T12AW', 24),
-(2, 'SAMSUNG ', '12AW', 'SAMSUNG: EVO Select 128GB MicroSDXC UHS-I U3 100MB/s Full HD & 4K UHD Memory Card with Adapter (MB-ME128HA)', 1111004, 'SAMSUNG: EVO', 1110001, 'T12AW', 24);
+(2, 'SAMSUNG ', '12AW', 'SAMSUNG: EVO Select 128GB MicroSDXC UHS-I U3 100MB/s Full HD & 4K UHD Memory Card with Adapter (MB-ME128HA)', 1111004, 'SAMSUNG: EVO', 1110001, 'T12AW', 24),
+(3, 'Neewer ', '12AW', 'Neewer Ring Light Kit:18 48cm Outer 55W 5500K Dimmable LED Ring Light, Light Stand, Carrying Bag for Camera,Smartphone,YouTube,TikTok,Self-Portrait Shooting, Black, Model:10088612', 1111004, 'Ring Light', 1110001, 'T12AW', 25);
 
 -- --------------------------------------------------------
 
@@ -803,22 +817,21 @@ CREATE TABLE IF NOT EXISTS `product_details` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `attribute` varchar(255) DEFAULT NULL,
   `value` varchar(255) DEFAULT NULL,
-  `created_date` datetime DEFAULT CURRENT_TIMESTAMP,
-  `canceled_date` datetime DEFAULT NULL,
   `product_id` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `FK4y967p539vfvrt7tn47rlhr2q` (`product_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `product_details`
 --
 
-INSERT INTO `product_details` (`id`, `attribute`, `value`, `created_date`, `canceled_date`, `product_id`) VALUES
-(1, 'Color', 'BLACK', NULL, NULL, 1),
-(2, 'Color', 'BLACK', NULL, NULL, 2),
-(3, 'Flash Memory Type', 'Micro SDXC', NULL, NULL, 2),
-(4, 'Secure Digital Association Speed Class', 'Class 10', NULL, NULL, 2);
+INSERT INTO `product_details` (`id`, `attribute`, `value`, `product_id`) VALUES
+(1, 'Color', 'BLACK', 1),
+(2, 'Color', 'BLACK', 2),
+(3, 'Flash Memory Type', 'Micro SDXC', 2),
+(4, 'Secure Digital Association Speed Class', 'Class 10', 2),
+(5, 'Dimmable', '18/48cm Outer 55W 5500K 240 Pieces', 3);
 
 -- --------------------------------------------------------
 
@@ -835,7 +848,7 @@ CREATE TABLE IF NOT EXISTS `product_extra_cost` (
   `product_id` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `FK838eqmn63sfta0iiv8v9r300v` (`product_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `product_extra_cost`
@@ -843,7 +856,8 @@ CREATE TABLE IF NOT EXISTS `product_extra_cost` (
 
 INSERT INTO `product_extra_cost` (`id`, `fixed_cost`, `variable_cost`, `profit_margin`, `product_id`) VALUES
 (1, 140, 10, 19, 1),
-(2, 120, 19, 20, 2);
+(2, 120, 19, 20, 2),
+(3, 25, 2, 20, 3);
 
 -- --------------------------------------------------------
 
@@ -858,7 +872,7 @@ CREATE TABLE IF NOT EXISTS `product_image` (
   `product_id` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `FK8ut1k90uxasdhv7ek0ifvrktm` (`product_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `product_image`
@@ -868,7 +882,10 @@ INSERT INTO `product_image` (`id`, `url`, `product_id`) VALUES
 (1, 'http://localhost:8081/downloadFile/61eAIJI+nPL._AC_SL1500_.jpg', 1),
 (2, 'http://localhost:8081/downloadFile/61PSpNQlsQL._AC_SL1440_.jpg', 2),
 (3, 'http://localhost:8081/downloadFile/61Vr+9FI8PL._AC_SL1440_.jpg', 2),
-(4, 'http://localhost:8081/downloadFile/81axmUuRHrL._AC_SL1500_.jpg', 2);
+(4, 'http://localhost:8081/downloadFile/81axmUuRHrL._AC_SL1500_.jpg', 2),
+(5, 'http://localhost:8081/downloadFile/71+JKKAnfoL._AC_SL1500_.jpg', 3),
+(6, 'http://localhost:8081/downloadFile/71br3XRdErL._AC_SL1500_.jpg', 3),
+(7, 'http://localhost:8081/downloadFile/71Cc5uJ7f+L._AC_SL1500_.jpg', 3);
 
 -- --------------------------------------------------------
 
@@ -885,7 +902,7 @@ CREATE TABLE IF NOT EXISTS `product_information` (
   `product_id` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `FKqiugp8n149cegb6a8167jcc45` (`product_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `product_information`
@@ -893,7 +910,8 @@ CREATE TABLE IF NOT EXISTS `product_information` (
 
 INSERT INTO `product_information` (`id`, `max`, `min`, `security`, `product_id`) VALUES
 (1, 20, 5, 6, 1),
-(2, 20, 5, 6, 2);
+(2, 20, 5, 6, 2),
+(3, 20, 5, 6, 3);
 
 -- --------------------------------------------------------
 
@@ -923,7 +941,8 @@ CREATE TABLE IF NOT EXISTS `product_supplier` (
 
 INSERT INTO `product_supplier` (`product_id`, `Supplier_id`, `created_date`, `delivery_eta`, `discount_rate`, `supplier_product_code`, `unit_price`, `vat_code`, `currency_id`) VALUES
 (1, 1, '2021-08-05 16:45:25', 'dda', 0, '1', 140, 14, 1),
-(2, 2, '2021-08-06 16:45:25', '4 days', 0, '2', 114, 16, 2);
+(2, 2, '2021-08-06 16:45:25', '4 days', 0, '2', 114, 16, 2),
+(3, 2, '2021-08-06 16:45:25', '4 days', 0, '3', 33, 16, 2);
 
 -- --------------------------------------------------------
 
@@ -955,15 +974,15 @@ INSERT INTO `roles` (`id`, `name`) VALUES
 DROP TABLE IF EXISTS `supplier`;
 CREATE TABLE IF NOT EXISTS `supplier` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `category` varchar(255) NOT NULL,
-  `finality` varchar(255) NOT NULL,
-  `fiscalcode` varchar(255) NOT NULL,
-  `legalstatus` varchar(255) NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `patentcode` varchar(255) NOT NULL,
-  `scope` varchar(255) NOT NULL,
-  `sector` varchar(255) NOT NULL,
-  `size` varchar(255) NOT NULL,
+  `category` varchar(255) DEFAULT NULL,
+  `finality` varchar(255) DEFAULT NULL,
+  `fiscalcode` varchar(255) DEFAULT NULL,
+  `legalstatus` varchar(255) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `patentcode` varchar(255) DEFAULT NULL,
+  `scope` varchar(255) DEFAULT NULL,
+  `sector` varchar(255) DEFAULT NULL,
+  `size` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
@@ -973,7 +992,7 @@ CREATE TABLE IF NOT EXISTS `supplier` (
 
 INSERT INTO `supplier` (`id`, `category`, `finality`, `fiscalcode`, `legalstatus`, `name`, `patentcode`, `scope`, `sector`, `size`) VALUES
 (1, 'Organization', 'Economical', '1452', 'Society', 'pull&bear', '22250', 'Material', 'Secondary', 'Small'),
-(2, 'Public', 'Economical', '1452', 'individual Enterprise ', 'Samsung', '14QA', 'Financial', 'Primary', 'Average');
+(2, 'Enterprise', 'Social', '145d', 'individual Enterprise ', 'Samsung', '5420D', 'Material', 'Secondary', 'Small');
 
 -- --------------------------------------------------------
 
