@@ -1,30 +1,26 @@
 import { Component, OnInit } from '@angular/core';
-import {Product} from "../Product/product";
-import {Detail} from "../Detail/detail";
+import {Information} from "../Information/information";
 import {ProductService} from "../Product/product.service";
 import {DialogService, DynamicDialogConfig, DynamicDialogRef} from "primeng/dynamicdialog";
-import {Mouvement} from "./mouvement";
 import {ConfirmationService, MessageService} from "primeng/api";
+import {ProductExtraCost} from "./product-extra-cost";
 
 @Component({
-  selector: 'app-mouvement',
-  templateUrl: './mouvement.component.html',
-  styleUrls: ['./mouvement.component.css'],
+  selector: 'app-product-extra-cost',
+  templateUrl: './product-extra-cost.component.html',
+  styleUrls: ['./product-extra-cost.component.css'],
   providers: [MessageService,ConfirmationService,DialogService]
 
 })
-export class MouvementComponent implements OnInit {
+export class ProductExtraCostComponent implements OnInit {
 
-  mouvments!: Mouvement[];
-
+  extracost!: ProductExtraCost;
   constructor(private productService: ProductService, public ref: DynamicDialogRef, public config: DynamicDialogConfig) { }
 
   ngOnInit() {
-    this.mouvments= [];
-    this.mouvments=this.config.data.mvt;
-
+    this.extracost=new ProductExtraCost();
+    this.extracost=this.config.data.extracost;
   }
-
 
 
 }

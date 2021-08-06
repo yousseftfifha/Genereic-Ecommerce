@@ -1,17 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import {Product} from "../Product/product";
 import {ProductService} from "../Product/product.service";
-import {DynamicDialogConfig, DynamicDialogRef} from "primeng/dynamicdialog";
+import {DialogService, DynamicDialogConfig, DynamicDialogRef} from "primeng/dynamicdialog";
 import {Detail} from "./detail";
+import {ConfirmationService, MessageService} from "primeng/api";
 
 @Component({
   selector: 'app-detail',
   templateUrl: './detail.component.html',
-  styleUrls: ['./detail.component.css']
+  styleUrls: ['./detail.component.css'],
+  providers: [MessageService,ConfirmationService,DialogService]
+
 })
 export class DetailComponent implements OnInit {
-
-  products!: Product[];
 
   details!: Detail[];
 
@@ -19,15 +20,9 @@ export class DetailComponent implements OnInit {
   constructor(private productService: ProductService, public ref: DynamicDialogRef, public config: DynamicDialogConfig) { }
 
   ngOnInit() {
-    this.productService.getProduct().subscribe(data => {
-      this.products = data;
+    this.details= [];
+    this.details=this.config.data.details;
 
-      this.products.forEach((product : Product, val: number)=>{
-      this.details=product.details;
-      }
-      )
-
-    });
   }
 
 

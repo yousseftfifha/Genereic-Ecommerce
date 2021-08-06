@@ -9,7 +9,7 @@
 
   </p-toolbar>
 
-  <p-table #dt [value]="products" [rows]="10" [paginator]="true" [globalFilterFields]="['name','country.name','representative.name','status']"
+  <p-table #dt [value]="products" [rows]="10" [paginator]="true" [globalFilterFields]="['name']"
            [(selection)]="selectedProducts" [rowHover]="true" dataKey="id"
            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
     <ng-template pTemplate="caption">
@@ -17,7 +17,7 @@
         <h5 class="p-m-0">Manage Products</h5>
         <span class="p-input-icon-left">
                     <i class="pi pi-search"></i>
-                    <input pInputText type="text" (input)="dt.filterGlobal($event.target, 'contains')" placeholder="Search..." />
+                    <input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')" placeholder="Search..." />
                 </span>
       </div>
     </ng-template>
@@ -54,9 +54,10 @@
           <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteProduct(product)"></button>
         </td>
         <td>
-          <button pButton pRipple label="Details" class="p-button-rounded p-button-warning p-mr-2" (click)="show()"></button>
-          <button pButton pRipple label="Information"  class="p-button-rounded p-button-danger p-mr-2" (click)="showInfo()"></button>
-          <button pButton pRipple label="Mouvment" class="p-button-rounded p-button-help p-mr-2" (click)="showMvt()"></button>
+          <button pButton pRipple label="Details" class="p-button-rounded p-button-warning p-mr-2" (click)="show(product)"></button>
+          <button pButton pRipple label="Information"  class="p-button-rounded p-button-danger p-mr-2" (click)="showInfo(product)"></button>
+          <button pButton pRipple label="Mouvement" class="p-button-rounded p-button-help p-mr-2" (click)="showMvt(product)"></button>
+          <button pButton pRipple label="ExtraCost" class="p-button-rounded p-button-success p-mr-2" (click)="showExtraCost(product)"></button>
         </td>
       </tr>
     </ng-template>

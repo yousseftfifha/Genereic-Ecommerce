@@ -34,6 +34,7 @@ import {DetailComponent} from "./Entities/Detail/detail.component";
 import {InformationComponent} from "./Entities/Information/information.component";
 import {MouvementComponent} from "./Entities/Mouvement/mouvement.component";
 import {CategoryComponent} from "./Entities/Category/category.component";
+import { ProductExtraCostComponent } from './Entities/ProductExtraCost/product-extra-cost.component';
 
 
 @NgModule({
@@ -50,6 +51,7 @@ import {CategoryComponent} from "./Entities/Category/category.component";
     MouvementComponent,
     InformationComponent,
     CategoryComponent,
+    ProductExtraCostComponent,
 
   ],
   imports: [

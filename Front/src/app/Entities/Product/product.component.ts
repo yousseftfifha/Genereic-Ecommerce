@@ -11,6 +11,7 @@ import {Information} from "../Information/information";
 import {InformationComponent} from "../Information/information.component";
 import {MouvementComponent} from "../Mouvement/mouvement.component";
 import {Mouvement} from "../Mouvement/mouvement";
+import {ProductExtraCostComponent} from "../ProductExtraCost/product-extra-cost.component";
 
 @Component({
   selector: 'app-product',
@@ -143,36 +144,58 @@ export class ProductComponent implements OnInit {
     return index;
   }
 
-  show() {
+  show(product:Product) {
+
     this.ref = this.dialogService.open(DetailComponent, {
       header: 'Product Details',
       width: '70%',
       contentStyle: {"max-height": "500px", "overflow": "auto"},
-      baseZIndex: 10000
+      baseZIndex: 10000,
+      data: {details: product.details}
+
+
     });
 
     this.ref.onClose.subscribe((details: Detail) =>{
 
     });
   }
-  showInfo() {
+  showInfo(product:Product) {
     this.ref = this.dialogService.open(InformationComponent, {
       header: 'Product Information',
       width: '70%',
       contentStyle: {"max-height": "500px", "overflow": "auto"},
-      baseZIndex: 10000
+      baseZIndex: 10000,
+      data: {info: product.information}
+
     });
 
     this.ref.onClose.subscribe((information: Information) =>{
 
     });
   }
-  showMvt() {
+  showMvt(product:Product) {
     this.ref = this.dialogService.open(MouvementComponent, {
       header: 'Product Mouvement',
       width: '70%',
       contentStyle: {"max-height": "500px", "overflow": "auto"},
-      baseZIndex: 10000
+      baseZIndex: 10000,
+      data: {mvt: product.mouvements}
+
+    });
+
+    this.ref.onClose.subscribe((mouvement: Mouvement) =>{
+
+    });
+  }
+  showExtraCost(product:Product) {
+    this.ref = this.dialogService.open(ProductExtraCostComponent, {
+      header: 'Product Extra Cost',
+      width: '70%',
+      contentStyle: {"max-height": "500px", "overflow": "auto"},
+      baseZIndex: 10000,
+      data: {extracost: product.productExtraCost}
+
     });
 
     this.ref.onClose.subscribe((mouvement: Mouvement) =>{
