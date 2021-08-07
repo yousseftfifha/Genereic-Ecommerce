@@ -5,5 +5,4 @@ export class Mouvement {
   quantity!:      number;
   deliveryItem!:  null;
   mouvementDate!: Date;
-  warehouse!:     null;
 }

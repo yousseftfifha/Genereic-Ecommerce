@@ -41,13 +41,20 @@ export class CategoryComponent implements OnInit {
 
   uploadedFiles: any[] = [];
 
+  categoryNames: string[]=[];
+
+
+
   constructor(private categoryService: CategoryService, private messageService: MessageService, private confirmationService: ConfirmationService) { }
 
   ngOnInit() {
     this.categoryService.getCategory().subscribe(data => {
       this.categories = data;
-
+      this.categories.forEach((category : Category)=>{
+        this.categoryNames.push(category.name);
+      })
     });
+
   }
 
   openNew() {
@@ -154,6 +161,7 @@ export class CategoryComponent implements OnInit {
   onUpload(event: { files: any; }) {
     for(let file of event.files) {
       this.uploadedFiles.push(file);
+
     }
 
     this.messageService.add({severity: 'info', summary: 'File Uploaded', detail: ''});

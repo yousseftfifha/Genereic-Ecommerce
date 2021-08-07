@@ -12,7 +12,10 @@ import {InformationComponent} from "../Information/information.component";
 import {MouvementComponent} from "../Mouvement/mouvement.component";
 import {Mouvement} from "../Mouvement/mouvement";
 import {ProductExtraCostComponent} from "../ProductExtraCost/product-extra-cost.component";
-
+import * as FileSaver from "file-saver";
+declare const require: any;
+const jsPDF = require('jspdf');
+require('jspdf-autotable');
 @Component({
   selector: 'app-product',
   templateUrl: './product.component.html',
@@ -46,6 +49,10 @@ export class ProductComponent implements OnInit {
 
   ref!: DynamicDialogRef;
 
+  cols!: any[];
+
+  exportColumns!: any[];
+
 
   constructor(private productService: ProductService, private messageService: MessageService, private confirmationService: ConfirmationService,public dialogService: DialogService,) { }
 
@@ -62,6 +69,15 @@ export class ProductComponent implements OnInit {
       })
 
     });
+    this.cols = [
+      { field: 'name', header: 'Name' },
+      { field: 'price', header: 'Price' },
+      { field: 'code', header: 'Code' },
+      { field: 'brand', header: 'brand' },
+    ];
+
+    this.exportColumns = this.cols.map(col => ({title: col.header, dataKey: col.field}));
+
   }
 
   openNew() {
@@ -207,5 +223,28 @@ export class ProductComponent implements OnInit {
     if (this.ref) {
       this.ref.close();
     }
+  }
+  exportPdf() {
+    const doc = new jsPDF.default('l', 'pt');
+    doc.autoTable(this.exportColumns, this.products);
+    doc.save('products.pdf');
+  }
+
+  exportExcel() {
+    import("xlsx").then(xlsx => {
+      const worksheet = xlsx.utils.json_to_sheet(this.products);
+      const workbook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
+      const excelBuffer: any = xlsx.write(workbook, { bookType: 'xlsx', type: 'array' });
+      this.saveAsExcelFile(excelBuffer, "products");
+    });
+  }
+
+  saveAsExcelFile(buffer: any, fileName: string): void {
+    let EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+    let EXCEL_EXTENSION = '.xlsx';
+    const data: Blob = new Blob([buffer], {
+      type: EXCEL_TYPE
+    });
+    FileSaver.saveAs(data, fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
   }
 }

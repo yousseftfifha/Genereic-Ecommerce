@@ -4,6 +4,7 @@ import com.group3s2i.springboot.DAO.*;
 import com.group3s2i.springboot.Model.*;
 import com.group3s2i.springboot.Service.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -56,10 +57,12 @@ public class OrderController {
             List<Mouvement> mouvement1=mouvementRepository.findAllByProductOrderByIdAsc (cart.getProduct ());
             Mouvement mouvement2=mouvement1.stream()
                     .reduce((first, second) -> second).get();
-            mouvement.setTypeMouvement ("IN");
+            mouvement.setTypeMouvement ("OUT");
             mouvement.setProduct (cart.getProduct ());
-            mouvement.setQuantity (mouvement2.getQuantity ()- cart.getQuantity ());
+            mouvement.setQuantity (cart.getQuantity ());
             mouvement.setMouvementDate (LocalDateTime.now ());
+            mouvement.setUnitPrice (mouvement2.getUnitPrice ());
+
             mouvementRepository.save (mouvement);
             orderCustomerItems.add (orderCustomerItem);
             i++;
@@ -91,6 +94,10 @@ public class OrderController {
         cartRepository.deleteAll();
         return   ResponseEntity.ok(orderCustomer);
     }
+    @GetMapping("/order")
+    public List<OrderCustomer> getOrders(){
+        return orderCustomerRepository.findAll();
+    }
     @GetMapping("/order/{customer}")
     public List<OrderCustomer> getAllOrders(@PathVariable Customer customer){
         return orderCustomerRepository.findAllByUserOrderByCreatedDateDesc (customer);
@@ -100,6 +107,19 @@ public class OrderController {
         Optional<OrderCustomer> order= orderCustomerRepository.findById (id);
         return orderCustomerItemRepository.findAllByOrderOrderByCreatedDateDesc (order);
     }
+    @PutMapping("/order/{id}/{status}")
+    public ResponseEntity<OrderCustomer> ConfirmOrderCustomer(@PathVariable("id") long id,@PathVariable("status") String status) {
 
+        Optional<OrderCustomer> optionalOrderCustomer = orderCustomerRepository.findById(id);
+
+        if (optionalOrderCustomer.isPresent()) {
+            OrderCustomer orderCustomer1 = optionalOrderCustomer.get();
+            orderCustomer1.setStatus (status);
+
+            return new ResponseEntity<>(orderCustomerRepository.save(orderCustomer1), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
 
 }

@@ -9,7 +9,7 @@
 
   </p-toolbar>
 
-  <p-table #dt [value]="categories" [rows]="10" [paginator]="true"
+  <p-table #dt [value]="categories" [rows]="10" [paginator]="true " [globalFilterFields]="['name']"
            [(selection)]="selectedCategory" [rowHover]="true" dataKey="id"
            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
     <ng-template pTemplate="caption">
@@ -17,7 +17,7 @@
         <h5 class="p-m-0">Manage Categories</h5>
         <span class="p-input-icon-left">
                     <i class="pi pi-search"></i>
-                    <input pInputText type="text" (input)="dt.filterGlobal($event.target, 'contains')" placeholder="Search..." />
+                    <input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')" placeholder="Search..." />
                 </span>
       </div>
     </ng-template>
@@ -71,8 +71,18 @@
       <small class="p-error" *ngIf="submitted && !category.description">Description is required.</small>
 
     </div>
+    <div class="p-field">
+      <label >Parent Id</label>
+      <p-dropdown [(ngModel)]="category.parentId" inputId="parentId"  [autoDisplayFirst]="false" [options]="categories" placeholder="Select" optionLabel="name">
+        <ng-template let-option pTemplate="item">
+          <span [class]=" option.value">{{option.label}}</span>
+        </ng-template>
+      </p-dropdown>
+    </div>
+    <label >Icon</label>
     <p-fileUpload name="demo[]"  (onUpload)="onUpload($event)"
                   accept="image/*" >
+
       <ng-template pTemplate="content">
         <ul *ngIf="uploadedFiles.length">
           <li *ngFor="let file of uploadedFiles">{{file.name}} - {{file.size}} bytes</li>

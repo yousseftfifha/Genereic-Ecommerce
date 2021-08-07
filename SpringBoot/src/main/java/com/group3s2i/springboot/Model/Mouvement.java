@@ -50,10 +50,7 @@ public class Mouvement implements Serializable {
     private LocalDateTime mouvementDate;
 
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "warehouse_id")
-    @ToString.Exclude
-    private Warehouse warehouse;
+
 
     public Mouvement() {
     }

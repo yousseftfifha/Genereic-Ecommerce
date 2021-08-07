@@ -35,6 +35,9 @@ import {InformationComponent} from "./Entities/Information/information.component
 import {MouvementComponent} from "./Entities/Mouvement/mouvement.component";
 import {CategoryComponent} from "./Entities/Category/category.component";
 import { ProductExtraCostComponent } from './Entities/ProductExtraCost/product-extra-cost.component';
+import { OrderCustomerComponent } from './Entities/OrderCustomer/order-customer.component';
+import { OrderCustomerItemComponent } from './Entities/OrderCustomerItem/order-customer-item.component';
+import {TooltipModule} from "primeng/tooltip";
 
 
 @NgModule({
@@ -52,6 +55,8 @@ import { ProductExtraCostComponent } from './Entities/ProductExtraCost/product-e
     InformationComponent,
     CategoryComponent,
     ProductExtraCostComponent,
+    OrderCustomerComponent,
+    OrderCustomerItemComponent,
 
   ],
   imports: [
@@ -77,6 +82,7 @@ import { ProductExtraCostComponent } from './Entities/ProductExtraCost/product-e
     DataViewModule,
     RatingModule,
     InputNumberModule,
+    TooltipModule,
 
   ],
   providers: [],

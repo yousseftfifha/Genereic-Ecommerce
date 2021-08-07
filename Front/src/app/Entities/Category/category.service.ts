@@ -25,10 +25,10 @@ export class CategoryService {
     return this.http.post(this.host+"/category",category);
   }
 
-
   public updateCategory(id: number,category:Category): Observable<Object>{
     return this.http.put(this.host+"/category"+'/'+id,category);
   }
+
   public DeleteCategory(id: number): Observable<Object>{
     return this.http.delete(this.host+"/category"+'/'+id);
 
