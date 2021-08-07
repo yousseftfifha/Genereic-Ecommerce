@@ -28,13 +28,14 @@
             ],
             "styles": [
               "src/styles.css",
-              "node_modules/primeng/resources/themes/saga-blue/theme.css",
-              "node_modules/primeng/resources/primeng.min.css",
-              "node_modules/primeicons/primeicons.css"
+              "../node_modules/primeng/resources/themes/saga-blue/theme.css",
+              "../node_modules/primeng/resources/primeng.min.css",
+              "../node_modules/primeicons/primeicons.css"
             ],
             "scripts": [
-              "../node_modules/jspdf/dist/jspdf.min.js",
-              "../node_modules/jspdf-autotable/dist/jspdf.plugin.autotable.js"
+
+              "../node_modules/chart.js/dist/Chart.js"
+
             ]
           },
           "configurations": {
@@ -101,13 +102,12 @@
             ],
             "styles": [
               "src/styles.css",
-              "node_modules/primeng/resources/themes/saga-blue/theme.css",
-              "node_modules/primeng/resources/primeng.min.css",
-              "node_modules/primeicons/primeicons.css"
+              "../node_modules/primeng/resources/themes/saga-blue/theme.css",
+              "../node_modules/primeng/resources/primeng.min.css",
+              "../node_modules/primeicons/primeicons.css"
             ],
             "scripts": [
-              "../node_modules/jspdf/dist/jspdf.min.js",
-              "../node_modules/jspdf-autotable/dist/jspdf.plugin.autotable.js"
+              "../node_modules/chart.js/dist/Chart.js"
             ]
           }
         }

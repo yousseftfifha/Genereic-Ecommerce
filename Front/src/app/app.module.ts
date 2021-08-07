@@ -38,6 +38,7 @@ import { ProductExtraCostComponent } from './Entities/ProductExtraCost/product-e
 import { OrderCustomerComponent } from './Entities/OrderCustomer/order-customer.component';
 import { OrderCustomerItemComponent } from './Entities/OrderCustomerItem/order-customer-item.component';
 import {TooltipModule} from "primeng/tooltip";
+import {ChartModule} from "primeng/chart";
 
 
 @NgModule({
@@ -83,6 +84,7 @@ import {TooltipModule} from "primeng/tooltip";
     RatingModule,
     InputNumberModule,
     TooltipModule,
+    ChartModule,
 
   ],
   providers: [],

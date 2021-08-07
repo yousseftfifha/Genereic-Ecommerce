@@ -40,12 +40,32 @@ export class OrderCustomerComponent implements OnInit {
 
   ref!: DynamicDialogRef;
 
+  data: any;
+
   constructor(private customerOrderService: OrderCustomerService, private messageService: MessageService, private confirmationService: ConfirmationService,public dialogService: DialogService) { }
 
   ngOnInit() {
     this.customerOrderService.getOrders().subscribe(data => {
       this.CustomerOrders = data;
     });
+    this.data = {
+      labels: ['A','B','C'],
+      datasets: [
+        {
+          data: [300, 50, 150],
+          backgroundColor: [
+            "#FF6384",
+            "#36A2EB",
+            "#FFCE56"
+          ],
+          hoverBackgroundColor: [
+            "#FF6384",
+            "#36A2EB",
+            "#FFCE56"
+          ]
+        }]
+    };
+
   }
 
   openNew() {
