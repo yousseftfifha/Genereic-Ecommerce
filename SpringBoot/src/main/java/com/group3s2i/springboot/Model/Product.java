@@ -109,6 +109,7 @@ public class Product  implements Serializable {
     private Set<Supplier> suppliers = new HashSet<> ();
 
 
+
     public Product() {
     }
 

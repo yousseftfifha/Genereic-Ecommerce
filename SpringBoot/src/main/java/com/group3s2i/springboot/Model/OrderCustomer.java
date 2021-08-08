@@ -55,6 +55,7 @@ public class OrderCustomer implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="customer_id", referencedColumnName = "id")
     @JsonBackReference(value = "o-s")
+    @ToString.Exclude
     private Customer customer;
 
     public OrderCustomer() {

@@ -39,6 +39,9 @@ import { OrderCustomerComponent } from './Entities/OrderCustomer/order-customer.
 import { OrderCustomerItemComponent } from './Entities/OrderCustomerItem/order-customer-item.component';
 import {TooltipModule} from "primeng/tooltip";
 import {ChartModule} from "primeng/chart";
+import { OrderSupplierComponent } from './Entities/OrderSupplier/order-supplier.component';
+import { OrderSupllierItemComponent } from './Entities/OrderSupllierItem/order-supllier-item.component';
+import {SliderModule} from "primeng/slider";
 
 
 @NgModule({
@@ -58,6 +61,8 @@ import {ChartModule} from "primeng/chart";
     ProductExtraCostComponent,
     OrderCustomerComponent,
     OrderCustomerItemComponent,
+    OrderSupplierComponent,
+    OrderSupllierItemComponent,
 
   ],
   imports: [
@@ -85,6 +90,7 @@ import {ChartModule} from "primeng/chart";
     InputNumberModule,
     TooltipModule,
     ChartModule,
+    SliderModule,
 
   ],
   providers: [],

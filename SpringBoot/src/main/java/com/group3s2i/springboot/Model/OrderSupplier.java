@@ -34,20 +34,12 @@ public class OrderSupplier implements Serializable {
     @Column(name = "status")
     private String status;
 
-    @Column(name = "created_date")
-    private LocalDateTime createdDate;
 
-    @Column(name = "canceled_date")
-    private LocalDateTime cancelledDate;
 
     @Column(name = "order_date")
     private LocalDateTime orderDate;
 
-    @Column(name = "sent_media")
-    private String sentMedia;
 
-    @Column(name = "urgent")
-    private String urgent;
 
     @OneToMany(
             mappedBy = "orderSupplier",
@@ -56,18 +48,10 @@ public class OrderSupplier implements Serializable {
     )
     @JsonIgnoreProperties
     @ToString.Exclude
+    @JsonManagedReference(value = "a-b")
     private List<OrderItemSupplier> orderItemSuppliers;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "supplier_id", referencedColumnName = "id")
-    @JsonIgnoreProperties
-    @ToString.Exclude
-    private Supplier supplier;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "currency_id")
-    @ToString.Exclude
-    private Currency currency;
 
     public OrderSupplier() {
     }

@@ -22,20 +22,23 @@
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
+            "allowedCommonJsDependencies": [
+              "lodash",
+              "raf",
+              "@babel/runtime-corejs3"
+            ],
             "assets": [
               "src/favicon.ico",
               "src/assets"
             ],
             "styles": [
               "src/styles.css",
-              "../node_modules/primeng/resources/themes/saga-blue/theme.css",
-              "../node_modules/primeng/resources/primeng.min.css",
-              "../node_modules/primeicons/primeicons.css"
+              "node_modules/primeng/resources/themes/saga-blue/theme.css",
+              "node_modules/primeng/resources/primeng.min.css",
+              "node_modules/primeicons/primeicons.css"
             ],
             "scripts": [
-
-              "../node_modules/chart.js/dist/Chart.js"
-
+              "node_modules/chart.js/dist/Chart.js"
             ]
           },
           "configurations": {
@@ -102,12 +105,12 @@
             ],
             "styles": [
               "src/styles.css",
-              "../node_modules/primeng/resources/themes/saga-blue/theme.css",
-              "../node_modules/primeng/resources/primeng.min.css",
-              "../node_modules/primeicons/primeicons.css"
+              "node_modules/primeng/resources/themes/saga-blue/theme.css",
+              "node_modules/primeng/resources/primeng.min.css",
+              "node_modules/primeicons/primeicons.css"
             ],
             "scripts": [
-              "../node_modules/chart.js/dist/Chart.js"
+              "node_modules/chart.js/dist/Chart.js"
             ]
           }
         }

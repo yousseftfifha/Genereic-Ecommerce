@@ -1,8 +1,8 @@
 <p-toast></p-toast>
 
 <div class="card">
-  <p-table #dt [value]="CustomerOrders" [rows]="10" [paginator]="true"
-           [(selection)]="selectedCustomerOrder" [rowHover]="true" dataKey="id"
+  <p-table #dt [value]="SupplierOrders" [rows]="10" [paginator]="true"
+           [(selection)]="selectedSupplierOrder" [rowHover]="true" dataKey="id"
            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
     <ng-template pTemplate="caption">
       <div class="p-d-flex p-ai-center p-jc-between">
@@ -16,8 +16,6 @@
     <ng-template pTemplate="header">
       <tr>
         <th pSortableColumn="orderNumber">Order Number <p-sortIcon field="orderNumber"></p-sortIcon></th>
-        <th pSortableColumn="sentMedia">Sent Media <p-sortIcon field="sentMedia"></p-sortIcon></th>
-        <th pSortableColumn="urgent">Urgent <p-sortIcon field="urgent"></p-sortIcon></th>
         <th pSortableColumn="createdDate">Order Date <p-sortIcon field="createdDate"></p-sortIcon></th>
         <th pSortableColumn="status">Status <p-sortIcon field="status"></p-sortIcon></th>
         <th></th>
@@ -26,14 +24,11 @@
     <ng-template pTemplate="body" let-order>
       <tr>
         <td>{{order.orderNumber}}</td>
-        <td>{{order.sentMedia}}</td>
-        <td>{{order.urgent}}</td>
-        <td>{{order.createdDate}}</td>
+        <td>{{order.orderDate}}</td>
         <td><span [class]="'product-badge status-' + (order.status ? order.status .toLowerCase() : '')">{{order.status }}</span></td>
         <td>
           <button pButton pRipple icon="pi pi-chevron-right" class="p-button-rounded p-button-help" (click)="ShowOrderItem(order)"></button>
-          <button pButton pRipple icon="pi pi-check" class="p-button-rounded p-button-success" (click)="ConfirmOrder(order)"></button>
-          <button pButton pRipple icon="pi pi-times" class="p-button-rounded p-button-danger" (click)="CancelOrder(order)"></button>
+
 
         </td>
 
@@ -41,7 +36,7 @@
     </ng-template>
     <ng-template pTemplate="summary">
       <div class="p-d-flex p-ai-center p-jc-between">
-        In total there are {{CustomerOrders ? CustomerOrders.length : 0 }} products.
+        In total there are {{SupplierOrders ? SupplierOrders.length : 0 }} products.
       </div>
     </ng-template>
   </p-table>

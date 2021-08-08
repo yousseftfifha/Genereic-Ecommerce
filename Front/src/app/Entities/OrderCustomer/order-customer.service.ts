@@ -17,7 +17,7 @@ export class OrderCustomerService {
     return this.http.get<OrderCustomer[]>(this.host+"/order");
   }
   public ConfirmOrder(id: number,order:OrderCustomer): Observable<Object>{
-    return this.http.put(this.host+"/order"+'/'+id+"/CONFRIMED",order);
+    return this.http.put(this.host+"/order"+'/'+id+"/CONFIRMED",order);
   }
   public CancelOrder(id: number,order:OrderCustomer): Observable<Object>{
     return this.http.put(this.host+"/order"+'/'+id+"/CANCELLED",order);

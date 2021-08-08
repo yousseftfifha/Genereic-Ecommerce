@@ -42,29 +42,58 @@ export class OrderCustomerComponent implements OnInit {
 
   data: any;
 
+  options: any;
+
+  confirmed: number=0;
+
+  pending: number=0;
+
+  cancelled: number=0;
+
   constructor(private customerOrderService: OrderCustomerService, private messageService: MessageService, private confirmationService: ConfirmationService,public dialogService: DialogService) { }
 
   ngOnInit() {
     this.customerOrderService.getOrders().subscribe(data => {
       this.CustomerOrders = data;
+      this.CustomerOrders.forEach((os:OrderCustomer)=>{
+        if (os.status=="CONFIRMED")
+          this.confirmed++;
+        else if (os.status=="CANCELLED")
+          this.cancelled++;
+        else if (os.status=="PENDING")
+          this.pending++;
+      })
+
+      this.data = {
+        labels: ['PENDING','CONFIRMED','CANCELLED'],
+        datasets: [
+          {
+            data: [this.pending, this.confirmed, this.cancelled],
+            backgroundColor: [
+              "#FF6384",
+              "#36A2EB",
+              "#FFCE56"
+            ],
+            hoverBackgroundColor: [
+              "#FF6384",
+              "#36A2EB",
+              "#FFCE56"
+            ]
+          }]
+      };
+      this.options = {
+        title: {
+          display: true,
+          text: 'STATISTICS BY STATUS',
+          fontSize: 16
+        },
+        legend: {
+          position: 'bottom'
+        }
+      };
+
     });
-    this.data = {
-      labels: ['A','B','C'],
-      datasets: [
-        {
-          data: [300, 50, 150],
-          backgroundColor: [
-            "#FF6384",
-            "#36A2EB",
-            "#FFCE56"
-          ],
-          hoverBackgroundColor: [
-            "#FF6384",
-            "#36A2EB",
-            "#FFCE56"
-          ]
-        }]
-    };
+
 
   }
 

@@ -13,6 +13,7 @@ import {MouvementComponent} from "../Mouvement/mouvement.component";
 import {Mouvement} from "../Mouvement/mouvement";
 import {ProductExtraCostComponent} from "../ProductExtraCost/product-extra-cost.component";
 import * as FileSaver from "file-saver";
+import {OrderSupplierService} from "../OrderSupplier/order-supplier.service";
 declare const require: any;
 const jsPDF = require('jspdf');
 require('jspdf-autotable');
@@ -37,6 +38,8 @@ export class ProductComponent implements OnInit {
 
   productDialog!: boolean;
 
+  qtyDialog!: boolean;
+
   products!: Product[];
 
   product!: Product;
@@ -53,8 +56,10 @@ export class ProductComponent implements OnInit {
 
   exportColumns!: any[];
 
+  value: number=0;
 
-  constructor(private productService: ProductService, private messageService: MessageService, private confirmationService: ConfirmationService,public dialogService: DialogService,) { }
+
+  constructor(private productService: ProductService, private orderService: OrderSupplierService,private messageService: MessageService, private confirmationService: ConfirmationService,public dialogService: DialogService,) { }
 
   ngOnInit() {
     this.productService.getProduct().subscribe(data => {
@@ -247,4 +252,22 @@ export class ProductComponent implements OnInit {
     });
     FileSaver.saveAs(data, fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
   }
+    orderSelectedProducts() {
+    this.confirmationService.confirm({
+      message: 'Are you sure you want to order the selected products?',
+      header: 'Confirm',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        // this.products = this.products.filter(val => !this.selectedProducts.includes(val));
+        this.orderService.createOrder(this.selectedProducts,1).subscribe( data =>{
+            console.log(data);
+          }
+          , error => console.log(error));
+        this.selectedProducts = [];
+
+        this.messageService.add({severity:'success', summary: 'Successful', detail: 'Products Ordered', life: 3000});
+      }
+    });
+  }
+
 }

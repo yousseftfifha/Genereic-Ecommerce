@@ -74,6 +74,7 @@ public class Supplier implements Serializable {
         @JsonIgnore
         private  Set<Product> products= new HashSet<> ();
 
+
     public Supplier() {
     }
 

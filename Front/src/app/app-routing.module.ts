@@ -6,6 +6,8 @@ import {OrganizationComponent} from "./Entities/Organization/organization.compon
 import {ProductComponent} from "./Entities/Product/product.component";
 import {CategoryComponent} from "./Entities/Category/category.component";
 import {OrderCustomerComponent} from "./Entities/OrderCustomer/order-customer.component";
+import {OrderSupllierItem} from "./Entities/OrderSupllierItem/order-supllier-item";
+import {OrderSupplierComponent} from "./Entities/OrderSupplier/order-supplier.component";
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -13,6 +15,7 @@ const routes: Routes = [
   { path: 'supplier', component: SuppliersComponent },
   { path: 'category', component: CategoryComponent },
   { path: 'order', component: OrderCustomerComponent },
+  { path: 'ordersupplier', component: OrderSupplierComponent },
   { path: 'home', component: OrganizationComponent },
   { path: 'home', redirectTo: '', pathMatch: 'full' },
 

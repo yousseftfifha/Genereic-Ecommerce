@@ -4,6 +4,7 @@
   <p-toolbar styleClass="p-mb-4">
     <ng-template pTemplate="left">
       <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success p-mr-2" (click)="openNew()"></button>
+      <button pButton pRipple label="Order" icon="pi pi-shopping-cart" class="p-button-help p-mr-2" (click)="orderSelectedProducts()" [disabled]="!selectedProducts || !selectedProducts.length"></button>
       <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger" (click)="deleteSelectedProducts()" [disabled]="!selectedProducts || !selectedProducts.length"></button>
     </ng-template>
     <div class="p-d-flex">
@@ -27,7 +28,8 @@
     <ng-template pTemplate="header">
       <tr>
         <th style="width: 3rem">
-          <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+          <p-tableHeaderCheckbox ></p-tableHeaderCheckbox>
+
         </th>
         <th>Image</th>
         <th pSortableColumn="name">Name <p-sortIcon field="name"></p-sortIcon></th>
@@ -43,8 +45,9 @@
     </ng-template>
     <ng-template pTemplate="body" let-product>
       <tr>
+
         <td>
-          <p-tableCheckbox [value]="product"></p-tableCheckbox>
+          <p-tableCheckbox [value]="product" ></p-tableCheckbox>
         </td>
         <td><img [src]="product.productImages[0].url" [alt]="product.name" width="100" class="p-shadow-4" /></td>
         <td>{{product.name}}</td>
@@ -87,4 +90,6 @@
 </p-dialog>
 
 <p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
+
+
 

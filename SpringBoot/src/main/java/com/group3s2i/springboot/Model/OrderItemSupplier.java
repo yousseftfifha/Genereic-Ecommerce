@@ -2,6 +2,7 @@ package com.group3s2i.springboot.Model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -33,20 +34,18 @@ public class OrderItemSupplier implements Serializable {
     @Column(name = "quantity")
     private @NotNull int quantity;
 
-    @Column(name = "vat_code")
-    private  Double vatCode;
-
-    @Column(name = "discount_rate")
-    private  Double discountRate;
-
-    @Column(name = "created_date")
-    private LocalDateTime createdDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id", referencedColumnName = "id")
     @JsonIgnoreProperties("order")
     @ToString.Exclude
+    @JsonBackReference(value = "a-b")
     private OrderSupplier orderSupplier;
+
+    @OneToOne
+    @JoinColumn(name = "product_id", referencedColumnName = "id")
+    @JsonProperty("product")
+    private Product product;
 
 //    @OneToOne
 //    @JoinColumn(name = "product_supplier_id", referencedColumnName = "id")
