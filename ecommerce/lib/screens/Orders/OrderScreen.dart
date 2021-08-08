@@ -76,6 +76,12 @@ class _OrderScreenState extends State<OrderScreen> {
                             ),
                             DataColumn(
                               label: Text(
+                                'Status',
+                              ),
+                              numeric: false,
+                            ),
+                            DataColumn(
+                              label: Text(
                                 'Username',
                               ),
                               numeric: false,
@@ -149,6 +155,18 @@ class _OrderScreenState extends State<OrderScreen> {
                                         width: 100,
                                         child: Text(
                                           order.orderNumber,
+                                          softWrap: true,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w600),
+                                        ),
+                                      ),
+                                    ),
+                                    DataCell(
+                                      Container(
+                                        width: 100,
+                                        child: Text(
+                                          order.status,
                                           softWrap: true,
                                           overflow: TextOverflow.ellipsis,
                                           style: TextStyle(
