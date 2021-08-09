@@ -4,6 +4,7 @@ import {Observable} from "rxjs";
 import {Supplier} from "../Suppliers/supplier";
 import {Product} from "./product";
 import {Category} from "../Category/category";
+import {Params} from "./params";
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +20,7 @@ export class ProductService {
   public getPrice(id:number):Observable<number>{
     return this.http.get<number>(this.host+"/product/price/"+id);
   }
-  public createProduct(product:Product):Observable<Object>{
+  public createProduct(product:Params):Observable<Object>{
     return this.http.post(this.host+"/product",product);
   }
   public updateProduct(id: number,product:Product): Observable<Object>{

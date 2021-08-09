@@ -46,9 +46,9 @@ public class ProductSupplier implements Serializable {
     @Column(name = "unit_price")
     private Double unitPrice;
 
-    @Temporal (TemporalType.TIMESTAMP)
+
     @Column(name = "created_date")
-    private Date createdDate;
+    private LocalDateTime createdDate;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "currency_id")
@@ -64,7 +64,7 @@ public class ProductSupplier implements Serializable {
       id.supplier_id = supplier.getId ();
     }
 
-    public ProductSupplier(Product product,Supplier supplier, String supplierProductCode, String deliveryETA, Double vatCode, Double discountRate, Double unitPrice, Date createdDate, Currency currency) {
+    public ProductSupplier(Product product,Supplier supplier, String supplierProductCode, String deliveryETA, Double vatCode, Double discountRate, Double unitPrice, LocalDateTime createdDate, Currency currency) {
         id = new ProductSupplier.ProductSupplierId ();
         id.product_id = product.getId ();
         id.supplier_id = supplier.getId ();

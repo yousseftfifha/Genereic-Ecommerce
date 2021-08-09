@@ -106,13 +106,13 @@
 
     </div>
     <div class="p-field">
-      <label for="sku"> SKU</label>
-      <input type="text" pInputText id="sku" [(ngModel)]="product.sku" required autofocus />
+      <label > SKU</label>
+      <p-inputNumber [(ngModel)]="product.sku" suffix=" TND"></p-inputNumber>
       <small class="p-error" *ngIf="submitted && !product.sku"> SKU is required.</small>
     </div>
     <div class="p-field">
-      <label for="isbn"> ISBN</label>
-      <input type="text" pInputText id="isbn" [(ngModel)]="product.isbn" required autofocus />
+      <label > ISBN</label>
+      <p-inputNumber [(ngModel)]="product.isbn" ></p-inputNumber>
       <small class="p-error" *ngIf="submitted && !product.isbn"> ISBN is required.</small>
     </div>
     <div class="p-field">
@@ -225,9 +225,51 @@
             <small class="p-error" *ngIf="submitted && !detail.value"> Value is required.</small>
           </div>
         </div>
-
       </div>
     </div>
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+    <button pButton pRipple label="Next" icon="pi pi-arrow-right" class="p-button-text" (click)="showPs()"></button>
+  </ng-template>
+</p-dialog>
+
+<p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
+
+<p-dialog [(visible)]="productSupplierDialog" [style]="{width: '450px'}" header="Product Supplier" [modal]="true" styleClass="p-fluid">
+  <ng-template pTemplate="content">
+    <div class="p-field">
+      <label for="supplierProductCode" >Supplier Product Code</label>
+      <input type="text" pInputText id="supplierProductCode" [(ngModel)]="productSupplier.supplierProductCode" required autofocus />
+      <small class="p-error" *ngIf="submitted && !productSupplier.supplierProductCode">Supplier Product Code is required.</small>
+    </div>
+
+    <div class="p-field">
+      <label for="deliveryETA">Delivery ETA</label>
+      <input type="text" pInputText id="deliveryETA" [(ngModel)]="productSupplier.deliveryETA" required autofocus />
+      <small class="p-error" *ngIf="submitted && !productSupplier.deliveryETA">Delivery ETA is required.</small>
+    </div>
+
+    <div class="p-field">
+      <label >Vat Code</label>
+      <p-inputNumber [(ngModel)]="productSupplier.vatCode" ></p-inputNumber>
+      <small class="p-error" *ngIf="submitted && !productSupplier.vatCode">Vat Code is required.</small>
+    </div>
+
+    <div class="p-field">
+      <label  >Discount Rate</label>
+      <p-inputNumber [(ngModel)]="productSupplier.discountRate" ></p-inputNumber>
+      <small class="p-error" *ngIf="submitted && !productSupplier.discountRate">Discount Rate is required.</small>
+    </div>
+
+    <div class="p-field">
+      <label  >Unit Price</label>
+      <p-inputNumber [(ngModel)]="productSupplier.unitPrice" ></p-inputNumber>
+      <small class="p-error" *ngIf="submitted && !productSupplier.unitPrice">Unit Price is required.</small>
+    </div>
+
+
   </ng-template>
 
   <ng-template pTemplate="footer">

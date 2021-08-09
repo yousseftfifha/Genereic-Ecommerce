@@ -19,6 +19,9 @@ import {CategoryService} from "../Category/category.service";
 import {ProductExtraCost} from "../ProductExtraCost/product-extra-cost";
 import {SupplierService} from "../Suppliers/supplier.service";
 import {animate, state, style, transition, trigger} from "@angular/animations";
+import {Params} from "./params";
+import {ProductSupplier} from "../ProductSupplier/product-supplier";
+import {templateJitUrl} from "@angular/compiler";
 declare const require: any;
 const jsPDF = require('jspdf');
 require('jspdf-autotable');
@@ -91,6 +94,8 @@ export class ProductComponent implements OnInit {
 
   productExtraCostDialog!: boolean;
 
+  productSupplierDialog!: boolean;
+
   detailsDialog!: boolean;
 
   products!: Product[];
@@ -100,6 +105,8 @@ export class ProductComponent implements OnInit {
   details!: Detail[];
 
   detail!: Detail;
+  params!: Params;
+  productSupplier!: ProductSupplier;
 
   categories!: Category[];
 
@@ -237,6 +244,11 @@ export class ProductComponent implements OnInit {
   removeDetailsForm() {
     this.details.splice(-1, 1);
   }
+  showPs() {
+    this.detailsDialog = false;
+    this.productSupplierDialog=true;
+    this.productSupplier=new ProductSupplier();
+  }
   saveProduct() {
     this.submitted = true;
 
@@ -247,8 +259,9 @@ export class ProductComponent implements OnInit {
         this.product.details=this.details;
         this.product.information=this.information;
         this.product.suppliers.push(this.supplier)
-      console.log(this.supplier);
-        this.productService.createProduct(this.product).subscribe( data =>{
+        this.params=new Params();
+        this.params.product=this.product;
+        this.productService.createProduct(this.params).subscribe( data =>{
             console.log(data);
           }
           , error => console.log(error));
@@ -258,9 +271,12 @@ export class ProductComponent implements OnInit {
         this.product.productExtraCost=this.productExtraCost;
         this.product.details=this.details;
         this.product.information=this.information;
-
-
-        this.productService.createProduct(this.product).subscribe( data =>{
+        this.params=new Params();
+        this.params.product=this.product;
+        this.params.supplier=this.supplier;
+        this.params.productSupplier=this.productSupplier;
+        console.log(this.params);
+        this.productService.createProduct(this.params).subscribe( data =>{
             console.log(data);
           }
           , error => console.log(error));

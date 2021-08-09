@@ -33,8 +33,8 @@ public class ProductSupplierController {
     @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping("/product")
     public ResponseEntity<?>  createProductSupplier(@RequestBody Params params) {
-        supplierRepository.save (params.getSupplier ()) ;
 
+        supplierRepository.save (params.getSupplier ());
         Set<Supplier> suppliers = new HashSet<> ();
         suppliers.add (params.getSupplier ());
         params.getProduct ().setSuppliers (suppliers);
@@ -47,16 +47,19 @@ public class ProductSupplierController {
         mouvement.setQuantity (10);
         mouvement.setTypeMouvement ("IN");
         mouvement.setMouvementDate (LocalDateTime.now ());
+        System.out.println (params.getProductSupplier ());
+        params.getProductSupplier ().id = new ProductSupplier.ProductSupplierId ();
+        params.getProductSupplier ().id.product_id = params.getProduct ().getId ();
+        params.getProductSupplier ().id.supplier_id = params.getSupplier ().getId ();
+        params.getProductSupplier ().setCreatedDate (LocalDateTime.now ());
+
+        productSupplierRepository.save(params.getProductSupplier ());
         mouvement.setUnitPrice (params.getProductSupplier ().getUnitPrice ());
         mouvementList.add (mouvement);
 
         mouvementRepository.saveAll (mouvementList);
 
-        params.getProductSupplier ().id = new ProductSupplier.ProductSupplierId ();
-        params.getProductSupplier ().id.product_id = params.getProduct ().getId ();
-        params.getProductSupplier ().id.supplier_id = params.getSupplier ().getId ();
 
-        productSupplierRepository.save(params.getProductSupplier ());
 
 
         Productinformation productinformation = new Productinformation ();
