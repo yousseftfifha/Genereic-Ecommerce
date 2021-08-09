@@ -21,4 +21,10 @@ export class OrderSupplierService {
   public createOrder(product:Product[]):Observable<Object>{
     return this.http.post(this.host+"/ordersupplier",product);
   }
+  public ConfirmOrder(id: number,order:OrderSupllier): Observable<Object>{
+    return this.http.put(this.host+"/ordersupplier"+'/'+id+"/CONFIRMED",order);
+  }
+  public CancelOrder(id: number,order:OrderSupllier): Observable<Object>{
+    return this.http.put(this.host+"/ordersupplier"+'/'+id+"/CANCELLED",order);
+  }
 }

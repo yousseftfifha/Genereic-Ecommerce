@@ -96,7 +96,7 @@ public class OrderController {
     }
     @GetMapping("/order")
     public List<OrderCustomer> getOrders(){
-        return orderCustomerRepository.findAll();
+        return orderCustomerRepository.findAllOrderByOrderDate();
     }
     @GetMapping("/order/{customer}")
     public List<OrderCustomer> getAllOrders(@PathVariable Customer customer){

@@ -122,7 +122,30 @@ export class OrderSupplierComponent implements OnInit {
       this.ref.close();
     }
   }
+  ConfirmOrder(order:OrderSupllier) {
+    this.SupplierOrderservice.ConfirmOrder(order.id,order).subscribe( data =>{
+        console.log(data);
+      }
+      , error => console.log(error));
+    this.SupplierOrder = {...order};
 
+    this.messageService.add({severity:'success', summary: 'Successful', detail: 'Status Updated', life: 3000});
+    this.SupplierOrders = [...this.SupplierOrders];
+    this.SupplierOrder= new OrderSupllier();
+    this.reloadPage();
+  }
+  CancelOrder(order:OrderSupllier) {
+    this.SupplierOrderservice.CancelOrder(order.id,order).subscribe( data =>{
+        console.log(data);
+      }
+      , error => console.log(error));
+    this.SupplierOrder = {...order};
+
+    this.messageService.add({severity:'success', summary: 'Successful', detail: 'Status Updated', life: 3000});
+    this.SupplierOrders = [...this.SupplierOrders];
+    this.SupplierOrder = new OrderSupllier();
+    this.reloadPage();
+  }
   reloadPage(): void {
     window.location.reload();
   }

@@ -40,6 +40,11 @@ public class CategoryController {
         return categoryRepository.findByIdupEqualsNull ();
 
     }
+    @GetMapping("/category/sub")
+    public Optional<List<Category>> getCategoryByIdUPNOTEqualsNull(){
+        return categoryRepository.findByParentIdNotNull ();
+
+    }
     // get category rest api
     @GetMapping("/category/{id}")
     public ResponseEntity<Category> getCategoryById(@PathVariable long id){

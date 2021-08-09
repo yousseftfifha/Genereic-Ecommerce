@@ -14,6 +14,11 @@ import {Mouvement} from "../Mouvement/mouvement";
 import {ProductExtraCostComponent} from "../ProductExtraCost/product-extra-cost.component";
 import * as FileSaver from "file-saver";
 import {OrderSupplierService} from "../OrderSupplier/order-supplier.service";
+import {Category} from "../Category/category";
+import {CategoryService} from "../Category/category.service";
+import {ProductExtraCost} from "../ProductExtraCost/product-extra-cost";
+import {SupplierService} from "../Suppliers/supplier.service";
+import {animate, state, style, transition, trigger} from "@angular/animations";
 declare const require: any;
 const jsPDF = require('jspdf');
 require('jspdf-autotable');
@@ -31,20 +36,82 @@ require('jspdf-autotable');
           margin: 0 .5rem .5rem 0;
           min-width: 1rem;
         }
+        .box {
+          background-color: var(--surface-e);
+          text-align: center;
+          padding-top: 1rem;
+          padding-bottom: 1rem;
+          border-radius: 4px;
+          box-shadow: 0 2px 1px -1px rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 1px 3px 0 rgba(0,0,0,.12);
+        }
+
+        .box-stretched {
+          height: 100%;
+        }
+
+        .vertical-container {
+          margin: 0;
+          height: 200px;
+          background: var(--surface-d);
+          border-radius: 4px;
+        }
+
+        .nested-grid .p-col-4 {
+          padding-bottom: 1rem;
+        }
     `],
+  animations: [
+    trigger('animation', [
+      state('visible', style({
+        transform: 'translateX(0)',
+        opacity: 1
+      })),
+      transition('void => *', [
+        style({transform: 'translateX(50%)', opacity: 0}),
+        animate('300ms ease-out')
+      ]),
+      transition('* => void', [
+        animate(('250ms ease-in'), style({
+          height: 0,
+          opacity: 0,
+          transform: 'translateX(50%)'
+        }))
+      ])
+    ])
+  ],
   providers: [MessageService,ConfirmationService,DialogService]
 })
 export class ProductComponent implements OnInit {
 
   productDialog!: boolean;
 
+  infoDialog!: boolean;
+
   supplierDialog!: boolean;
+
+  productExtraCostDialog!: boolean;
+
+  detailsDialog!: boolean;
 
   products!: Product[];
 
-    suppliers!: Supplier[];
+  suppliers!: Supplier[];
+
+  details!: Detail[];
+
+  detail!: Detail;
+
+  categories!: Category[];
+
+  supplier!:Supplier;
+
+
 
   product!: Product;
+
+  productExtraCost!: ProductExtraCost;
+
+  information!: Information;
 
   selectedProducts!: Product[];
 
@@ -60,10 +127,11 @@ export class ProductComponent implements OnInit {
 
   value: number=0;
 
-
-  constructor(private productService: ProductService, private orderService: OrderSupplierService,private messageService: MessageService, private confirmationService: ConfirmationService,public dialogService: DialogService,) { }
+  constructor(private productService: ProductService,private categoryService: CategoryService, private supplierService: SupplierService,private orderService: OrderSupplierService,private messageService: MessageService, private confirmationService: ConfirmationService,public dialogService: DialogService,) { }
 
   ngOnInit() {
+    this.details=[];
+
     this.productService.getProduct().subscribe(data => {
       this.products = data;
       this.products.forEach((product : Product, val: number)=>{
@@ -74,6 +142,15 @@ export class ProductComponent implements OnInit {
           }
           , error => console.log(error));
       })
+      this.details=[];
+
+    });
+    this.categoryService.getALLSubCategory().subscribe(data => {
+      this.categories = data;
+
+    });
+    this.supplierService.getSuppliers().subscribe(data => {
+      this.suppliers = data;
 
     });
     this.cols = [
@@ -139,16 +216,54 @@ export class ProductComponent implements OnInit {
     this.productDialog = false;
     this.submitted = false;
   }
-
+  showInfoDialog() {
+    this.productDialog = false;
+    this.infoDialog=true;
+    this.information=new Information();
+  }
+  showproductExtraCostDialog() {
+    this.infoDialog = false;
+    this.productExtraCostDialog=true;
+    this.productExtraCost=new ProductExtraCost();
+  }
+  showdetailsDialog() {
+    this.productExtraCostDialog = false;
+    this.detailsDialog=true;
+    this.detail=new Detail();
+  }
+  addDetailsForm() {
+    this.details.push(this.detail);
+  }
+  removeDetailsForm() {
+    this.details.splice(-1, 1);
+  }
   saveProduct() {
     this.submitted = true;
 
     if (this.product.name.trim()) {
       if (this.product.id) {
         this.products[this.findIndexById(this.product.id)] = this.product;
+        this.product.productExtraCost=this.productExtraCost;
+        this.product.details=this.details;
+        this.product.information=this.information;
+        this.product.suppliers.push(this.supplier)
+      console.log(this.supplier);
+        this.productService.createProduct(this.product).subscribe( data =>{
+            console.log(data);
+          }
+          , error => console.log(error));
         this.messageService.add({severity:'success', summary: 'Successful', detail: 'Product Updated', life: 3000});
       }
       else {
+        this.product.productExtraCost=this.productExtraCost;
+        this.product.details=this.details;
+        this.product.information=this.information;
+
+
+        this.productService.createProduct(this.product).subscribe( data =>{
+            console.log(data);
+          }
+          , error => console.log(error));
         this.products.push(this.product);
         this.messageService.add({severity:'success', summary: 'Successful', detail: 'Product Created', life: 3000});
       }
@@ -259,11 +374,7 @@ export class ProductComponent implements OnInit {
     FileSaver.saveAs(data, fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
   }
     orderSelectedProducts() {
-    this.confirmationService.confirm({
-      message: 'Are you sure you want to order the selected products?',
-      header: 'Confirm',
-      icon: 'pi pi-exclamation-triangle',
-      accept: () => {
+
         // this.products = this.products.filter(val => !this.selectedProducts.includes(val));
         this.orderService.createOrder(this.selectedProducts).subscribe( data =>{
             console.log(data);
@@ -273,7 +384,6 @@ export class ProductComponent implements OnInit {
 
         this.messageService.add({severity:'success', summary: 'Successful', detail: 'Products Ordered', life: 3000});
       }
-    });
-  }
+
 
 }

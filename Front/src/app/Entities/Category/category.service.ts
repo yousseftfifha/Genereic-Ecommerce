@@ -17,6 +17,8 @@ export class CategoryService {
   }
   public getSubCategory(id: number):Observable<Category[]>{
     return this.http.get<Category[]>(this.host+"/category/sub/"+id);
+  } public getALLSubCategory():Observable<Category[]>{
+    return this.http.get<Category[]>(this.host+"/category/sub");
   }
   public getCategoryById(id: number): Observable<Category>{
     return this.http.get<Category>(this.host+"/category"+'/'+id);

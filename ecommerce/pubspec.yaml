@@ -30,15 +30,25 @@ dependencies:
   pdf: ^3.4.2 
 
   # save file
-  path_provider: ^2.0.1
+  google_fonts: ^1.1.0
+
+  path_provider: ^1.0.1
 
   # open pdf document
   open_file: ^3.1.0
+  jiffy: ^4.0.1
+  hive: ^1.4.1+1
+  hive_flutter: ^0.3.0+2
+  pedometer:
+    git:
+      url: git://github.com/feelfreelinux/flutter-plugins.git
+      path: packages/pedometer
 
   flutter_spinning_wheel: ^1.1.0
   json_annotation:
   country_state_city_picker: ^1.2.8
 dev_dependencies:
+  hive_generator: ^0.7.0+2
   build_runner:
   json_serializable:
   flutter_test:
@@ -46,7 +56,7 @@ dev_dependencies:
 
   flutter:
     sdk: flutter
-
+ 
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

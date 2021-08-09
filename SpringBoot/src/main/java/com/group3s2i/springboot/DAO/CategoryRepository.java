@@ -14,6 +14,9 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
     @Query("select c from Category c where c.parentId IS NULL")
     Optional<List<Category>> findByIdupEqualsNull();
 
+    @Query("select c from Category c where c.parentId is not null")
+    Optional<List<Category>> findByParentIdNotNull();
+
     @Query("select c from Category c where c.parentId = ?1")
     Optional<List<Category>>findByidup(Category parentId);
 

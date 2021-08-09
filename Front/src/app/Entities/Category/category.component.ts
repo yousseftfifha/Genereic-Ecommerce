@@ -50,9 +50,7 @@ export class CategoryComponent implements OnInit {
   ngOnInit() {
     this.categoryService.getCategory().subscribe(data => {
       this.categories = data;
-      this.categories.forEach((category : Category)=>{
-        this.categoryNames.push(category.name);
-      })
+
     });
 
   }

@@ -10,6 +10,7 @@ import {DetailComponent} from "../Detail/detail.component";
 import {Detail} from "../Detail/detail";
 import {DialogService, DynamicDialogRef} from "primeng/dynamicdialog";
 import {DeliveryCustomerItemComponent} from "../DeliveryCustomerItem/delivery-customer-item.component";
+import {DeliveryCustomerItem} from "../DeliveryCustomerItem/delivery-customer-item";
 
 @Component({
   selector: 'app-delivery-customer',
@@ -27,6 +28,7 @@ import {DeliveryCustomerItemComponent} from "../DeliveryCustomerItem/delivery-cu
 export class DeliveryCustomerComponent implements OnInit {
   deliveryCustomers!: DeliveryCustomer[];
   deliveryCustomer!:DeliveryCustomer;
+  dcitem!:DeliveryCustomerItem;
   selectedDc!:DeliveryCustomer[];
   submitted!:boolean;
   DCDialog!: boolean;

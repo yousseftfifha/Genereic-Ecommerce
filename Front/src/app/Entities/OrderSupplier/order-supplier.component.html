@@ -28,7 +28,8 @@
         <td><span [class]="'product-badge status-' + (order.status ? order.status .toLowerCase() : '')">{{order.status }}</span></td>
         <td>
           <button pButton pRipple icon="pi pi-chevron-right" class="p-button-rounded p-button-help" (click)="ShowOrderItem(order)"></button>
-
+          <button pButton pRipple icon="pi pi-check" class="p-button-rounded p-button-success" (click)="ConfirmOrder(order)"></button>
+          <button pButton pRipple icon="pi pi-times" class="p-button-rounded p-button-danger" (click)="CancelOrder(order)"></button>
 
         </td>
 

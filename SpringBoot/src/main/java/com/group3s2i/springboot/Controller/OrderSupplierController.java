@@ -79,6 +79,20 @@ public class OrderSupplierController {
         Optional<OrderSupplier> order= orderSupplierRepository.findById (id);
         return orderItemSupplierRepository.findAllByOrderSupplier (order);
     }
+    @PutMapping("/ordersupplier/{id}/{status}")
+    public ResponseEntity<OrderSupplier> ConfirmOrderSupplier(@PathVariable("id") long id,@PathVariable("status") String status) {
+
+        Optional<OrderSupplier> optionalOrderCustomer = orderSupplierRepository.findById(id);
+
+        if (optionalOrderCustomer.isPresent()) {
+            OrderSupplier orderCustomer1 = optionalOrderCustomer.get();
+            orderCustomer1.setStatus (status);
+
+            return new ResponseEntity<>(orderSupplierRepository.save(orderCustomer1), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
 //    @PutMapping("/order/{id}/{status}")
 //    public ResponseEntity<OrderCustomer> ConfirmOrderCustomer(@PathVariable("id") long id,@PathVariable("status") String status) {
 //
