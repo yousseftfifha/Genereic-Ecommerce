@@ -75,6 +75,14 @@ public class Customer implements Serializable {
 	@ToString.Exclude
 	@JsonManagedReference(value = "o-s")
 	private List<OrderCustomer> orderCustomers = new ArrayList<> ();
+	@OneToMany(
+			mappedBy = "customer",
+			cascade = CascadeType.ALL,
+			orphanRemoval = true
+	)
+	@ToString.Exclude
+	@JsonManagedReference(value = "caa")
+	private List<DeliveryCustomer> deliveryCustomers = new ArrayList<> ();
 	public Customer() {
 	}
 

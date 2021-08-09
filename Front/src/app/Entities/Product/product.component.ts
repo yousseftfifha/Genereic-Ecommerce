@@ -38,9 +38,11 @@ export class ProductComponent implements OnInit {
 
   productDialog!: boolean;
 
-  qtyDialog!: boolean;
+  supplierDialog!: boolean;
 
   products!: Product[];
+
+    suppliers!: Supplier[];
 
   product!: Product;
 
@@ -114,6 +116,10 @@ export class ProductComponent implements OnInit {
   editProduct(product: Product) {
     this.product = {...product};
     this.productDialog = true;
+  }
+  showSupplier(product: Product) {
+    this.product = {...product};
+    this.supplierDialog = true;
   }
 
   deleteProduct(product: Product) {
@@ -259,7 +265,7 @@ export class ProductComponent implements OnInit {
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
         // this.products = this.products.filter(val => !this.selectedProducts.includes(val));
-        this.orderService.createOrder(this.selectedProducts,1).subscribe( data =>{
+        this.orderService.createOrder(this.selectedProducts).subscribe( data =>{
             console.log(data);
           }
           , error => console.log(error));

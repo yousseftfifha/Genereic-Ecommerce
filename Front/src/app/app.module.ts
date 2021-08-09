@@ -42,6 +42,8 @@ import {ChartModule} from "primeng/chart";
 import { OrderSupplierComponent } from './Entities/OrderSupplier/order-supplier.component';
 import { OrderSupllierItemComponent } from './Entities/OrderSupllierItem/order-supllier-item.component';
 import {SliderModule} from "primeng/slider";
+import { DeliveryCustomerComponent } from './Entities/DeliveryCustomer/delivery-customer.component';
+import { DeliveryCustomerItemComponent } from './Entities/DeliveryCustomerItem/delivery-customer-item.component';
 
 
 @NgModule({
@@ -63,6 +65,8 @@ import {SliderModule} from "primeng/slider";
     OrderCustomerItemComponent,
     OrderSupplierComponent,
     OrderSupllierItemComponent,
+    DeliveryCustomerComponent,
+    DeliveryCustomerItemComponent,
 
   ],
   imports: [

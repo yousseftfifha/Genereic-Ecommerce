@@ -18,7 +18,7 @@ export class OrderSupplierService {
   public getOrders():Observable<OrderSupllier[]>{
     return this.http.get<OrderSupllier[]>(this.host+"/ordersupplier");
   }
-  public createOrder(product:Product[],Qty:number):Observable<Object>{
-    return this.http.post(this.host+"/ordersupplier/"+Qty,product);
+  public createOrder(product:Product[]):Observable<Object>{
+    return this.http.post(this.host+"/ordersupplier",product);
   }
 }

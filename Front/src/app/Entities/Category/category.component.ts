@@ -161,7 +161,6 @@ export class CategoryComponent implements OnInit {
   onUpload(event: { files: any; }) {
     for(let file of event.files) {
       this.uploadedFiles.push(file);
-
     }
 
     this.messageService.add({severity: 'info', summary: 'File Uploaded', detail: ''});

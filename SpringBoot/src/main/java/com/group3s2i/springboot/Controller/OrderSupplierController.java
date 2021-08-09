@@ -27,15 +27,15 @@ public class OrderSupplierController {
     @Autowired
     private ProductRepository productRepository;
 
- @PostMapping("/ordersupplier/{qty}")
-    public ResponseEntity<OrderSupplier> createOS(@RequestBody List<Product> products,@PathVariable int qty){
+ @PostMapping("/ordersupplier")
+    public ResponseEntity<OrderSupplier> createOS(@RequestBody List<Product> products){
      OrderSupplier orderSupplier =new OrderSupplier ();
      List<OrderItemSupplier> orderItemSuppliers =new ArrayList<> ();
         int i=0;
      for (Product product:products){
          OrderItemSupplier orderItemSupplier=new OrderItemSupplier ();
          orderItemSupplier.setItemSeq (i);
-         orderItemSupplier.setQuantity (qty);
+         orderItemSupplier.setQuantity (10);
          orderItemSupplier.setProduct (product);
 
             Mouvement mouvement=new Mouvement();
@@ -44,7 +44,7 @@ public class OrderSupplierController {
                     .reduce((first, second) -> second).get();
             mouvement.setTypeMouvement ("IN");
             mouvement.setProduct (product);
-            mouvement.setQuantity (qty);
+            mouvement.setQuantity (10);
             mouvement.setMouvementDate (LocalDateTime.now ());
             mouvement.setUnitPrice (mouvement2.getUnitPrice ());
 

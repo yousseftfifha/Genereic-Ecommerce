@@ -75,20 +75,13 @@
       <label >Parent Id</label>
       <p-dropdown [(ngModel)]="category.parentId" inputId="parentId"  [autoDisplayFirst]="false" [options]="categories" placeholder="Select" optionLabel="name">
         <ng-template let-option pTemplate="item">
-          <span [class]=" option.value">{{option.label}}</span>
+          <span [class]=" option.value">{{option.name}}</span>
         </ng-template>
       </p-dropdown>
     </div>
     <label >Icon</label>
-    <p-fileUpload name="demo[]"  (onUpload)="onUpload($event)"
-                  accept="image/*" >
+    <p-fileUpload #fubauto mode="basic" name="demo[]" url="./upload.php" accept="image/*"  (onUpload)="onUpload($event)" [auto]="true" chooseLabel="Browse"></p-fileUpload>
 
-      <ng-template pTemplate="content">
-        <ul *ngIf="uploadedFiles.length">
-          <li *ngFor="let file of uploadedFiles">{{file.name}} - {{file.size}} bytes</li>
-        </ul>
-      </ng-template>
-    </p-fileUpload>
 
 
   </ng-template>

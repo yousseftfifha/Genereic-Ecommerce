@@ -64,6 +64,8 @@
           <button pButton pRipple label="Information"  class="p-button-rounded p-button-danger p-mr-2" (click)="showInfo(product)"></button>
           <button pButton pRipple label="Mouvement" class="p-button-rounded p-button-help p-mr-2" (click)="showMvt(product)"></button>
           <button pButton pRipple label="ExtraCost" class="p-button-rounded p-button-success p-mr-2" (click)="showExtraCost(product)"></button>
+          <button pButton pRipple label="Supplier" class="p-button-rounded p-button-plain p-mr-2" (click)="showSupplier(product)"></button>
+
         </td>
       </tr>
     </ng-template>
@@ -90,6 +92,46 @@
 </p-dialog>
 
 <p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
+<p-dialog [(visible)]="supplierDialog"  [style]="{width:'950px'}" header="Product Supplier" [modal]="true" styleClass="p-fluid">
+  <ng-template pTemplate="content">
+    <p-table   [value]="product.suppliers" >
+      <ng-template pTemplate="header">
+        <tr>
+          <th pSortableColumn="name">Name</th>
+          <th pSortableColumn="fiscalCode">Fiscal Code</th>
+          <th pSortableColumn="patentcode">Patent Code</th>
+          <th pSortableColumn="legalStatus">Legal Status</th>
+          <th pSortableColumn="category">Category</th>
+          <th pSortableColumn="finality">Finality</th>
+          <th pSortableColumn="size">Size</th>
+          <th pSortableColumn="sector">Sector</th>
+          <th pSortableColumn="scope">Scope</th>
+      </ng-template>
+      <ng-template pTemplate="body" let-supplier>
+        <tr>
+          <td>{{supplier.name}}</td>
+          <td>{{supplier.fiscalCode}}</td>
+          <td>{{supplier.patentcode}}</td>
+          <td>{{supplier.legalStatus}}</td>
+          <td>{{supplier.category}}</td>
+          <td>{{supplier.finality}}</td>
+          <td>{{supplier.size}}</td>
+          <td>{{supplier.sector}}</td>
+          <td>{{supplier.scope}}</td>
+
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="summary">
+        <div class="p-d-flex p-ai-center p-jc-between">
+          In total there are {{product.suppliers ? product.suppliers.length : 0 }} suppliers for this product.
+        </div>
+      </ng-template>
+    </p-table>
+
+  </ng-template>
+
+</p-dialog>
+
 
 
 

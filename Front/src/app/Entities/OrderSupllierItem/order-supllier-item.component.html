@@ -3,22 +3,24 @@
     <tr>
       <th >ItemSeq </th>
       <th >Quantity</th>
-      <th >Quantity</th>
       <th >Product Name</th>
       <th >Product Price</th>
       <th >Product Image</th>
       <th >Product Brand</th>
+      <th>Product Supplier</th>
+      <th>Supplier Patent Code </th>
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-orderitem>
     <tr>
       <td>{{orderitem.itemSeq}}</td>
       <td>{{orderitem.quantity}}</td>
-      <td>{{orderitem.quantity}}</td>
       <td>{{orderitem.product.name}}</td>
       <td>{{orderitem.product.price | currency:' TND'}}</td>
       <td><img [src]="orderitem.product.productImages[0].url" [alt]="orderitem.product.name" width="100" class="p-shadow-4" /></td>
       <td>{{orderitem.product.brand}}</td>
+      <td>{{orderitem.product.suppliers[0].name}}</td>
+      <td>{{orderitem.product.suppliers[0].patentcode}}</td>
     </tr>
   </ng-template>
 </p-table>
