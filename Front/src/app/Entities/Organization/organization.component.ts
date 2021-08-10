@@ -3,6 +3,10 @@ import {MessageService, TreeNode} from "primeng/api";
 import {Router} from "@angular/router";
 import {OrganizationService} from "./organization.service";
 import {Organization} from "./organization";
+import {OrderCustomerService} from "../OrderCustomer/order-customer.service";
+import {CategoryService} from "../Category/category.service";
+import {SupplierService} from "../Suppliers/supplier.service";
+import {ProductService} from "../Product/product.service";
 
 @Component({
   selector: 'app-dashboard',
@@ -58,11 +62,36 @@ export class OrganizationComponent implements OnInit {
 
   selectedNode!: TreeNode;
 
-  constructor(private dashboardService:OrganizationService , private messageService: MessageService, private router:Router) {}
+  count!:  number;
+
+  earning!:  number;
+
+  category!:  number;
+
+  mvt!:  number;
+
+  mvtIN!:  number;
+
+  mvtOUT!:  number;
+
+  supplier!:  number;
+
+  product!:  number;
+
+  constructor(private dashboardService:OrganizationService ,private orderService:OrderCustomerService,private supplierService:SupplierService,private prdouctService:ProductService,private categoryService:CategoryService, private messageService: MessageService, private router:Router) {}
 
   ngOnInit() {
     this.dashboardService.getOrganization().subscribe(data => this.dashboard = data);
-
+    this.orderService.countAll().subscribe(data => this.count = data);
+    this.orderService.earning().subscribe(data => this.earning = data);
+    this.orderService.countMVT().subscribe(data => this.mvt = data);
+    this.orderService.countMVTIN().subscribe(data => this.mvtIN = data);
+    this.orderService.countMVTOUT().subscribe(data => this.mvtOUT = data);
+    this.categoryService.countCategory().subscribe(data => this.category = data);
+    this.supplierService.countSuppliers().subscribe(data => this.supplier = data);
+    this.prdouctService.countProduct().subscribe(data => this.product = data);
+    console.log(this.supplier)
+    console.log(this.product)
     this.data1 = [{
       label: 'CEO',
       type: 'person',

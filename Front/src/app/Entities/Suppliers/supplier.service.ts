@@ -13,6 +13,9 @@ export class SupplierService {
   public getSuppliers():Observable<Supplier[]>{
     return this.http.get<Supplier[]>(this.host+"/supplier");
   }
+  public countSuppliers():Observable<number>{
+    return this.http.get<number>(this.host+"/supplier/count");
+  }
   public getSupplierById(id: number): Observable<Supplier>{
     return this.http.get<Supplier>(this.host+"/supplier"+'/'+id);
   }

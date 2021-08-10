@@ -21,7 +21,10 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * @author tfifha youssef
@@ -108,8 +111,29 @@ public class FileController {
         return new UploadFileResponse(fileName, fileDownloadUri,
                 file.getContentType(), file.getSize());
     }
+    @CrossOrigin(origins = "http://localhost:4200")
+    @RequestMapping(value = "/uploadFile/product/{id}", method = RequestMethod.POST ,consumes = "multipart/form-data")
+    public List<UploadFileResponse> uploadFileToCategory(@RequestParam("files") MultipartFile[] files, @PathVariable("id") Long id) {
+        System.out.println("Update User with ID = " + id + "...");
+        return Stream.of (files)
+                .map(file -> { String fileName = fileStorageService.storeFile(file);
+
+                    String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
+                            .path("/downloadFile/")
+                            .path(fileName)
+                            .toUriString();
+                    ProductImage productImage=new ProductImage ();
+                    productRepository.findById(id).map(product -> {
+                        productImage.setProduct (product);
+                        productImage.setUrl (fileDownloadUri);
+                        return productImageRepository.save(productImage);
+                    }).orElseThrow(() -> new ResourceNotFoundException ("UserID " + id + " not found"));
 
 
+                    return new UploadFileResponse(fileName, fileDownloadUri,
+                            file.getContentType(), file.getSize());})
+                .collect(Collectors.toList());
+    }
 }
 
 

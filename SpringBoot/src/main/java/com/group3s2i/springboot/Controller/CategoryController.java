@@ -87,4 +87,10 @@ public class CategoryController {
         response.put("deleted", Boolean.TRUE);
         return response;
     }
+
+    @GetMapping("/category/count")
+    public Long count(){
+        return categoryRepository.count ();
+    }
+
 }

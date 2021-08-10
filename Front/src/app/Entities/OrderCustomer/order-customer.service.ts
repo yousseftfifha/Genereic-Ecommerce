@@ -22,4 +22,19 @@ export class OrderCustomerService {
   public CancelOrder(id: number,order:OrderCustomer): Observable<Object>{
     return this.http.put(this.host+"/order"+'/'+id+"/CANCELLED",order);
   }
+  public countAll():Observable<number>{
+    return this.http.get<number>(this.host+"/order/count");
+  }
+  public countMVT():Observable<number>{
+    return this.http.get<number>(this.host+"/order/count1");
+  }
+  public countMVTIN():Observable<number>{
+    return this.http.get<number>(this.host+"/order/count2");
+  } public countMVTOUT():Observable<number>{
+    return this.http.get<number>(this.host+"/order/count3");
+  }
+  public earning():Observable<number>{
+    return this.http.get<number>(this.host+"/order/earning");
+  }
+
 }

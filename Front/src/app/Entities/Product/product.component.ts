@@ -22,6 +22,7 @@ import {animate, state, style, transition, trigger} from "@angular/animations";
 import {Params} from "./params";
 import {ProductSupplier} from "../ProductSupplier/product-supplier";
 import {templateJitUrl} from "@angular/compiler";
+import {ProductImage} from "../ProductImage/product-image";
 declare const require: any;
 const jsPDF = require('jspdf');
 require('jspdf-autotable');
@@ -98,7 +99,11 @@ export class ProductComponent implements OnInit {
 
   detailsDialog!: boolean;
 
+  imageDialog!: boolean;
+
   products!: Product[];
+
+  pi!: ProductImage[];
 
   suppliers!: Supplier[];
 
@@ -133,6 +138,11 @@ export class ProductComponent implements OnInit {
   exportColumns!: any[];
 
   value: number=0;
+  uploadedFiles: any[] = [];
+
+
+
+
 
   constructor(private productService: ProductService,private categoryService: CategoryService, private supplierService: SupplierService,private orderService: OrderSupplierService,private messageService: MessageService, private confirmationService: ConfirmationService,public dialogService: DialogService,) { }
 
@@ -207,20 +217,36 @@ export class ProductComponent implements OnInit {
   }
 
   deleteProduct(product: Product) {
-    this.confirmationService.confirm({
-      message: 'Are you sure you want to delete ' + product.name + '?',
-      header: 'Confirm',
-      icon: 'pi pi-exclamation-triangle',
-      accept: () => {
+
+        this.productService.DeleteProduct(product.id).subscribe(
+          data=>{
+            console.log(data);
+
+          }
+        )
         this.products = this.products.filter(val => val.id !== product.id);
         this.product = new Product();
         this.messageService.add({severity:'success', summary: 'Successful', detail: 'Product Deleted', life: 3000});
       }
-    });
-  }
 
   hideDialog() {
     this.productDialog = false;
+    this.submitted = false;
+  }
+  hideInfoDialog() {
+    this.infoDialog = false;
+    this.submitted = false;
+  }
+  hideExtraDialog() {
+    this.productExtraCostDialog = false;
+    this.submitted = false;
+  }
+  hideDetailDialog() {
+    this.detailsDialog = false;
+    this.submitted = false;
+  }
+  hidePSDialog() {
+    this.productSupplierDialog = false;
     this.submitted = false;
   }
   showInfoDialog() {
@@ -240,6 +266,8 @@ export class ProductComponent implements OnInit {
   }
   addDetailsForm() {
     this.details.push(this.detail);
+    this.detail=new Detail();
+
   }
   removeDetailsForm() {
     this.details.splice(-1, 1);
@@ -282,14 +310,21 @@ export class ProductComponent implements OnInit {
           , error => console.log(error));
         this.products.push(this.product);
         this.messageService.add({severity:'success', summary: 'Successful', detail: 'Product Created', life: 3000});
+        this.productSupplierDialog = false;
+        this.imageDialog = false;
+        this.infoDialog = false;
+        this.productDialog = false;
       }
 
       this.products = [...this.products];
-      this.productDialog = false;
+
       this.product = new Product();
     }
+    this.reloadPage();
   }
-
+  reloadPage(): void {
+    window.location.reload();
+  }
   findIndexById(id: number): number {
     let index = -1;
     for (let i = 0; i < this.products.length; i++) {
@@ -401,5 +436,12 @@ export class ProductComponent implements OnInit {
         this.messageService.add({severity:'success', summary: 'Successful', detail: 'Products Ordered', life: 3000});
       }
 
+  onUpload(event: { files: any; },product:Product) {
+    for(let file of event.files) {
+      this.productService.updatePic(product.id,file)
+      this.uploadedFiles.push(file);
+    }
 
+    this.messageService.add({severity: 'info', summary: 'File Uploaded', detail: ''});
+  }
 }

@@ -29,7 +29,7 @@ class Body extends StatelessWidget {
             },
           ),
           ProfileMenu(
-            text: "Help Center",
+            text: "Daily Steps",
             icon: "assets/icons/Question mark.svg",
             press: () {
               Navigator.pushNamed(context, DailyStepsPage.routeName);

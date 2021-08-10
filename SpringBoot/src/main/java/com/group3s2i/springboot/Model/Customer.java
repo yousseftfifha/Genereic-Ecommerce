@@ -81,6 +81,14 @@ public class Customer implements Serializable {
 			orphanRemoval = true
 	)
 	@ToString.Exclude
+	@JsonManagedReference(value = "cart")
+	private List<Cart> cartList = new ArrayList<> ();
+	@OneToMany(
+			mappedBy = "customer",
+			cascade = CascadeType.ALL,
+			orphanRemoval = true
+	)
+	@ToString.Exclude
 	@JsonManagedReference(value = "caa")
 	private List<DeliveryCustomer> deliveryCustomers = new ArrayList<> ();
 	public Customer() {

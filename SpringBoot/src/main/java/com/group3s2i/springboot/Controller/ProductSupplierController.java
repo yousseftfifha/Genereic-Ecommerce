@@ -39,6 +39,11 @@ public class ProductSupplierController {
         suppliers.add (params.getSupplier ());
         params.getProduct ().setSuppliers (suppliers);
 
+        ProductImage productImage=new ProductImage ();
+        productImage.setProduct (params.getProduct ());
+        productImage.setUrl ("http://localhost:8081/downloadFile/71Cc5uJ7f+L._AC_SL1500_.jpg");
+        params.getProduct ().getProductImages ().add (productImage);
+
         productRepository.save (params.getProduct ()) ;
 
         List<Mouvement> mouvementList = new ArrayList<> ();
@@ -47,7 +52,6 @@ public class ProductSupplierController {
         mouvement.setQuantity (10);
         mouvement.setTypeMouvement ("IN");
         mouvement.setMouvementDate (LocalDateTime.now ());
-        System.out.println (params.getProductSupplier ());
         params.getProductSupplier ().id = new ProductSupplier.ProductSupplierId ();
         params.getProductSupplier ().id.product_id = params.getProduct ().getId ();
         params.getProductSupplier ().id.supplier_id = params.getSupplier ().getId ();
@@ -60,16 +64,6 @@ public class ProductSupplierController {
         mouvementRepository.saveAll (mouvementList);
 
 
-
-
-        Productinformation productinformation = new Productinformation ();
-        productinformation.setProduct (params.getProduct ());
-        productinformation.setMax (20);
-        productinformation.setMin (5);
-        productinformation.setSecurity (6);
-
-        productinformationRepository.save (productinformation);
-
         return ResponseEntity.ok(new MessageResponse ("Product and Supplier registered successfully! "));
 
     }
@@ -77,6 +71,14 @@ public class ProductSupplierController {
     public List<Product> getAllProducts(){
         return productRepository.findAll ();
     }
+
+    @CrossOrigin(origins = "http://localhost:4200")
+    @GetMapping("/product/count")
+    public Long countProduct(){
+        return productRepository.count ();
+    }
+
+
 
 }
 @Getter

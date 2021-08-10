@@ -89,4 +89,10 @@ public class SupplierController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
+    @CrossOrigin(origins = "http://localhost:4200")
+    @GetMapping("/supplier/count")
+    public Long countsupplier(){
+        return supplierRepository.count ();
+    }
 }

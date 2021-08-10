@@ -1,6 +1,7 @@
 package com.group3s2i.springboot.Model;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.Getter;
@@ -34,6 +35,12 @@ public class Cart implements Serializable {
 
     @Column(name = "quantity")
     private int quantity;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="customer_id", referencedColumnName = "id")
+    @JsonBackReference(value = "cart")
+    @ToString.Exclude
+    private Customer customer;
 
     public Cart() {
     }

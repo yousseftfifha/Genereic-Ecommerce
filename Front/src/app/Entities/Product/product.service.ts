@@ -20,11 +20,20 @@ export class ProductService {
   public getPrice(id:number):Observable<number>{
     return this.http.get<number>(this.host+"/product/price/"+id);
   }
+  public countProduct():Observable<number>{
+    return this.http.get<number>(this.host+"/product/count");
+  }
+
+
   public createProduct(product:Params):Observable<Object>{
     return this.http.post(this.host+"/product",product);
   }
   public updateProduct(id: number,product:Product): Observable<Object>{
     return this.http.put(this.host+"/product"+'/'+id,product);
+
+  }
+  public updatePic(id: number,product:File[]): Observable<Object>{
+    return this.http.put(this.host+"/uploadFile/product"+'/'+id,product);
   }
   public DeleteProduct(id: number): Observable<Object>{
     return this.http.delete(this.host+"/product"+'/'+id);

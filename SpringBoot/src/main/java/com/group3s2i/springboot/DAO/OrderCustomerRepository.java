@@ -16,4 +16,7 @@ public interface OrderCustomerRepository extends JpaRepository<OrderCustomer, Lo
     List<OrderCustomer> findAllByUserOrderByCreatedDateDesc(Customer customer);
 
     @Query("select o from OrderCustomer o order by o.createdDate desc ")
-    List<OrderCustomer> findAllOrderByOrderDate();}
+    List<OrderCustomer> findAllOrderByOrderDate();
+
+
+}

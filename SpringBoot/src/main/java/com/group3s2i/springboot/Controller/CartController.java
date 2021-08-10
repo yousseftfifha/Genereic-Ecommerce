@@ -5,6 +5,7 @@ import com.group3s2i.springboot.DAO.CartRepository;
 import com.group3s2i.springboot.DAO.MouvementRepository;
 import com.group3s2i.springboot.DAO.ProductRepository;
 import com.group3s2i.springboot.Model.Cart;
+import com.group3s2i.springboot.Model.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -28,18 +29,11 @@ public class CartController {
 
 
     // get all cart
-    @GetMapping("/cart")
-    public List<Cart> getAllCarts(){
-        return cartRepository.findAll();
+    @GetMapping("/cart/{customer}")
+    public List<Cart> getAllCarts(@PathVariable Customer customer){
+        return cartRepository.findAllByCustomerEquals(customer);
     }
 
-    // get cart rest api
-    @GetMapping("/cart/{id}")
-    public ResponseEntity<Cart> getCartById(@PathVariable long id){
-        Cart cart = cartRepository.findById(id)
-                .orElseThrow(()-> new ResourceNotFoundException("cart does not exist with id :"+ id));
-        return   ResponseEntity.ok(cart);
-    }
 
     //create cart rest api
     @PostMapping("/cart")

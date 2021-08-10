@@ -121,5 +121,26 @@ public class OrderController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+    @GetMapping("/order/count")
+    public Long count(){
+        return orderCustomerRepository.count ();
+    }
 
+  @GetMapping("/order/count1")
+    public Long countmouvement(){
+        return mouvementRepository.count ();
+    }
+    @GetMapping("/order/count2")
+    public Long countmouvementIN(){
+        return mouvementRepository.countAllByTypeMouvementEqualsIN ();
+    }
+    @GetMapping("/order/count3")
+    public Long countmouvementOUT(){
+        return mouvementRepository.countAllByTypeMouvementEqualsOUT ();
+    }
+
+    @GetMapping("/order/earning")
+    public Double earning(){
+        return mouvementRepository.earning ();
+    }
 }

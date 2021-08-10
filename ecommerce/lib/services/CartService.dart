@@ -3,14 +3,23 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:shop_app/models/Cart.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:shop_app/models/Product.dart';
+import 'package:shop_app/models/User.dart';
 
 class CartService {
   String url = "http://localhost:8081/api/cart";
 
   Future fetchData() async {
-    var data = await http.get(url);
+    String username = "";
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    username = preferences.getString('username');
+    var data1 = await http
+        .get('http://localhost:8081/api/Users/username/' + username.toString());
+    var jsonData = json.decode(data1.body);
+    User user = User.fromJson(jsonData);
+    var data = await http.get(url + '/' + user.customer.id.toString());
     var jsonDatas = json.decode(data.body);
     List<Cart> carts = [];
 
@@ -27,10 +36,20 @@ class CartService {
   }
 
   Future AddToCart(Product product, int Quantity, BuildContext context) async {
+    String username = "";
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    username = preferences.getString('username');
+    var data = await http
+        .get('http://localhost:8081/api/Users/username/' + username.toString());
+    var jsonData = json.decode(data.body);
+    User user = User.fromJson(jsonData);
     var response = await http.post(url,
         headers: <String, String>{"Content-Type": "application/json"},
-        body: jsonEncode(
-            <dynamic, dynamic>{"product": product, "quantity": Quantity}));
+        body: jsonEncode(<dynamic, dynamic>{
+          "product": product,
+          "quantity": Quantity,
+          "customer": user.customer
+        }));
 
     String responseString = response.body;
   }
@@ -54,9 +73,17 @@ class CartService {
   }
 
   Future getTotal(BuildContext context) async {
-    var data = await http.get(url);
+    String username = "";
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    username = preferences.getString('username');
+    var data1 = await http
+        .get('http://localhost:8081/api/Users/username/' + username.toString());
+    var jsonData = json.decode(data1.body);
+    User user = User.fromJson(jsonData);
+    var data = await http.get(url + '/' + user.customer.id.toString());
     var jsonDatas = json.decode(data.body);
     double total = 0;
+
     for (var jsonData in jsonDatas) {
       Cart cart = Cart.fromJson(jsonData);
       var Url = "http://localhost:8081/api/product/price/" +

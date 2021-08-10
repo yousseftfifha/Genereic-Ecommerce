@@ -15,6 +15,16 @@ public interface MouvementRepository extends JpaRepository<Mouvement,Long> {
 
     @Query("SELECT AVG(m.unitPrice) FROM Mouvement m where m.product=?1")
     double avg(Product product);
+
+    @Query("SELECT SUM (m.unitPrice) FROM Mouvement m where m.typeMouvement='OUT' ")
+    double earning();
+
+    @Query("select count(m) from Mouvement m where m.typeMouvement = 'IN'")
+    Long countAllByTypeMouvementEqualsIN();
+
+    @Query("select count(m) from Mouvement m where m.typeMouvement = 'OUT'")
+    Long countAllByTypeMouvementEqualsOUT();
+
 }
 
 
