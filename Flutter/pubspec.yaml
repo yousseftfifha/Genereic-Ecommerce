@@ -18,7 +18,7 @@ publish_to: "none" # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.7.0 <3.0.0"
+  sdk: ">=2.7.0"
 
 dependencies:
   http: ^0.12.2
@@ -39,10 +39,10 @@ dependencies:
   jiffy: ^4.0.1
   hive: ^1.4.1+1
   hive_flutter: ^0.3.0+2
-  pedometer:
-    git:
-      url: git://github.com/feelfreelinux/flutter-plugins.git
-      path: packages/pedometer
+#  pedometer:
+#    git:
+#      url: git://github.com/feelfreelinux/flutter-plugins.git
+#      path: packages/pedometer
 
   flutter_spinning_wheel: ^1.1.0
   json_annotation:

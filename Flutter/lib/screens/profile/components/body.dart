@@ -28,13 +28,13 @@ class Body extends StatelessWidget {
               Navigator.pushNamed(context, ProfileEdit.routeName);
             },
           ),
-          ProfileMenu(
-            text: "Daily Steps",
-            icon: "assets/icons/Question mark.svg",
-            press: () {
-              Navigator.pushNamed(context, DailyStepsPage.routeName);
-            },
-          ),
+          // ProfileMenu(
+          //   text: "Daily Steps",
+          //   icon: "assets/icons/Question mark.svg",
+          //   press: () {
+          //     Navigator.pushNamed(context, DailyStepsPage.routeName);
+          //   },
+          // ),
           ProfileMenu(
             text: "Delete Account",
             icon: "assets/icons/Log out.svg",

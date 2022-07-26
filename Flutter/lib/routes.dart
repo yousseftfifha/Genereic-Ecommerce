@@ -40,5 +40,5 @@ final Map<String, WidgetBuilder> routes = {
   OrderScreen.routeName: (context) => OrderScreen(),
   OrderItemScreen.routeName: (context) => OrderItemScreen(),
   CheckoutSuccessScreen.routeName: (context) => CheckoutSuccessScreen(),
-  DailyStepsPage.routeName: (context) => DailyStepsPage(),
+  // DailyStepsPage.routeName: (context) => DailyStepsPage(),
 };
